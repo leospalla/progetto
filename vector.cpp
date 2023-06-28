@@ -35,3 +35,5 @@ public:
         return Vector(m_x / magnitude, m_y / magnitude);
     }
 };
+
+//manca da aggiungere altre funzioni come set, dot product ecc
