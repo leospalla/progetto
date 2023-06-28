@@ -4,18 +4,13 @@
 #include <vector>
 
 struct boidstate {  //position and components of the velocity of a single boid
-  double x{}; 
-  double y{};
-  double vx{};
-  double vy{};
+
+
 };
 
 class boid {
  private:
-  double m_x{};
-  double m_y{};
-  double m_vx{};
-  double m_vy{};
+
 
  public:
 void separation();
@@ -29,7 +24,7 @@ void update(); //for now i put void but i dont know if its right, update means i
 
 #endif
 
-/*
+/* ESEMPIO IMPLEMENTAZIONE (FAI DIVERSO, QUA NON USA I VETTORI)
  public:
   BoidState getState() const {
     BoidState state;
