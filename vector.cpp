@@ -1,39 +1,45 @@
-#include <vector.hpp>
+#include "vector.hpp"
+
 #include <cmath>
+//operations
+void Vector::add(const Vector& v) {
+    x += v.x;
+    y += v.y; 
+}
 
-class Vector {
-    double m_x;
-    double m_y;
+void Vector::multiply(const Vector& v)  {
+    x *= v.x;
+    y *= v.y;
+}
 
-public:
+void Vector::subtract(const Vector& v)  {
+    x -= v.x;
+    y -= v.y;
+}
 
-    Vector(double x, double y) : m_x(x), m_y(y) {}
+void Vector::mulScalar(double scalar)  {
+    x *= scalar;
+    y *= scalar;
+}
 
-    // Operator overloading
-    Vector operator+(const Vector& v) const {
-        return Vector(m_x + v.m_x, m_y + v.m_y);
+void Vector::divScalar(double scalar)  {
+    x /= scalar;
+    y /= scalar;
+}
+
+
+double Vector::Magnitude() { 
+    return std::sqrt(x * x + y * y); 
     }
 
-    Vector operator-(const Vector& v) const {
-        return Vector(m_x - v.m_x, m_y - v.m_y);
-    }
+void Vector::Normalize() {
+  double magnitude = Magnitude();
+  x /= magnitude, y /= magnitude;
+}
 
-    Vector operator*(float scalar) const {
-        return Vector(m_x * scalar, m_y * scalar);
-    }
+double Vector::dotProduct(const Vector& v) {
+  float dot = x * v.x + y * v.y;
+  return dot;
+}
 
-    Vector operator/(float scalar) const {
-        return Vector(m_x / scalar, m_y / scalar);
-    }
-
-    float Magnitude() const {
-        return std::sqrt(m_x * m_x + m_y * m_y);
-    }
-
-    Vector Normalize() const {
-        float magnitude = Magnitude();
-        return Vector(m_x / magnitude, m_y / magnitude);
-    }
-};
-
-//mancano da aggiungere altre funzioni come set, dot product ecc
+// manca da aggiungere altre funzioni come set ecc

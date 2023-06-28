@@ -1,25 +1,29 @@
 #ifndef VECTOR_HPP
-#define BOIDS_HPP
+#define VECTOR_HPP
 #include <vector>
 
 class Vector {
-  double m_x; //coordinates of the bidimensional vector
-  double m_y;
+  double x;
+  double y;
 
  public:
-  Vector(double x, double y) : m_x(x), m_y(y) {} //constructor
+  Vector(double xp, double yp) : x(xp), y(yp) {}
 
-  Vector operator+(const Vector& v) const {}
+  void add(const Vector& v);
 
-  Vector operator-(const Vector& v) const {}
+  void multiply(const Vector& v);
 
-  Vector operator*(float scalar) const {}
+  void subtract(const Vector& v);
 
-  Vector operator/(float scalar) const {}
+  void mulScalar(double scalar);
 
-  double Magnitude() const {}
+  void divScalar(double scalar);
 
-  Vector Normalize() const {}
+  double Magnitude();
+
+  void Normalize();
+
+  double dotProduct(const Vector& v);
 };
 
 #endif
