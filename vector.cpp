@@ -36,4 +36,4 @@ public:
     }
 };
 
-//manca da aggiungere altre funzioni come set, dot product ecc
+//mancano da aggiungere altre funzioni come set, dot product ecc
