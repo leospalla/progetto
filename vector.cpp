@@ -27,12 +27,16 @@ Vector Vector::operator/(double scalar) const {
   return Vector(x / scalar, y / scalar);
 }
 
-//vector functions
+// vector functions
 double Vector::Magnitude() const { return std::sqrt(x * x + y * y); }
 
 Vector Vector::Normalize() const {
   double magnitude = Magnitude();
-  return Vector(x / magnitude, y / magnitude);
+  if (magnitude > 0) {
+    return Vector(x / magnitude, y / magnitude);
+  } else {
+    return Vector(x, y); //cannot normalize a null vector
+  }
 }
 
 double Vector::dotProduct(const Vector& v) const {
@@ -40,4 +44,7 @@ double Vector::dotProduct(const Vector& v) const {
   return dot;
 }
 
-// manca da aggiungere altre funzioni come set ecc
+void Vector::Set(double a, double b) {
+  x = a;
+  y = b;
+}

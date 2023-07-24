@@ -28,6 +28,8 @@ class Vector {
   Vector Normalize() const;
 
   double dotProduct(const Vector&) const;
+
+  void Set(double, double);
 };
 
 #endif
