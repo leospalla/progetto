@@ -35,7 +35,7 @@ Vector Vector::Normalize() const {
   if (magnitude > 0) {
     return Vector(x / magnitude, y / magnitude);
   } else {
-    return Vector(x, y); //cannot normalize a null vector
+    return Vector(x, y);  // cannot normalize a null vector
   }
 }
 
@@ -47,4 +47,11 @@ double Vector::dotProduct(const Vector& v) const {
 void Vector::Set(double a, double b) {
   x = a;
   y = b;
+}
+
+double Vector::distance(const Vector& v) const {
+  double dx = x - v.x;
+  double dy = y - v.y;
+  double dist = sqrt(dx * dx + dy * dy);
+  return dist; //its the same of asking the magnitude of the difference vector
 }

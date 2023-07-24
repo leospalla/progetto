@@ -66,4 +66,12 @@ TEST_CASE("Testing the vector functions") {
     CHECK(v1.x == doctest::Approx(3.));
     CHECK(v1.y == doctest::Approx(-3.));
   }
+  SUBCASE("Distance function") {
+    Vector v3 = v1 - v2;
+    Vector v4 = v2 - v1;
+    CHECK(v1.distance(v2) == doctest::Approx(3.16227766));
+    CHECK(v2.distance(v1) == doctest::Approx(3.16227766));
+    CHECK(v3.Magnitude() == doctest::Approx(3.16227766));
+    CHECK(v4.Magnitude() == doctest::Approx(3.16227766));
+  }
 }

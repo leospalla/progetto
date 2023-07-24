@@ -30,6 +30,8 @@ class Vector {
   double dotProduct(const Vector&) const;
 
   void Set(double, double);
+
+  double distance(const Vector&) const;
 };
 
 #endif
