@@ -10,36 +10,24 @@ class Vector {
   Vector(double xp, double yp) : x{xp}, y{yp} {}  // constructor
 
   // Operator overloading
-  Vector& operator=(const Vector& v) {}
+  Vector& operator=(const Vector&); // doesnt need const because it has to modify the
+                                    // internal state of the object, instead since the other
+                                    // operators or functions shouldn't modify the internal
+                                    // state of the object, const is needed
 
-  Vector operator+(const Vector& v) const {}
+  Vector operator+(const Vector&) const;
 
-  Vector operator-(const Vector& v) const {}
+  Vector operator-(const Vector&) const;
 
-  Vector operator*(double scalar) const {}
+  Vector operator*(double) const;
 
-  Vector operator/(double scalar) const {}
+  Vector operator/(double) const;
 
-  double Magnitude() const {}
+  double Magnitude() const;
 
-  Vector Normalize() const {}
+  Vector Normalize() const;
 
-//operations (probabilmente non servono più)
-  void add(const Vector& v);
-
-  void multiply(const Vector& v);
-
-  void subtract(const Vector& v);
-
-  void mulScalar(double scalar);
-
-  void divScalar(double scalar);
-
-  double Magnitude();
-
-  void Normalize();
-
-  double dotProduct(const Vector& v);
+  double dotProduct(const Vector&) const;
 };
 
 #endif

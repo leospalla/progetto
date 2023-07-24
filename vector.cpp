@@ -27,6 +27,7 @@ Vector Vector::operator/(double scalar) const {
   return Vector(x / scalar, y / scalar);
 }
 
+//vector functions
 double Vector::Magnitude() const { return std::sqrt(x * x + y * y); }
 
 Vector Vector::Normalize() const {
@@ -34,41 +35,8 @@ Vector Vector::Normalize() const {
   return Vector(x / magnitude, y / magnitude);
 }
 
-// operations
-void Vector::add(const Vector& v) {
-  x += v.x;
-  y += v.y;
-}
-
-void Vector::multiply(const Vector& v) {
-  x *= v.x;
-  y *= v.y;
-}
-
-void Vector::subtract(const Vector& v) {
-  x -= v.x;
-  y -= v.y;
-}
-
-void Vector::mulScalar(double scalar) {
-  x *= scalar;
-  y *= scalar;
-}
-
-void Vector::divScalar(double scalar) {
-  x /= scalar;
-  y /= scalar;
-}
-
-double Vector::Magnitude() { return std::sqrt(x * x + y * y); }
-
-void Vector::Normalize() {
-  double magnitude = Magnitude();
-  x /= magnitude, y /= magnitude;
-}
-
-double Vector::dotProduct(const Vector& v) {
-  float dot = x * v.x + y * v.y;
+double Vector::dotProduct(const Vector& v) const {
+  double dot = x * v.x + y * v.y;
   return dot;
 }
 

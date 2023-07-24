@@ -8,9 +8,9 @@
 
 /* ESEMPIO DI IMPLEMENTAZIONE
 
-#include <cmath>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 struct Vector2D {
     float x;
@@ -44,9 +44,10 @@ public:
         velocity.y += alignment.y + cohesion.y + separation.y;
 
         // Limita la velocità massima
-        float speed = std::sqrt(velocity.x * velocity.x + velocity.y *
-velocity.y); if (speed > maxSpeed) { velocity.x = (velocity.x / speed) *
-maxSpeed; velocity.y = (velocity.y / speed) * maxSpeed;
+        float speed = std::sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+        if (speed > maxSpeed) {
+            velocity.x = (velocity.x / speed) * maxSpeed;
+            velocity.y = (velocity.y / speed) * maxSpeed;
         }
 
         // Aggiorna la posizione
@@ -77,15 +78,14 @@ private:
             steering.x /= total;
             steering.y /= total;
 
-            float steeringMagnitude = std::sqrt(steering.x * steering.x +
-steering.y * steering.y); steering.x = (steering.x / steeringMagnitude) *
-maxSpeed - velocity.x; steering.y = (steering.y / steeringMagnitude) * maxSpeed
-- velocity.y;
+            float steeringMagnitude = std::sqrt(steering.x * steering.x + steering.y * steering.y);
+            steering.x = (steering.x / steeringMagnitude) * maxSpeed - velocity.x;
+            steering.y = (steering.y / steeringMagnitude) * maxSpeed - velocity.y;
 
-            float steeringMagnitude2 = std::sqrt(steering.x * steering.x +
-steering.y * steering.y); if (steeringMagnitude2 > maxSpeed) { steering.x =
-(steering.x / steeringMagnitude2) * maxSpeed; steering.y = (steering.y /
-steeringMagnitude2) * maxSpeed;
+            float steeringMagnitude2 = std::sqrt(steering.x * steering.x + steering.y * steering.y);
+            if (steeringMagnitude2 > maxSpeed) {
+                steering.x = (steering.x / steeringMagnitude2) * maxSpeed;
+                steering.y = (steering.y / steeringMagnitude2) * maxSpeed;
             }
         }
 
@@ -113,13 +113,12 @@ steeringMagnitude2) * maxSpeed;
             centerOfMass.x = (centerOfMass.x - position.x) / maxSpeed;
             centerOfMass.y = (centerOfMass.y - position.y) / maxSpeed;
 
-            float centerMagnitude = std::sqrt(centerOfMass.x * centerOfMass.x +
-centerOfMass.y * centerOfMass.y); centerOfMass.x = (centerOfMass.x /
-centerMagnitude) * maxSpeed - velocity.x; centerOfMass.y = (centerOfMass.y /
-centerMagnitude) * maxSpeed - velocity.y;
+            float centerMagnitude = std::sqrt(centerOfMass.x * centerOfMass.x + centerOfMass.y * centerOfMass.y);
+            centerOfMass.x = (centerOfMass.x / centerMagnitude) * maxSpeed - velocity.x;
+            centerOfMass.y = (centerOfMass.y / centerMagnitude) * maxSpeed - velocity.y;
 
-            float centerMagnitude2 = std::sqrt(centerOfMass.x * centerOfMass.x +
-centerOfMass.y * centerOfMass.y); if (centerMagnitude2 > maxSpeed) {
+            float centerMagnitude2 = std::sqrt(centerOfMass.x * centerOfMass.x + centerOfMass.y * centerOfMass.y);
+            if (centerMagnitude2 > maxSpeed) {
                 centerOfMass.x = (centerOfMass.x / centerMagnitude2) * maxSpeed;
                 centerOfMass.y = (centerOfMass.y / centerMagnitude2) * maxSpeed;
             }
@@ -152,15 +151,14 @@ centerOfMass.y * centerOfMass.y); if (centerMagnitude2 > maxSpeed) {
             steering.x /= total;
             steering.y /= total;
 
-            float steeringMagnitude = std::sqrt(steering.x * steering.x +
-steering.y * steering.y); steering.x = (steering.x / steeringMagnitude) *
-maxSpeed - velocity.x; steering.y = (steering.y / steeringMagnitude) * maxSpeed
-- velocity.y;
+            float steeringMagnitude = std::sqrt(steering.x * steering.x + steering.y * steering.y);
+            steering.x = (steering.x / steeringMagnitude) * maxSpeed - velocity.x;
+            steering.y = (steering.y / steeringMagnitude) * maxSpeed - velocity.y;
 
-            float steeringMagnitude2 = std::sqrt(steering.x * steering.x +
-steering.y * steering.y); if (steeringMagnitude2 > maxSpeed) { steering.x =
-(steering.x / steeringMagnitude2) * maxSpeed; steering.y = (steering.y /
-steeringMagnitude2) * maxSpeed;
+            float steeringMagnitude2 = std::sqrt(steering.x * steering.x + steering.y * steering.y);
+            if (steeringMagnitude2 > maxSpeed) {
+                steering.x = (steering.x / steeringMagnitude2) * maxSpeed;
+                steering.y = (steering.y / steeringMagnitude2) * maxSpeed;
             }
         }
 
@@ -192,11 +190,12 @@ int main() {
     // Simulazione
     for (int frame = 0; frame < 100; ++frame) {
         // Aggiorna ogni boid
-for (auto& boid : boids) {
+        for (auto& boid : boids) {
+            boid.update(boids);
+        }
         // Crea una copia dei boids escludendo il boid corrente
         std::vector<Boid> otherBoids = boids;
-        otherBoids.erase(std::remove(otherBoids.begin(), otherBoids.end(),
-boid), otherBoids.end());
+        otherBoids.erase(std::remove(otherBoids.begin(), otherBoids.end());
 
         // Aggiorna la boid corrente
         boid.update(otherBoids);
@@ -204,144 +203,17 @@ boid), otherBoids.end());
         // Ottieni la posizione aggiornata della boid corrente
         Vector2D position = boid.getPosition();
         std::cout << "Boid position: " << position.x << ", " << position.y <<
-std::endl;
+        std::endl;
     }
  }
-*/
-
-
-
-
-/* ALTRO ESEMPIO:
-#include <cmath>
-#include <cstdlib>
-#include <iostream>
-#include <vector>
-
-// Definizione della classe Boid
-class Boid {
-public:
-    double x, y;  // Posizione
-    double vx, vy;  // Velocità
-
-    Boid(double posX, double posY, double velX, double velY)
-        : x(posX), y(posY), vx(velX), vy(velY) {}
-};
-
-// Funzione per calcolare la distanza tra due boids
-double distance(const Boid& boid1, const Boid& boid2) {
-    return std::hypot(boid2.x - boid1.x, boid2.y - boid1.y);
-}
-
-// Funzione per calcolare la coesione di un boid
-void cohesion(const Boid& currentBoid, const std::vector<Boid>& boids, double&
-cx, double& cy) { int count = 0; cx = 0.0; cy = 0.0;
-
-    for (const Boid& boid : boids) {
-        double d = distance(currentBoid, boid);
-        if (&currentBoid != &boid && d < 100.0) {
-            cx += boid.x;
-            cy += boid.y;
-            count++;
-        }
-    }
-
-    if (count > 0) {
-        cx /= count;
-        cy /= count;
-        cx = (cx - currentBoid.x) / 100.0;
-        cy = (cy - currentBoid.y) / 100.0;
-    }
-}
-
-// Funzione per calcolare l'allineamento di un boid
-void alignment(const Boid& currentBoid, const std::vector<Boid>& boids, double&
-ax, double& ay) { int count = 0; ax = 0.0; ay = 0.0;
-
-    for (const Boid& boid : boids) {
-        double d = distance(currentBoid, boid);
-        if (&currentBoid != &boid && d < 100.0) {
-            ax += boid.vx;
-            ay += boid.vy;
-            count++;
-        }
-    }
-
-    if (count > 0) {
-        ax /= count;
-        ay /= count;
-        ax = (ax - currentBoid.vx) / 8.0;
-        ay = (ay - currentBoid.vy) / 8.0;
-    }
-}
-
-// Funzione per calcolare la separazione di un boid
-void separation(const Boid& currentBoid, const std::vector<Boid>& boids, double&
-sx, double& sy) { sx = 0.0; sy = 0.0;
-
-    for (const Boid& boid : boids) {
-        double d = distance(currentBoid, boid);
-        if (&currentBoid != &boid && d < 30.0) {
-            sx -= (boid.x - currentBoid.x);
-            sy -= (boid.y - currentBoid.y);
-        }
-    }
-}
-
-// Funzione per aggiornare la posizione e la velocità di un boid
-void updateBoid(Boid& currentBoid, const std::vector<Boid>& boids) {
-    double cx, cy;  // Coesione
-    double ax, ay;  // Allineamento
-    double sx, sy;  // Separazione
-
-    cohesion(currentBoid, boids, cx, cy);
-    alignment(currentBoid, boids, ax, ay);
-    separation(currentBoid, boids, sx, sy);
-
-    // Aggiornamento della velocità
-    currentBoid.vx += cx + ax + sx;
-    currentBoid.vy += cy + ay + sy;
-
-    // Limitazione della velocità massima
-    double speedLimit = 5.0;
-    double speed = std::hypot(currentBoid.vx, currentBoid.vy);
-    if (speed > speedLimit) {
-        currentBoid.vx = (currentBoid.vx / speed) * speedLimit;
-        currentBoid.vy = (currentBoid.vy / speed) * speedLimit;
-    }
-
-    // Aggiornamento della posizione
-    currentBoid.x += currentBoid.vx;
-    currentBoid.y += currentBoid.vy;
-}
-
-int main() {
-    const int numBoids = 100;
-    std::vector<Boid> boids;
-
-    // Inizializzazione dei boids con posizioni e velocità casuali
-    for (int i = 0; i < numBoids; i++) {
-        double posX = std::rand() % 800 + 100;
-        double posY = std::rand() % 600 + 100;
-        double velX = (std::rand() % 20 - 10) / 10.0;
-        double velY = (std::rand() % 20 - 10) / 10.0;
-        boids.push_back(Boid(posX, posY, velX, velY));
-    }
-
-    // Simulazione del comportamento dello stormo
-    for (int t = 0; t < 1000; t++) {
-        // Aggiornamento dei boids
-        for (Boid& boid : boids) {
-            updateBoid(boid, boids);
+        // Stampa la posizione di ogni boid
+        for (const auto& boid : boids) {
+            Vector2D position = boid.getPosition();
+            std::cout << "Boid position: (" << position.x << ", " << position.y << ")\n";
         }
 
-        // Stampa delle posizioni dei boids
-        for (const Boid& boid : boids) {
-            std::cout << "Boid at (" << boid.x << ", " << boid.y << ")" <<
-std::endl;
-        }
-
-        std::cout << "----------------------" << std::endl;
+        // Aggiungi qui il codice per la visualizzazione grafica
+        // ...
     }
 
     return 0;

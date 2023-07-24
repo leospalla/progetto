@@ -24,7 +24,192 @@ void update(); //for now i put void but i dont know if its right, update means i
 
 #endif
 
-/* ESEMPIO IMPLEMENTAZIONE (FAI DIVERSO, QUA NON USA I VETTORI)
+/* ESEMPIO IMPLEMENTAZIONE:
+
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+class Vector2D {
+public:
+    float x;
+    float y;
+
+    Vector2D(float _x = 0.0f, float _y = 0.0f) : x(_x), y(_y) {}
+
+    // Operator overloading
+    Vector2D operator+(const Vector2D& other) const {
+        return Vector2D(x + other.x, y + other.y);
+    }
+
+    Vector2D operator-(const Vector2D& other) const {
+        return Vector2D(x - other.x, y - other.y);
+    }
+
+    Vector2D operator*(float scalar) const {
+        return Vector2D(x * scalar, y * scalar);
+    }
+
+    Vector2D operator/(float scalar) const {
+        return Vector2D(x / scalar, y / scalar);
+    }
+
+    Vector2D& operator+=(const Vector2D& other) {
+        x += other.x;
+        y += other.y;
+        return *this;
+    }
+
+    Vector2D& operator-=(const Vector2D& other) {
+        x -= other.x;
+        y -= other.y;
+        return *this;
+    }
+
+    Vector2D& operator*=(float scalar) {
+        x *= scalar;
+        y *= scalar;
+        return *this;
+    }
+
+    Vector2D& operator/=(float scalar) {
+        x /= scalar;
+        y /= scalar;
+        return *this;
+    }
+
+    float Magnitude() const {
+        return std::sqrt(x * x + y * y);
+    }
+
+    Vector2D Normalize() const {
+        float magnitude = Magnitude();
+        return Vector2D(x / magnitude, y / magnitude);
+    }
+};
+
+class Boid {
+public:
+    Vector2D position;
+    Vector2D velocity;
+
+    Boid(float x, float y) : position(x, y), velocity() {}
+
+    void Update(const std::vector<Boid>& boids) {
+        Vector2D cohesion = ComputeCohesion(boids);
+        Vector2D separation = ComputeSeparation(boids);
+        Vector2D alignment = ComputeAlignment(boids);
+
+        // Apply the three rules
+        Vector2D acceleration = cohesion + separation + alignment;
+
+        velocity += acceleration;
+        position += velocity;
+    }
+
+private:
+    Vector2D ComputeCohesion(const std::vector<Boid>& boids) const {
+        Vector2D center;
+        int count = 0;
+
+        for (const Boid& other : boids) {
+            if (&other != this) {
+                center += other.position;
+                count++;
+            }
+        }
+
+        if (count > 0) {
+            center /= count;
+            return (center - position).Normalize();
+        }
+
+        return Vector2D();
+    }
+
+    Vector2D ComputeSeparation(const std::vector<Boid>& boids) const {
+        Vector2D separation;
+
+        for (const Boid& other : boids) {
+            if (&other != this) {
+                Vector2D direction = position - other.position;
+                float distance = direction.Magnitude();
+                separation += direction.Normalize() / distance;
+            }
+        }
+
+        return separation;
+    }
+
+    Vector2D ComputeAlignment(const std::vector<Boid>& boids) const {
+        Vector2D averageVelocity;
+        int count = 0;
+
+        for (const Boid& other : boids) {
+            if (&other != this) {
+                averageVelocity += other.velocity;
+                count++;
+            }
+        }
+
+        if (count > 0) {
+            averageVelocity /= count;
+            return averageVelocity.Normalize();
+        }
+
+        return Vector2D();
+    }
+};
+
+int main() {
+    // Create a vector of boids
+    std::vector<Boid> boids;
+    boids.push_back(Boid(0, 0));
+    boids.push_back(Boid(1, 1));
+    boids.push_back(Boid(-1, -1));
+
+    // Simulate the boids
+    for (int i = 0; i < 10; i++) {
+        for (Boid& boid : boids) {
+            boid.Update(boids);
+        }
+
+        // Print the updated positions
+        for (const Boid& boid : boids) {
+            std::cout << "Position: (" << boid.position.x << ", " << boid.position.y << ")\n";
+        }
+
+        std::cout << "------\n";
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+ALTRO ESEMPIO: (FAI DIVERSO, QUA NON USA I VETTORI)
+
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+struct BoidState {
+  double x{};
+  double y{};
+  double vx{};
+  double vy{};
+};
+
+class Boid {
+ private:
+  double m_x{};
+  double m_y{};
+  double m_vx{};
+  double m_vy{};
+
  public:
   BoidState getState() const {
     BoidState state;
@@ -175,4 +360,5 @@ int main() {
   }
 
   return 0;
-}*/
+}
+*/
