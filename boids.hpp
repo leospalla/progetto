@@ -6,7 +6,7 @@
 #include <iostream>
 #include "vector.hpp"
 //facciamo un template<type T> ?
-class sb//stato boid,possiamousarlo in generale per fare anche predatori{
+class sb{//stato boid,possiamousarlo in generale per fare anche predatori{
     private:
 //non saprei che mettere, in teoria le cose che non voglio vengano toccate, probabilemtne conviene mettere il vettore posizione e quello velocità
     public:
