@@ -10,8 +10,8 @@ class sb{//stato boid,possiamousarlo in generale per fare anche predatori{
     private:
 //non saprei che mettere, in teoria le cose che non voglio vengano toccate, probabilemtne conviene mettere il vettore posizione e quello velocità
     public:
-    void Vector::position;
-    void Vector::velocity;
+    Vector::posizione(double , double);
+    Vector::velocità(double , double);
 };
     void s;
     void ds;//distanza di attivazione
