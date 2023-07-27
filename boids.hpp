@@ -10,8 +10,8 @@ class sb{//stato boid,possiamousarlo in generale per fare anche predatori{
     private:
 //non saprei che mettere, in teoria le cose che non voglio vengano toccate, probabilemtne conviene mettere il vettore posizione e quello velocità
     public:
-    Vector::posizione(double , double);
-    Vector::velocità(double , double);
+    Vector::Vector(double , double) posizione;
+    Vector::Vector(double , double) velocità;
 };
     void s;
     void ds;//distanza di attivazione
@@ -22,7 +22,7 @@ class sb{//stato boid,possiamousarlo in generale per fare anche predatori{
 
 int numboids;
 
-void centrodimassasist(numboids); const
+void centrodimassa(numboids); const
 
 if (numboids != 1 || numboids != 0){
     void separation(); 
