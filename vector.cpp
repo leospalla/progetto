@@ -1,37 +1,37 @@
 #include "vector.hpp"
 #include <cmath>
 
-bool Vector ::operator==(Vector const &v, Vector const &w) const
+bool operator==(Vector const &v, Vector const &w)
 {
     return v.xcomp() == w.xcomp() && v.ycomp() == w.ycomp();
 }
-Vector Vector ::operator+(Vector const &v, Vector const &w) const
+Vector operator+(Vector const &v, Vector const &w)
 {
     return Vector{v.xcomp() + w.xcomp(), v.ycomp() + w.ycomp()};
 }
-Vector Vector ::operator-(Vector const &v, Vector const &w) const
+Vector operator-(Vector const &v, Vector const &w)
 {
     return Vector{v.xcomp() - w.xcomp(), v.ycomp() - w.ycomp()};
 }
-Vector Vector ::operator*(double c, Vector const &v) const
+Vector operator*(double c, Vector const &v)
 {
     return Vector{c * v.xcomp(), c * v.ycomp()};
 }
-Vector Vector ::operator/(double c, Vector const &v) const
+Vector operator/(double c, Vector const &v)
 {
     return Vector{v.xcomp() / c, v.ycomp() / c};
 }
-double Vector ::dotproduct(Vector const &v, Vector const &w) const
+double dotproduct(Vector const &v, Vector const &w)
 
 {
     return v.xcomp() * w.xcomp() + v.ycomp() * w.ycomp();
 }
-double Vector ::norm(Vector const &v) const
+double norm(Vector const &v)
 {
     double n = dotproduct(v, v);
     return n;
 }
-double Vector ::distance(Vector const &v, Vector const &w) const
+double distance(Vector const &v, Vector const &w)
 {
     Vector diff = v - w;
     double n = norm(diff);

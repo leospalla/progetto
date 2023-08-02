@@ -13,7 +13,7 @@ class Boid
     Boid() = default;
     Vector pos() const {return position_;}
     Vector vel() const {return velocity_;} 
-}
+};
 void separation();
 void allignment();
 void cohesion();

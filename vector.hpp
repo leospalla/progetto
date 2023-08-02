@@ -1,7 +1,6 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
-
 class Vector
 {
 private:
@@ -15,13 +14,13 @@ public:
     double xcomp() const { return m_x; }
     double ycomp() const { return m_y; }
 };
-double norm(Vector const &v) const;
-bool operator==(Vector const &v, Vector const &w) const;
-Vector operator+(Vector const &v, Vector const &w) const;
-Vector operator-(Vector const &v, Vector const &w) const;
-Vector operator*(double c, Vector const &v) const;
-Vector operator/(double c, Vector const &v) const;
-double dotproduct(Vector const &v, Vector const &w) const;
-double distance(Vector const &v, Vector const &w) const;
+double norm(Vector const &v);
+bool operator==(Vector const &v, Vector const &w);
+Vector operator+(Vector const &v, Vector const &w);
+Vector operator-(Vector const &v, Vector const &w);
+Vector operator*(double c, Vector const &v);
+Vector operator/(double c, Vector const &v);
+double dotproduct(Vector const &v, Vector const &w);
+double distance(Vector const &v, Vector const &w);
 
 #endif
