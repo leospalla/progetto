@@ -1,8 +1,8 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-
+#include "doctest.h"
 #include "vector.hpp"
 
-#include "doctest.h"
+
 
 TEST_CASE("Testing the operators") {
   Vector v1(2., 2.);
@@ -38,6 +38,12 @@ TEST_CASE("Testing the operators") {
 TEST_CASE("Testing the vector functions") {
   Vector v1(2., 2.);
   Vector v2(-1., 3.);
+  SUBCASE("Null constructor") {
+    Vector v3{};
+    CHECK(v3.x == doctest::Approx(0.));
+    CHECK(v3.y == doctest::Approx(0.));
+    CHECK(v3.Magnitude() == doctest::Approx(0.));
+  }
   SUBCASE("Magnitude function") {
     CHECK(v1.Magnitude() == doctest::Approx(2.828427125));
     CHECK(v2.Magnitude() == doctest::Approx(3.16227766));

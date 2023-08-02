@@ -1,8 +1,6 @@
 #include "vector.hpp"
 
-#include <cmath>
-
-// Operator overloading
+//Operator overloading
 Vector& Vector::operator=(const Vector& v) {
   if (this != &v) {
     x = v.x;
@@ -10,6 +8,8 @@ Vector& Vector::operator=(const Vector& v) {
   }
   return *this;
 }
+
+//Remember that symmetric operators could have been implemented as @= operators with const references
 
 Vector Vector::operator+(const Vector& v) const {
   return Vector(x + v.x, y + v.y);

@@ -2,3 +2,5 @@
 CMakeLists.txt
 doctest.h
 vector
+build
+appunti.cpp
