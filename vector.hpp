@@ -34,6 +34,10 @@ class Vector {
   void Set(double, double);
 
   double distance(const Vector&) const;
+
+  double angle(const Vector&) const;
+
+  void limit(double);
 };
 
 #endif
