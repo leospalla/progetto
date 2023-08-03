@@ -28,6 +28,11 @@ Vector Vector::operator/(double scalar) const {
   return Vector(x / scalar, y / scalar);
 }
 
+Vector& Vector::operator+=(const Vector& v) {
+  x += v.x;
+  y += v.y;
+  return *this;
+}
 // vector functions
 double Vector::Magnitude() const { return std::sqrt(x * x + y * y); }
 
@@ -64,7 +69,10 @@ double Vector::angle(const Vector& v) const {
   if (v.x == 0 && v.y == 0) {
     return 0.;
   }
-  double angleRad = std::atan2(v.y, v.x) - std::atan2(y, x); //atan2 is a sl fucntion that computes the arc tangent of y/x
+  double angleRad =
+      std::atan2(v.y, v.x) -
+      std::atan2(
+          y, x);  // atan2 is a sl fucntion that computes the arc tangent of y/x
   double angleDeg = angleRad * 180.0 / M_PI;
   if (angleDeg < 0) {
     angleDeg += 360.0;

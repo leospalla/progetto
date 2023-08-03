@@ -25,6 +25,8 @@ class Vector {
 
   Vector operator/(double) const;
 
+  Vector& operator+=(const Vector&);
+
   double Magnitude() const;
 
   Vector Normalize() const;

@@ -8,13 +8,20 @@ TEST_CASE("Testing the operators") {
   Vector v2(1., 3.);
   SUBCASE("+ operator") {
     Vector v3 = v1 + v2;
+    Vector v4 = v1 + v2 + v3;
     CHECK(v3.x == doctest::Approx(3.));
     CHECK(v3.y == doctest::Approx(5.));
+    CHECK(v4.x == doctest::Approx(6.));
+    CHECK(v4.y == doctest::Approx(10.));
   }
   SUBCASE("- operator") {
     Vector v3 = v1 - v2;
+    Vector v4{1., -1.};
+    Vector v5 = v4 - v3;
     CHECK(v3.x == doctest::Approx(1.));
     CHECK(v3.y == doctest::Approx(-1.));
+    CHECK(v5.x == doctest::Approx(0.));
+    CHECK(v5.y == doctest::Approx(0.));
   }
   SUBCASE("* operator") {
     Vector v3 = v1 * 3;
@@ -32,8 +39,12 @@ TEST_CASE("Testing the operators") {
     CHECK(v4.x == doctest::Approx(-0.5));
     CHECK(v4.y == doctest::Approx(-1.5));
   }
+  SUBCASE("+= operator") {
+    v2 += v1;
+    CHECK(v2.x == doctest::Approx(3.));
+    CHECK(v2.y == doctest::Approx(5.));
+  }
 }
-
 TEST_CASE("Testing the vector functions") {
   Vector v1(2., 2.);
   Vector v2(-1., 3.);
