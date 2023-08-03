@@ -18,18 +18,17 @@ class Boid {
 
   Vector cohere();
 
-  Vector align();
+
 
   // we need to create a steer vector that is added to the
   // velocity of the vector of the boid (steer = acceleration, its the same)
   //and it should be the sum of separation, cohesion and alignment
 
 public:
-double const perceptionRadius{};
-double const separationDistance{};  // must be less than the perception radius
-double const separationFactor{};
-double const cohesionFactor{};
-double const alignmentFactor{};  // must be less than 1
+double const separationDistance{1.};  // must be less than the perception radius
+double const separationFactor{1.};
+double const cohesionFactor{1.};
+double const alignmentFactor{0.5};  // must be less than 1
 
 std::vector<Boid> boids;
 
@@ -39,13 +38,15 @@ Boid(Vector);          // constructor with position vector
 
 Vector getPosition() const { return m_position; }
 Vector getVelocity() const { return m_velocity; }
-Vector getAcceleration() { return m_acceleration; }
-Vector setPosition(double, double);
-Vector setVelocity(double, double);
+Vector getAcceleration() const { return m_acceleration; }
 
+void setPosition(double, double);
+void setVelocity(double, double);
+  Vector align();
 double getSpeed();
 void update();  // for now i put void but i dont know if its right, update
                 // means it should update the velocity of each boid
+void borders();
 };
 
 #endif

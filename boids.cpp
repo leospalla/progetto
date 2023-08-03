@@ -1,34 +1,63 @@
 #include "boids.hpp"
-
 #include <random>
+#include <stdexcept>
 
-double randomNumber() {  // generate a random number between -3. and 3.
-  return -3.0 +
-         static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 6.0));
+// global variable to memorize perceptionRadius taken as input
+double g_perceptionRadius = 10.;
+
+// generate a random number between -3. and 3.
+double randomNumber() {
+  return -3.0 + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 6.0));
 }
-
-double g_perceptionRadius =
-    0.;  // global variable to memorize perceptionRadius taken as input
 
 // constructors
 Boid::Boid()
     : m_position{0., 0.},  // should be created in the same position or random?
       m_velocity{randomNumber(), randomNumber()},
-      // maxSpeed and acceleration are already initialized in the private
-      m_perceptionRadius{g_perceptionRadius} {}
+      m_perceptionRadius{g_perceptionRadius} {
+  int maxAttempts = 100;
+  int attempts = 0;
+  while (getSpeed() == 0 && attempts < maxAttempts) {
+    m_velocity.x = randomNumber();
+    m_velocity.y = randomNumber();
+    attempts++;
+  }
+  if (getSpeed() == 0) {
+    throw std::runtime_error("Unable to generate non-zero velocity after 100 attempts.");
+  }
+}
 
 Boid::Boid(double x, double y)
-
     : m_position{x, y},
-      m_velocity{randomNumber(),
-                 randomNumber()},  // random generated but it must be 0.
-                                   // <|velocity| < maxspeed,
-      m_perceptionRadius{g_perceptionRadius} {}
+      m_velocity{randomNumber(), randomNumber()},  // random generated but it must be 0 < |velocity| < maxspeed,
+      m_perceptionRadius{g_perceptionRadius} {
+  int maxAttempts = 100;
+  int attempts = 0;
+  while (getSpeed() == 0 && attempts < maxAttempts) {
+    m_velocity.x = randomNumber();
+    m_velocity.y = randomNumber();
+    attempts++;
+  }
+  if (getSpeed() == 0) {
+    throw std::runtime_error("Unable to generate non-zero velocity after 100 attempts.");
+  }
+}
 
 Boid::Boid(Vector position)
     : m_position{position},
       m_velocity{randomNumber(), randomNumber()},
-      m_perceptionRadius{g_perceptionRadius} {}
+      m_perceptionRadius{g_perceptionRadius} {
+  int maxAttempts = 100;
+  int attempts = 0;
+  while (getSpeed() == 0 && attempts < maxAttempts) {
+    m_velocity.x = randomNumber();
+    m_velocity.y = randomNumber();
+    attempts++;
+  }
+  if (getSpeed() == 0) {
+    throw std::runtime_error("Unable to generate non-zero velocity after 100 attempts.");
+  }
+}
 
 /*
 In the main.cpp we will use something like
@@ -40,9 +69,16 @@ without using a default value, but taking its value as input as its
 requested.
 */
 
-Vector Boid::setPosition(double x, double y) { return Vector(x, y); }
+void Boid::setPosition(double x, double y) { 
+  m_position.x = x;
+  m_position.y = y;
+ }
 
-Vector Boid::setVelocity(double vx, double vy) { return Vector(vx, vy); }
+void Boid::setVelocity(double vx, double vy) { 
+  m_velocity.x = vx;
+  m_velocity.y = vy;
+  m_velocity.limit(m_maxSpeed);
+ }
 
 // we need to do a double getSpeed() and assert that speed must be more than 0.
 // and less than maxSpeed without changing the angle
@@ -57,7 +93,8 @@ Vector Boid::separate() {
   auto it = boids.begin();
   auto const last = boids.end();
   Vector vSum(0.0, 0.0);
-  while (it != last) {  // while loop that uses iterators to repeat the operation for each element of boids
+  while (it != last) {  // while loop that uses iterators to repeat the
+                        // operation for each element of boids
     const Vector& otherPosition = it->getPosition();
     double distance = currentPosition.distance(otherPosition);
     if (distance > 0 && distance < separationDistance) {
@@ -71,10 +108,6 @@ Vector Boid::separate() {
   return separation;
 }
 
-// we need to create a steer vector that is added to the
-// velocity of the vector of the boid (steer = acceleration, its the same)
-// and it should be the sum of separation, cohesion and alignment
-
 Vector Boid::cohere() {
   if (boids.empty()) {
     return Vector{0., 0.};
@@ -85,13 +118,13 @@ Vector Boid::cohere() {
 
   for (const Boid& otherBoid : boids) {  // for-each loop
     double distance = currentPosition.distance(otherBoid.getPosition());
-    if (distance > 0 && distance < perceptionRadius) {
+    if (distance > 0 && distance < m_perceptionRadius) {
       centerOfMass += otherBoid.getPosition();
       neighborCount++;
     }
   }
   if (neighborCount > 0) {
-    centerOfMass = centerOfMass /static_cast<double>(neighborCount);  // static_cast because neighborCount is an int
+    centerOfMass = centerOfMass /static_cast<double>(neighborCount);
     Vector cohesion = centerOfMass - currentPosition;
     cohesion = cohesion.Normalize() * m_maxSpeed - m_velocity;
     cohesion.limit(m_maxSpeed);
@@ -110,9 +143,9 @@ Vector Boid::align() {
   Vector averageVelocity(0.0, 0.0);
   int neighborCount = 0;
 
-  for (const Boid& otherBoid : boids) {  // for-each loop that iterates for each element of boids
+  for (const Boid& otherBoid : boids) {
     double distance = currentPosition.distance(otherBoid.getPosition());
-    if (distance > 0 && distance < perceptionRadius) {
+    if (distance > 0 && distance < m_perceptionRadius) {
       averageVelocity = averageVelocity + otherBoid.getVelocity();
       neighborCount++;
     }
@@ -127,3 +160,39 @@ Vector Boid::align() {
     return Vector{0.0, 0.0};
   }
 }
+
+void Boid::update() {  // updates the position, the velocity, and the
+                       // acceleration of each boid
+  m_acceleration = align(); //+ separate() + cohere();
+  m_velocity += m_acceleration;
+  m_velocity.limit(m_maxSpeed);
+  m_position += m_velocity;
+  m_acceleration.Set(0., 0.);
+}
+
+
+/*
+#include "SFML/Graphics.hpp"
+
+// variable for borders()
+sf::VideoMode desktopTemp = sf::VideoMode::getDesktopMode();
+const int window_height = desktopTemp.height;
+const int window_width = desktopTemp.width;
+#define w_height window_height
+#define w_width window_width
+
+void Boid::borders() {
+  if (m_position.x < 0) {
+    m_position.x = w_width;
+  } else if (m_position.x > w_width) {
+    m_position.x = 0;
+  }
+  if (m_position.y < 0) {
+    m_position.y = w_height;
+  } else if (m_position.y > w_height) {
+    m_position.y = 0;
+  }
+}
+
+*/
+
