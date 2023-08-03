@@ -1,6 +1,9 @@
 #ifndef BOIDS_HPP
 #define BOIDS_HPP
 #include <vector>
+#include <random>
+#include <stdexcept>
+#include <iostream>
 
 #include "vector.hpp"
 
@@ -20,10 +23,6 @@ class Boid {
 
 
 
-  // we need to create a steer vector that is added to the
-  // velocity of the vector of the boid (steer = acceleration, its the same)
-  //and it should be the sum of separation, cohesion and alignment
-
 public:
 double const separationDistance{1.};  // must be less than the perception radius
 double const separationFactor{1.};
@@ -42,10 +41,10 @@ Vector getAcceleration() const { return m_acceleration; }
 
 void setPosition(double, double);
 void setVelocity(double, double);
-  Vector align();
+
 double getSpeed();
-void update();  // for now i put void but i dont know if its right, update
-                // means it should update the velocity of each boid
+  Vector align();
+void update(); 
 void borders();
 };
 

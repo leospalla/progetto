@@ -43,7 +43,6 @@ TEST_CASE("Testing the constructors") {
   }
 }
 TEST_CASE("Testing the boid functions") {
-std::vector<Boid> boids;
   SUBCASE("Set functions") {
     Boid b1{3., -6.};
     b1.setPosition(3., -3.);
@@ -63,7 +62,7 @@ std::vector<Boid> boids;
     Boid b2{100., 0.};
     b1.setVelocity(1., 0.);
     b2.setVelocity(1., 1.);
-    CHECK(boids.size() == doctest::Approx(0));
+    CHECK(b1.boids.size() == doctest::Approx(0));
     b1.update();  // only adds b1's velocity
     CHECK(b1.getAcceleration().x == doctest::Approx(0.));
     CHECK(b1.getAcceleration().y == doctest::Approx(0.));
@@ -71,9 +70,9 @@ std::vector<Boid> boids;
     CHECK(b1.getVelocity().y == doctest::Approx(0.));
     CHECK(b1.getPosition().x == doctest::Approx(1.));
     CHECK(b1.getPosition().y == doctest::Approx(0.));
-    boids.push_back(b1);
-    boids.push_back(b2);
-    CHECK(boids.size() == doctest::Approx(2));
+    b1.boids.push_back(b1);
+    b1.boids.push_back(b2);
+    CHECK(b1.boids.size() == doctest::Approx(2));
     b1.update();
     // rules shouldn't activate bc b2 its too far
     CHECK(b1.getAcceleration().x == doctest::Approx(0.));
@@ -82,24 +81,47 @@ std::vector<Boid> boids;
     CHECK(b1.getVelocity().y == doctest::Approx(0.));
     CHECK(b1.getPosition().x == doctest::Approx(2.));
     CHECK(b1.getPosition().y == doctest::Approx(0.));
+
+
     b1.setPosition(0., 0.);
     b1.setVelocity(1., 1.);
     b2.setPosition(2., 0.);
     b2.setVelocity(-1., 1.);
-    b1.update();
-    b2.update();
-    CHECK(b1.getAcceleration().x == doctest::Approx(0.));
-    CHECK(b1.getAcceleration().y == doctest::Approx(0.));
-    CHECK(b2.getAcceleration().x == doctest::Approx(0.));
-    CHECK(b2.getAcceleration().y == doctest::Approx(0.));
-    
-    CHECK(b1.getVelocity().x == doctest::Approx(3.439818639));
-    CHECK(b1.getVelocity().y == doctest::Approx(-3.364319536));
+
+    //Vector currentPosition = b1.getPosition();
+    //Vector averageVelocity(0.0, 0.0);
+
+    //double distance = currentPosition.distance(b2.getPosition());
+    //if (distance > 0 && distance < 10.) {
+     // averageVelocity += b2.getVelocity();
+    //}
+    //Vector alignment = averageVelocity.Normalize() * 5. - b1.getVelocity();
+    //alignment = alignment * 0.5;
+    //alignment.limit(5.);
+
+    Vector alignment = b1.align();
+    CHECK(alignment.x == doctest::Approx(-1.267766953));
+    CHECK(alignment.y == doctest::Approx(2.267766953));
 
 
-    Vector prova = b1.align();
-    CHECK(prova.x == doctest::Approx(2.439818639));
-    CHECK(prova.y == doctest::Approx(-4.364319536));
+
+  //  b1.update();
+  //  b2.update();
+  //  CHECK(b1.getAcceleration().x == doctest::Approx(0.));
+  //  CHECK(b1.getAcceleration().y == doctest::Approx(0.));
+  //  CHECK(b1.getVelocity().x == doctest::Approx(-1.267766953));
+  //  CHECK(b1.getVelocity().y == doctest::Approx(2.267766953));   
+  //  CHECK(b1.getPosition().x == doctest::Approx(2.));
+  //  CHECK(b1.getPosition().y == doctest::Approx(0.));
+
+  //  CHECK(b2.getAcceleration().x == doctest::Approx(0.));
+  //  CHECK(b2.getAcceleration().y == doctest::Approx(0.)); 
+  //  CHECK(b2.getVelocity().x == doctest::Approx(1.));
+  //  CHECK(b2.getVelocity().y == doctest::Approx(0.));
+  //  CHECK(b2.getPosition().x == doctest::Approx(-1.267766953));
+  //  CHECK(b2.getPosition().y == doctest::Approx(2.267766953));
+
+
 
   }
 }

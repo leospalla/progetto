@@ -1,6 +1,5 @@
 #include "boids.hpp"
-#include <random>
-#include <stdexcept>
+
 
 // global variable to memorize perceptionRadius taken as input
 double g_perceptionRadius = 10.;
@@ -25,6 +24,8 @@ Boid::Boid()
   if (getSpeed() == 0) {
     throw std::runtime_error("Unable to generate non-zero velocity after 100 attempts.");
   }
+
+//  boids.push_back(*this);
 }
 
 Boid::Boid(double x, double y)
@@ -41,6 +42,8 @@ Boid::Boid(double x, double y)
   if (getSpeed() == 0) {
     throw std::runtime_error("Unable to generate non-zero velocity after 100 attempts.");
   }
+//  boids.push_back(*this);
+
 }
 
 Boid::Boid(Vector position)
@@ -57,6 +60,7 @@ Boid::Boid(Vector position)
   if (getSpeed() == 0) {
     throw std::runtime_error("Unable to generate non-zero velocity after 100 attempts.");
   }
+//  boids.push_back(*this);
 }
 
 /*

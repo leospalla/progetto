@@ -41,8 +41,12 @@ TEST_CASE("Testing the operators") {
   }
   SUBCASE("+= operator") {
     v2 += v1;
+    Vector v3{};
+    v3 += v2;
     CHECK(v2.x == doctest::Approx(3.));
     CHECK(v2.y == doctest::Approx(5.));
+    CHECK(v3.x == doctest::Approx(3.));
+    CHECK(v3.y == doctest::Approx(5.));
   }
 }
 TEST_CASE("Testing the vector functions") {
@@ -90,10 +94,13 @@ TEST_CASE("Testing the vector functions") {
   SUBCASE("Distance function") {
     Vector v3 = v1 - v2;
     Vector v4 = v2 - v1;
+    Vector v5{0., 2.};
+    Vector v6{0., 6.};
     CHECK(v1.distance(v2) == doctest::Approx(3.16227766));
     CHECK(v2.distance(v1) == doctest::Approx(3.16227766));
     CHECK(v3.Magnitude() == doctest::Approx(3.16227766));
     CHECK(v4.Magnitude() == doctest::Approx(3.16227766));
+    CHECK(v5.distance(v6) == doctest::Approx(4.));
   }
   SUBCASE("Angle function") {
     Vector v3(1., 0.);
