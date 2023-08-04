@@ -21,6 +21,10 @@ Vector operator/(double c, Vector const &v)
 {
     return Vector{v.xcomp() / c, v.ycomp() / c};
 }
+Vector operator+=(Vector const &v, Vector const &w)
+{
+    return Vector{v.xcomp() + w.xcomp(), v.ycomp()+w.ycomp()};
+}
 double dotproduct(Vector const &v, Vector const &w)
 
 {
@@ -35,5 +39,10 @@ double distance(Vector const &v, Vector const &w)
 {
     Vector diff = v - w;
     double n = norm(diff);
+    return std ::sqrt(n);
+}
+double magnitude(Vector const &v)
+{
+    double n = norm(v);
     return std ::sqrt(n);
 }

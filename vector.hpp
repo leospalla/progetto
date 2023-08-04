@@ -15,11 +15,13 @@ public:
     double ycomp() const { return m_y; }
 };
 double norm(Vector const &v);
+double magnitude(Vector const &v);
 bool operator==(Vector const &v, Vector const &w);
 Vector operator+(Vector const &v, Vector const &w);
 Vector operator-(Vector const &v, Vector const &w);
 Vector operator*(double c, Vector const &v);
 Vector operator/(double c, Vector const &v);
+Vector operator+=(Vector const &v, Vector const &w);
 double dotproduct(Vector const &v, Vector const &w);
 double distance(Vector const &v, Vector const &w);
 
