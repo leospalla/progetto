@@ -17,11 +17,11 @@ class Boid {
 
   // should we add a class invariant? (it needs to go in the public anyway)
 
-  Vector separate();
+  Vector separate(std::vector<Boid>);
 
-  Vector cohere();
+  Vector cohere(std::vector<Boid>);
 
-  Vector align();
+  Vector align(std::vector<Boid>);
 
 public:
 double const separationDistance{1.};  // must be less than the perception radius
@@ -29,7 +29,6 @@ double const separationFactor{1.};
 double const cohesionFactor{1.};
 double const alignmentFactor{0.5};  // must be less than 1
 
-std::vector<Boid> boids;
 
 Boid();                // default constructor
 Boid(double, double);  // constructor with position coordinates
@@ -45,8 +44,36 @@ void setVelocity(double, double);
 
 double getSpeed();
 
-void update(); 
+void update(std::vector<Boid>); 
 void borders();
 };
 
 #endif
+
+/*
+{
+    // testing using perceptionRadius = 10. , alignFactor = 0.5
+
+    std::vector<Boid> boids;
+
+    Boid b1{};
+    Boid b2{100., 0.};
+
+    b1.setPosition(0., 0.);
+    b1.setVelocity(3., 2.);
+    b2.setPosition(2., 0.);
+    b2.setVelocity(0., 4.);
+    boids.push_back(b1);
+    boids.push_back(b2);
+    b1.update(boids);
+    // these dont work idk why
+    // through debugging i found out that for some reason in the flow control of
+    // the align function, otherBoid.getVelocity() is a (4,2) vector
+
+    CHECK(b1.getVelocity().x == doctest::Approx(1.5));
+    CHECK(b1.getVelocity().y == doctest::Approx(3.5));
+    CHECK(b1.getPosition().x == doctest::Approx(1.5));
+    CHECK(b1.getPosition().y == doctest::Approx(3.5));
+  }
+  
+  */

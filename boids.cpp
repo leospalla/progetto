@@ -94,7 +94,7 @@ void Boid::setVelocity(double vx, double vy) {
 
 double Boid::getSpeed() { return m_velocity.Magnitude(); }
 
-Vector Boid::separate() {
+Vector Boid::separate(std::vector<Boid> boids) {
   if (boids.empty()) {
     return Vector{0., 0.};
   }
@@ -117,7 +117,7 @@ Vector Boid::separate() {
   return separation;
 }
 
-Vector Boid::cohere() {
+Vector Boid::cohere(std::vector<Boid> boids) {
   if (boids.empty()) {
     return Vector{0., 0.};
   }
@@ -144,7 +144,7 @@ Vector Boid::cohere() {
   }
 }
 
-Vector Boid::align() {
+Vector Boid::align(std::vector<Boid> boids) {
   if (boids.empty()) {
     return Vector(0.0, 0.0);
   }
@@ -171,10 +171,9 @@ Vector Boid::align() {
   }
 }
 
-
-void Boid::update() {  // updates the position, the velocity, and the
-                       // acceleration of each boid
-  m_acceleration = align(); //+ separate() + cohere();
+// updates the position, the velocity, and the acceleration of each boid
+void Boid::update(std::vector<Boid> boids) {  
+  m_acceleration = align(boids); //+ separate(boids) + cohere(boids);
   m_velocity += m_acceleration;
   m_velocity.limit(m_maxSpeed);
   m_position += m_velocity;
