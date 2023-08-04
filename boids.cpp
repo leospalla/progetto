@@ -63,14 +63,19 @@ Boid::Boid(Vector position)
 //  boids.push_back(*this);
 }
 
+Boid::Boid(Vector position, Vector velocity)
+    : m_position{position},
+      m_velocity{velocity},
+      m_perceptionRadius{g_perceptionRadius} {
+//  boids.push_back(*this);
+}
 /*
 In the main.cpp we will use something like
 std::cout << "Insert perceptionRadius: " ;
 std::cin >> g_perceptionRadius;
 
 so in this way we can create every boid with the same perceptionRadius
-without using a default value, but taking its value as input as its
-requested.
+without using a default value, but taking its value as input as requested.
 */
 
 void Boid::setPosition(double x, double y) { 
@@ -131,6 +136,7 @@ Vector Boid::cohere() {
     centerOfMass = centerOfMass /static_cast<double>(neighborCount);
     Vector cohesion = centerOfMass - currentPosition;
     cohesion = cohesion.Normalize() * m_maxSpeed - m_velocity;
+    cohesion = cohesion * cohesionFactor;
     cohesion.limit(m_maxSpeed);
     return cohesion;
   } else {
@@ -150,7 +156,7 @@ Vector Boid::align() {
   for (const Boid& otherBoid : boids) {
     double distance = currentPosition.distance(otherBoid.getPosition());
     if (distance > 0 && distance < m_perceptionRadius) {
-      averageVelocity = averageVelocity + otherBoid.getVelocity();
+      averageVelocity += otherBoid.getVelocity();
       neighborCount++;
     }
   }
@@ -164,6 +170,7 @@ Vector Boid::align() {
     return Vector{0.0, 0.0};
   }
 }
+
 
 void Boid::update() {  // updates the position, the velocity, and the
                        // acceleration of each boid

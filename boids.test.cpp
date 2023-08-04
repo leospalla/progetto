@@ -57,7 +57,7 @@ TEST_CASE("Testing the boid functions") {
     CHECK(b1.getSpeed() == doctest::Approx(5.));
   }
   SUBCASE("Align function") {
-    // testing using perceptionRadius = 10. , alignFactor = 1.
+    // testing using perceptionRadius = 10. , alignFactor = 0.5
     Boid b1{};
     Boid b2{100., 0.};
     b1.setVelocity(1., 0.);
@@ -70,6 +70,7 @@ TEST_CASE("Testing the boid functions") {
     CHECK(b1.getVelocity().y == doctest::Approx(0.));
     CHECK(b1.getPosition().x == doctest::Approx(1.));
     CHECK(b1.getPosition().y == doctest::Approx(0.));
+
     b1.boids.push_back(b1);
     b1.boids.push_back(b2);
     CHECK(b1.boids.size() == doctest::Approx(2));
@@ -82,44 +83,32 @@ TEST_CASE("Testing the boid functions") {
     CHECK(b1.getPosition().x == doctest::Approx(2.));
     CHECK(b1.getPosition().y == doctest::Approx(0.));
 
+    //now it should activate because they are considered neighbors 
+    b1.setPosition(0., 0.);
+    b1.setVelocity(0., 0.);
+    b2.setPosition(2., 0.);
+    b2.setVelocity(2., 0.);
+    b2.update();
+    b1.update();
+    
+    CHECK(b1.getAcceleration().x == doctest::Approx(0.));
+    CHECK(b1.getAcceleration().y == doctest::Approx(0.));
+  //  CHECK(b1.getVelocity().x == doctest::Approx(2.5));
+   // CHECK(b1.getVelocity().y == doctest::Approx(0.));   
+   // CHECK(b1.getPosition().x == doctest::Approx(2.5));
+   // CHECK(b1.getPosition().y == doctest::Approx(0.));
 
     b1.setPosition(0., 0.);
-    b1.setVelocity(1., 1.);
+    b1.setVelocity(3., 2.);
     b2.setPosition(2., 0.);
-    b2.setVelocity(-1., 1.);
-
-    //Vector currentPosition = b1.getPosition();
-    //Vector averageVelocity(0.0, 0.0);
-
-    //double distance = currentPosition.distance(b2.getPosition());
-    //if (distance > 0 && distance < 10.) {
-     // averageVelocity += b2.getVelocity();
-    //}
-    //Vector alignment = averageVelocity.Normalize() * 5. - b1.getVelocity();
-    //alignment = alignment * 0.5;
-    //alignment.limit(5.);
-
-    Vector alignment = b1.align();
-    CHECK(alignment.x == doctest::Approx(-1.267766953));
-    CHECK(alignment.y == doctest::Approx(2.267766953));
-
-
-
-  //  b1.update();
-  //  b2.update();
-  //  CHECK(b1.getAcceleration().x == doctest::Approx(0.));
-  //  CHECK(b1.getAcceleration().y == doctest::Approx(0.));
-  //  CHECK(b1.getVelocity().x == doctest::Approx(-1.267766953));
-  //  CHECK(b1.getVelocity().y == doctest::Approx(2.267766953));   
-  //  CHECK(b1.getPosition().x == doctest::Approx(2.));
-  //  CHECK(b1.getPosition().y == doctest::Approx(0.));
-
-  //  CHECK(b2.getAcceleration().x == doctest::Approx(0.));
-  //  CHECK(b2.getAcceleration().y == doctest::Approx(0.)); 
-  //  CHECK(b2.getVelocity().x == doctest::Approx(1.));
-  //  CHECK(b2.getVelocity().y == doctest::Approx(0.));
-  //  CHECK(b2.getPosition().x == doctest::Approx(-1.267766953));
-  //  CHECK(b2.getPosition().y == doctest::Approx(2.267766953));
+    b2.setVelocity(0., 4.);
+    b1.update();
+    //these dont work idk why
+    //through debugging i found out that for some reason in the flow control of the align function, otherBoid.getVelocity() is a (4,2) vector
+    CHECK(b1.boids[1].getVelocity().x == doctest::Approx(1.5));
+    CHECK(b1.boids[1].getVelocity().y == doctest::Approx(3.5));   
+    CHECK(b1.boids[0].getPosition().x == doctest::Approx(1.5));
+    CHECK(b1.boids[0].getPosition().y == doctest::Approx(3.5));
 
 
 

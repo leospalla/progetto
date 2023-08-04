@@ -21,7 +21,7 @@ class Boid {
 
   Vector cohere();
 
-
+  Vector align();
 
 public:
 double const separationDistance{1.};  // must be less than the perception radius
@@ -34,6 +34,7 @@ std::vector<Boid> boids;
 Boid();                // default constructor
 Boid(double, double);  // constructor with position coordinates
 Boid(Vector);          // constructor with position vector
+Boid(Vector, Vector);  //constructor with both vectors
 
 Vector getPosition() const { return m_position; }
 Vector getVelocity() const { return m_velocity; }
@@ -43,7 +44,7 @@ void setPosition(double, double);
 void setVelocity(double, double);
 
 double getSpeed();
-  Vector align();
+
 void update(); 
 void borders();
 };
