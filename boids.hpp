@@ -1,33 +1,53 @@
-//prova della libreria boids, deve includere le tre regole, il programma che usa questa libreria dovrà essere un'ibrido tra un cpp e uno per il settaggio grafico di SFML
+// prova della libreria boids, deve includere le tre regole, il programma che
+// usa questa libreria dovrà essere un'ibrido tra un cpp e uno per il settaggio
+// grafico di SFML
 #ifndef BOIDS_HPP
 #define BOIDS_HPP
+#include <algorithm>
 #include <cmath>
-#include <vector>
 #include <iostream>
-#include "vector.hpp"
-//facciamo un template<type T> ?
-class sb{//stato boid,possiamousarlo in generale per fare anche predatori{
-    private:
-//non saprei che mettere, in teoria le cose che non voglio vengano toccate, probabilemtne conviene mettere il vettore posizione e quello velocità
-    public:
-    Vector::Vector(double , double) posizione;
-    Vector::Vector(double , double) velocità;
+#include <vector>
+
+#include "vector.hpp"  //vettori costruiti da leo
+// probabilmtente scritto male ma whatevs
+class parameters {
+  double a_;
+  double s_;
+  double c_;
+  double d_;
+  double ds_;
+
+ public:
+  parameters(double, double, double, double, double);
+  double geta() const { return a_; }
+  double gets() const { return s_; }
+  double getc() const { return c_; }
+  double getd() const { return d_; }
+  double getds() const { return ds_; }
 };
-    void s;
-    void ds;//distanza di attivazione
-    void a;
-    void c;
-    //tutte queste quattro variabili devono essere una variabili di imput
-    void time; //serve poi per creare il coso con sfml
 
-int numboids;
+class boid {
+  Vector velocity_;
+  Vector position_;
 
-void centrodimassa(numboids); const
+ public:
+  boid(const Vector&, const Vector&);
+  Vector getvel() const { return velocity_; }
+  Vector getpos() const { return position_; }
+};
 
-if (numboids != 1 || numboids != 0){
-    void separation(); 
-    void allinegment(); 
-    void Coesion();
-} else {void};
-//non so bene ancora dove mettere la parte del tempo per sfml
+std::vector<boid> numboids{
+    0};  // è un gran casino con i tipi zio incastrato nel catrame
+
+class flyghtrules {
+  Vector sep_;
+  Vector all_;
+  Vector coe_;
+
+ public:
+  flyghtrules(const Vector&, const Vector&, const Vector&);
+  Vector getsep() const { return sep_; }
+  Vector getall() const { return all_; }
+  Vector getcoe() const { return coe_; }
+};
 #endif
