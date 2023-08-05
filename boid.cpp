@@ -35,7 +35,7 @@ Vector Boid::centerOfMass()
     return vSum / boids.size(); // i dont get why it is n-1 in the rules page. for 1 boid is /0.
 }
 
-Vector Boid::separate()
+Vector Boid::separate() // should be ok
 {
     if (boids.empty())
     {
@@ -54,7 +54,7 @@ Vector Boid::separate()
     return -separationFactor * vSum;
 }
 
-Vector Boid::cohere()// i still have doubts
+Vector Boid::cohere()// i still have doubts, Leo's may be better
 {
     if (boids.empty())
     {
@@ -65,7 +65,7 @@ Vector Boid::cohere()// i still have doubts
     return cohesionFactor * desired;
 }
 
-Vector Boid::align()
+Vector Boid::align() // should be ok
 {
     if (boids.empty())
     {
@@ -92,6 +92,6 @@ void Boid::updateVelocity()
     velocity_ += separatioVelocity + cohesionVelocity + alignmentVelocity;
     if (speed() > maxSpeed_)
     {
-        velocity_ = (maxSpeed_ / speed()) * velocity_;
+        velocity_ = (maxSpeed_ / speed()) * velocity_; //it may be better than creating the function in Vector
     }
 }
