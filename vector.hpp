@@ -20,7 +20,7 @@ bool operator==(Vector const &v, Vector const &w);
 Vector operator+(Vector const &v, Vector const &w);
 Vector operator-(Vector const &v, Vector const &w);
 Vector operator*(double c, Vector const &v);
-Vector operator/(double c, Vector const &v);
+Vector operator/(Vector const &v, double c);
 Vector operator+=(Vector const &v, Vector const &w);
 double dotproduct(Vector const &v, Vector const &w);
 double distance(Vector const &v, Vector const &w);

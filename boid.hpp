@@ -11,23 +11,24 @@ private:
     double const maxSpeed_{5.};
 
 public:
+    double const ds{5.};
+    double const separationFactor{1.};
+    double const cohesionFactor{1.};
+    double const alignmentFactor{1.};
+    Boid(Vector, Vector);
     Boid(Vector);
     Boid();
-    Vector pos() { return position_; }
-    Vector vel() { return velocity_; }
-    Vector acc() { return acceleration_; }
+    Vector pos() const { return position_; }
+    Vector vel() const { return velocity_; }
+    Vector acc() const { return acceleration_; }
     Vector setPosition(double, double);
     Vector setVelocity(double, double);
+    Vector centerOfMass();
+    Vector separate();
+    Vector cohere();
+    Vector align();
     double speed();
+    void updateVelocity();
+    std::vector<Boid> boids;
 };
-double const ds{1.}; // max distance for separation, probably should go private
-double separationfactor{1.}; // i have initialized this variables arbitrarly, this can and should change.
-double cohesionfactor{1.};
-double allignmentfactor{1.};
-std::vector<Boid> boids;
-Vector separate(); //it may be possible to put these in the private idk
-Vector cohere();
-Vector align();
-Vector centerOfMass();
-void update();
 #endif

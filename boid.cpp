@@ -5,6 +5,7 @@ double randomNumber()
 {
     return -3.0 + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 6.0)); // generate a random number between -3. and 3.
 }
+Boid::Boid(Vector r, Vector v) : position_{r}, velocity_{v} {};
 Boid::Boid(Vector r) : position_{r}, velocity_{randomNumber(), randomNumber()} {}; // acceleration is already initialized
 Boid::Boid() : position_{0., 0.}, velocity_{randomNumber(), randomNumber()} {}
 double Boid::speed()
@@ -19,63 +20,78 @@ Vector Boid::setVelocity(double vx, double vy)
 {
     return Vector(vx, vy);
 }
-Vector centerOfMass()
+Vector Boid::centerOfMass()
 {
-    auto it = boids.begin();
-    auto const last = boids.end();
-    Vector v(0., 0.);
-    while (it != last)
+    if (boids.empty())
     {
-        Boid b = *it;
-        v += b.pos();
-        ++it;
+        return Vector(0.0, 0.0);
     }
-    return (1 / (boids.size() - 1)) * v;
-}
-Vector separate()
-{
-    auto it = boids.begin();
-    auto const last = boids.end();
-    Boid b1 = boids[0];
-    Vector v1(0., 0.);
-    while (it != last)
+
+    Vector vSum(0.0, 0.0);
+    for (const Boid &b : boids)
     {
-        Boid b2 = *it;
-        double d = distance(b1.pos(), b2.pos());
+        vSum += b.pos();
+    }
+    return vSum / boids.size(); // i dont get why it is n-1 in the rules page. for 1 boid is /0.
+}
+
+Vector Boid::separate()
+{
+    if (boids.empty())
+    {
+        return Vector(0.0, 0.0);
+    }
+    Vector vSum(0.0, 0.0);
+    for (const Boid &b : boids)
+    {
+        double d = distance(position_, b.pos());
         if (d > 0 && d < ds)
         {
-            Vector v = b2.pos() - b1.pos();
-            v1 += v;
+            Vector v = b.pos() - position_;
+            vSum += v;
         }
-        ++it;
     }
-    return -separationfactor * v1;
+    return -separationFactor * vSum;
 }
-Vector cohere()
-{
-    Boid b;
-    return cohesionfactor * (centerOfMass() - b.pos()); //this probably makes no sense
-}
-Vector align()
-{
-   auto it = boids.begin();
-    auto const last = boids.end();
-    Boid b1 = boids[0];
-    Vector v1(0., 0.);
-    while (it != last)
-    {
-        Boid b2 = *it;
-        Vector v = b2.vel() - b1.vel();
-        v1 += v;  
-        ++it;
-    }
-    Vector v2 = (1 / (boids.size() - 1)) * v1;
-    return cohesionfactor * v2; 
-}
-//the correction of the velocity is missing
 
-/* 
-This is a pritive version. It is very likley to find mistakes.
-In the rules maybe we could use some algorithms.
-The programm is succesfully compiled with g++ but i didnt do any tests so idk if it works.
-*/
+Vector Boid::cohere()// i still have doubts
+{
+    if (boids.empty())
+    {
+        return Vector(0.0, 0.0);
+    }
+    Vector center = centerOfMass();
+    Vector desired = center - position_;
+    return cohesionFactor * desired;
+}
+
+Vector Boid::align()
+{
+    if (boids.empty())
+    {
+        return Vector(0.0, 0.0);
+    }
+    Vector vSum(0.0, 0.0);
+    for (const Boid &b : boids)
+    {
+        double d = distance(position_, b.pos());
+        if (d > 0 && d < ds)
+        {
+            Vector v = b.vel() - velocity_;
+            vSum += v;
+        }
+    }
+    Vector averageVelocity = vSum / boids.size();
+    return alignmentFactor * (averageVelocity - velocity_);
+}
+void Boid::updateVelocity()
+{
+    Vector separatioVelocity = separate();
+    Vector cohesionVelocity = cohere();
+    Vector alignmentVelocity = align();
+    velocity_ += separatioVelocity + cohesionVelocity + alignmentVelocity;
+    if (speed() > maxSpeed_)
+    {
+        velocity_ = (maxSpeed_ / speed()) * velocity_;
+    }
+}

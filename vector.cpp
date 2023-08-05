@@ -17,7 +17,7 @@ Vector operator*(double c, Vector const &v)
 {
     return Vector{c * v.xcomp(), c * v.ycomp()};
 }
-Vector operator/(double c, Vector const &v)
+Vector operator/(Vector const &v, double c)
 {
     return Vector{v.xcomp() / c, v.ycomp() / c};
 }
