@@ -32,3 +32,4 @@ public:
     std::vector<Boid> boids;
 };
 #endif
+//update position and border to add

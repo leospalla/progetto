@@ -12,15 +12,18 @@ double Boid::speed()
 {
     return magnitude(velocity_);
 }
-Vector Boid::setPosition(double x, double y)
+Vector Boid::setPosition(double x, double y) // if i dont do it like this tests fail
 {
-    return Vector(x, y);
+    position_ = Vector(x, y);
+    return position_;
 }
+
 Vector Boid::setVelocity(double vx, double vy)
 {
-    return Vector(vx, vy);
+    velocity_ = Vector(vx, vy);
+    return velocity_;
 }
-Vector Boid::centerOfMass()
+Vector Boid::centerOfMass() // needs review
 {
     if (boids.empty())
     {
@@ -32,10 +35,10 @@ Vector Boid::centerOfMass()
     {
         vSum += b.pos();
     }
-    return vSum / boids.size(); // i dont get why it is n-1 in the rules page. for 1 boid is /0.
+    return vSum / boids.size();
 }
 
-Vector Boid::separate() // should be ok
+Vector Boid::separate() // needa review
 {
     if (boids.empty())
     {
@@ -54,7 +57,7 @@ Vector Boid::separate() // should be ok
     return -separationFactor * vSum;
 }
 
-Vector Boid::cohere()// i still have doubts, Leo's may be better
+Vector Boid::cohere() // needs review
 {
     if (boids.empty())
     {
@@ -84,7 +87,7 @@ Vector Boid::align() // should be ok
     Vector averageVelocity = vSum / boids.size();
     return alignmentFactor * (averageVelocity - velocity_);
 }
-void Boid::updateVelocity()
+void Boid::updateVelocity() //not tested
 {
     Vector separatioVelocity = separate();
     Vector cohesionVelocity = cohere();
@@ -92,6 +95,7 @@ void Boid::updateVelocity()
     velocity_ += separatioVelocity + cohesionVelocity + alignmentVelocity;
     if (speed() > maxSpeed_)
     {
-        velocity_ = (maxSpeed_ / speed()) * velocity_; //it may be better than creating the function in Vector
+        velocity_ = (maxSpeed_ / speed()) * velocity_; // it may be better than creating the function in Vector
     }
 }
+//update position and border to add
