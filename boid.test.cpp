@@ -1,40 +1,35 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 #include "boid.hpp"
-TEST_CASE("testing the rules")
+TEST_CASE("Boid Rule Tests")
 {
-  SUBCASE("separation") //fails
+  Boid b1(Vector(1., 0.), Vector(0., 1.));//necessary to access class istance boids
+
+  SUBCASE("Test separation rule")
   {
-    std::vector<Boid> boids;
-    boids.push_back(Boid(Vector(0., 0.), Vector(1., 1.)));
-    boids.push_back(Boid(Vector(2., 2.), Vector(-1., -1.)));
-    Boid b1 = boids[0];
-    Boid b2 = boids[1];
+    b1.boids.push_back(Boid(Vector(0.0, 0.0), Vector(1.0, 1.0)));
+    b1.boids.push_back(Boid(Vector(2.0, 2.0), Vector(-1.0, -1.0)));
     Vector separationVel1 = b1.separate();
-    Vector separationVel2 = b2.separate();
-    CHECK(separationVel1 == Vector(-2., -2.));
-    CHECK(separationVel2 == Vector(2., 2.));
+    CHECK(separationVel1 == Vector(0.0, -2.0));
+    //special cases to add
   }
-  SUBCASE("cohesion")//fails
+
+  SUBCASE("Test cohesion rule")
   {
-    std::vector<Boid> boids;
-    boids.push_back(Boid(Vector(0., 0.), Vector(1., 1.)));
-    boids.push_back(Boid(Vector(2., 2.), Vector(2., 2.)));
-    Boid b1 = boids[0];
+    b1.boids.push_back(Boid(Vector(0.0, 0.0), Vector(1.0, 1.0)));
+    b1.boids.push_back(Boid(Vector(2.0, 2.0), Vector(-1.0, -1.0)));
     Vector cohesionVel1 = b1.cohere();
-    CHECK(cohesionVel1 == Vector(-1., -1.));
+    CHECK(cohesionVel1 == Vector(0.0, 1.0));
+    //special cases to add 
   }
-  SUBCASE("alignment")
+
+  SUBCASE("Test alignment rule")
   {
-    std::vector<Boid> boids;
-    boids.push_back(Boid(Vector(0., 0.), Vector(1., 1.)));
-    boids.push_back(Boid(Vector(2., 2.), Vector(-1., -1.)));
-    Boid b1 = boids[0];
-    Boid b2 = boids[1];
+    b1.boids.push_back(Boid(Vector(0.0, 0.0), Vector(1.0, 1.0)));
+    b1.boids.push_back(Boid(Vector(2.0, 2.0), Vector(-1.0, -1.0)));
     Vector alignmentVel1 = b1.align();
-    Vector alignmentVel2 = b2.align();
-    CHECK(alignmentVel1 == Vector(0., 0.));
-    CHECK(alignmentVel2 == Vector(0., 0.));
+    CHECK(alignmentVel1 == Vector(0.0, -1.0));
+    //special cases to add
   }
 }
 TEST_CASE("testing methods")
@@ -56,14 +51,13 @@ TEST_CASE("testing methods")
     Boid b;
     CHECK(b.centerOfMass() == Vector(0.0, 0.0));
   }
-  SUBCASE("center of mass")//fails
+  SUBCASE("center of mass")
   {
-    std::vector<Boid> boids;
-    boids.push_back(Boid(Vector(0.0, 0.0)));
-    boids.push_back(Boid(Vector(2.0, 2.0)));
-    Boid testBoid;
+    Boid testBoid(Vector(1.0, 0.0));
+    testBoid.boids.push_back(Boid(Vector(1.0, 1.0)));
+    testBoid.boids.push_back(Boid(Vector(2.0, 2.0)));
     Vector center = testBoid.centerOfMass();
-    CHECK(center == Vector(2., 2.));
+    CHECK(center == Vector(1.5, 1.5));
   }
   SUBCASE("speed")
   {
@@ -72,6 +66,6 @@ TEST_CASE("testing methods")
   }
   SUBCASE("update")
   {
-    // its gonna be a macello
+    // Leo's should be fine.
   }
 }

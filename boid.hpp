@@ -11,11 +11,12 @@ private:
     double const maxSpeed_{5.};
 
 public:
+    Boid &operator=(const Boid &other);//it is needed to assign the values of a boid to another boid. I dint use it but it may be usefull.
     double const ds{5.};
     double const separationFactor{1.};
     double const cohesionFactor{1.};
     double const alignmentFactor{1.};
-    Boid(Vector, Vector); // its needed for tests
+    Boid(Vector, Vector); // Its needed for tests
     Boid(Vector);
     Boid();
     Vector pos() const { return position_; }
@@ -24,12 +25,12 @@ public:
     Vector setPosition(double, double);
     Vector setVelocity(double, double);
     Vector centerOfMass();
-    Vector separate(); //i left them in the public because i dont know if it works in the private
+    Vector separate(); // I left them in the public because it's easier to test.
     Vector cohere();
     Vector align();
     double speed();
-    void updateVelocity(); //adds the velocity of the rules
+    void updateVelocity(); // Adds the velocity of the rules
+    // update position and border to add
     std::vector<Boid> boids;
 };
 #endif
-//update position and border to add

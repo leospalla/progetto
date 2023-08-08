@@ -21,10 +21,6 @@ Vector operator/(Vector const &v, double c)
 {
     return Vector{v.xcomp() / c, v.ycomp() / c};
 }
-Vector operator+=(Vector const &v, Vector const &w)
-{
-    return Vector{v.xcomp() + w.xcomp(), v.ycomp()+w.ycomp()};
-}
 double dotproduct(Vector const &v, Vector const &w)
 
 {
