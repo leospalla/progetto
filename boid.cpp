@@ -111,15 +111,4 @@ Vector Boid::align()
     Vector averageVelocity = vSum / neighborCount;
     return alignmentFactor * averageVelocity;
 }
-void Boid::updateVelocity()
-{
-    Vector separatioVelocity = separate();
-    Vector cohesionVelocity = cohere();
-    Vector alignmentVelocity = align();
-    velocity_ = velocity_ + separatioVelocity + cohesionVelocity + alignmentVelocity;
-    if (speed() > maxSpeed_)
-    {
-        velocity_ = (maxSpeed_ / speed()) * velocity_; // it may be better than creating the function in Vector
-    }
-}
 //update position and border to add

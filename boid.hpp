@@ -22,6 +22,7 @@ public:
     Vector pos() const { return position_; }
     Vector vel() const { return velocity_; }
     Vector acc() const { return acceleration_; }
+    double maxSpeed() const {return maxSpeed_;}
     Vector setPosition(double, double);
     Vector setVelocity(double, double);
     Vector centerOfMass();
@@ -29,8 +30,7 @@ public:
     Vector cohere();
     Vector align();
     double speed();
-    void updateVelocity(); // Adds the velocity of the rules
-    // update position and border to add
+    // border to add
     std::vector<Boid> boids;
 };
 #endif

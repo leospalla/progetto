@@ -64,8 +64,4 @@ TEST_CASE("testing methods")
     Boid b(Vector(1.0, 3.0), Vector(3.0, 4.0));
     CHECK(b.speed() == doctest::Approx(5.0));
   }
-  SUBCASE("update")
-  {
-    // Leo's should be fine.
-  }
 }
