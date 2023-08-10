@@ -28,6 +28,8 @@ Boid(double, double);  // constructor with position coordinates
 Boid(Vector);          // constructor with position vector
 Boid(Vector, Vector);  //constructor with both vectors
 
+Boid& operator=(const Boid&);
+
 Vector getPosition() const { return m_position; }
 Vector getVelocity() const { return m_velocity; }
 Vector getAcceleration() const { return m_acceleration; }

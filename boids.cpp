@@ -89,6 +89,18 @@ void Boid::setVelocity(double vx, double vy) {
   m_velocity.limit(m_maxSpeed);
  }
 
+Boid& Boid::operator=(const Boid &other)
+{
+    if (this == &other)
+    {
+        return *this;
+    }
+    m_position = other.m_position;
+    m_velocity = other.m_velocity;
+    m_acceleration = other.m_acceleration;
+    return *this;
+}
+
 // we need to do a double getSpeed() and assert that speed must be more than 0.
 // and less than maxSpeed without changing the angle
 

@@ -70,6 +70,8 @@ TEST_CASE("Testing the boid functions") {
   }
   SUBCASE("Align function") {
     // testing using perceptionRadius = 10. , alignFactor = 0.5
+
+    // this works without the boids[0] = ... syntax
     std::vector<Boid> boids;
     Boid b1{Vector(1., 0.), Vector(3., 2.)};
     Boid b2{Vector(2., 0.), Vector(0., 4.)};
@@ -86,59 +88,75 @@ TEST_CASE("Testing the boid functions") {
     CHECK(b1.align(boids).x == doctest::Approx(0.));
     CHECK(b1.align(boids).y == doctest::Approx(0.));
 
-    // b2 its too far so align should be a null vector but it doesnt work in b1.align
+    // b2 its too far so align should be a null vector but it doesnt work in
+    // b1.align
     boids.push_back(b2);
+
     b1.setPosition(1., 0.);
     b1.setVelocity(0., 0.);
     b2.setPosition(15., 0.);
     b2.setVelocity(1., 1.);
+    // now that i used the set functions, i modified from the outside the boids
+    // so i need to use the boids[..] = ... syntax
+    boids[0] = b1;
+    boids[1] = b2;
     CHECK(b1.align(boids).x == doctest::Approx(0.));
     CHECK(b1.align(boids).y == doctest::Approx(0.));
     CHECK(b2.align(boids).x == doctest::Approx(0.));
     CHECK(b2.align(boids).y == doctest::Approx(0.));
 
-// now it should activate because they are considered neighbors
-    b1.setPosition(0., 0.);
-    b1.setVelocity(0., 0.);
-    b2.setPosition(2., 0.);
-    b2.setVelocity(2., 0.);
-    CHECK(b1.align(boids).x == doctest::Approx(??));
-    CHECK(b1.align(boids).y == doctest::Approx(??));
+    // now it should activate because they are considered neighbors
 
-/*
+    // here instead if i use the set functions inside the container
+    // everything goes smoothly because its all done from the inside
+    boids[0].setPosition(0., 0.);
+    boids[0].setVelocity(0., 0.);
+    boids[1].setPosition(2., 0.);
+    boids[1].setVelocity(2., 0.);
+    CHECK(boids[0].align(boids).x == doctest::Approx(1.));
+    CHECK(boids[0].align(boids).y == doctest::Approx(0.));
 
+    // here i tried another basic test where i don't use the set functions
+    // but i directly create new boids. this was to show that without using
+    // the set functions the boids[.] = .. syntax isn't necessary
     boids.clear();
-    Boid b5{Vector(0, 0), Vector(1, 1)};
-    Boid b6{Vector(2, 0), Vector(-1, 1)};
-    boids.push_back(b5);
-    boids.push_back(b6);
-    b5.update(boids);
+    Boid b3{Vector(0, 0), Vector(1, 1)};
+    Boid b4{Vector(2, 0), Vector(-1, 1)};
+    boids.push_back(b3);
+    boids.push_back(b4);
+    CHECK(b3.align(boids).x == doctest::Approx(-1.));
+    CHECK(b3.align(boids).y == doctest::Approx(0.));
+  }
+  SUBCASE("Cohesion function") {
+    // perceptionRadius is 10, cohesionFactor is 1
+    std::vector<Boid> boids;
+    Boid b1{Vector(0., 0.), Vector(1., 1.)};
+    Boid b2{Vector(0., 2.), Vector(0., 2.)};
+    boids.push_back(b1);
+    boids.push_back(b2);
+    CHECK(b1.cohere(boids).x == doctest::Approx(0.));
+    CHECK(b1.cohere(boids).y == doctest::Approx(2.));
+    CHECK(b2.cohere(boids).x == doctest::Approx(0.));
+    CHECK(b2.cohere(boids).y == doctest::Approx(-2.));
 
-    CHECK(b5.getVelocity().x == doctest::Approx(-1.267766953));
-    CHECK(b5.getVelocity().y == doctest::Approx(2.267766953));
-  */}
-SUBCASE("Cohesion function") {
-  // perceptionRadius is 10, cohesionFactor is 1
-  // here align() and separate() don't activate
-  std::vector<Boid> boids;
-  Boid b1{Vector(0., 0.), Vector(1., 1.)};
-  Boid b2{Vector(0., 2.), Vector(0., 2.)};
-  boids.push_back(b1);
-  boids.push_back(b2);
-  CHECK(b1.cohere(boids).x == doctest::Approx(0.));
-  CHECK(b1.cohere(boids).y == doctest::Approx(2.));
-  CHECK(b2.cohere(boids).x == doctest::Approx(0.));
-  CHECK(b2.cohere(boids).y == doctest::Approx(-2.));
+    // rules shouldn't activate because boids are too far
+    b2.setPosition(80., 2.);
+    boids[1] = b2;
+    CHECK(b2.cohere(boids).x == doctest::Approx(0.));
+    CHECK(b2.cohere(boids).y == doctest::Approx(0.));
+    CHECK(b1.cohere(boids).x == doctest::Approx(0.));
+    CHECK(b1.cohere(boids).y == doctest::Approx(0.));
+  }
+  SUBCASE("Separate function") {
+    // perceptionRadius is 10, separationFactor is 1, separation distance is 1.
+    std::vector<Boid> boids;
 
-//rules shouldn't activate because boids are too far
-  b2.setPosition(80., 2.);
-  CHECK(b2.cohere(boids).x == doctest::Approx(0.));
-  CHECK(b2.cohere(boids).y == doctest::Approx(0.));
-  CHECK(b1.cohere(boids).x == doctest::Approx(0.));
-  CHECK(b1.cohere(boids).y == doctest::Approx(0.));
-}
-SUBCASE("Separate function") {
-  // perceptionRadius is 10, separationFactor is 1, separation distance is 1.
-  // here align() and cohere() don't activate
-}
+    // boids are distant
+    Boid b1(Vector(1., 0.), Vector(0., 1.));
+    boids.push_back(Boid(Vector(100., 0.), Vector(1.0, 1.0)));
+    CHECK(b1.separate(boids).x == doctest::Approx(0.));
+    CHECK(b1.separate(boids).y == doctest::Approx(0.));
+
+    //need to add more tests
+  }
 }
