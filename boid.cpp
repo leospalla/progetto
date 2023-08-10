@@ -8,7 +8,7 @@ double randomNumber()
 Boid::Boid(Vector r, Vector v) : position_{r}, velocity_{v} {};
 Boid::Boid(Vector r) : position_{r}, velocity_{randomNumber(), randomNumber()} {}; // acceleration is already initialized
 Boid::Boid() : position_{0., 0.}, velocity_{randomNumber(), randomNumber()} {}
-Boid& Boid::operator=(const Boid& other)
+Boid &Boid::operator=(const Boid &other)
 {
     if (this == &other)
     {
@@ -24,7 +24,7 @@ double Boid::speed()
 {
     return magnitude(velocity_);
 }
-Vector Boid::setPosition(double x, double y) 
+Vector Boid::setPosition(double x, double y)
 {
     position_ = Vector(x, y);
     return position_;
@@ -41,22 +41,21 @@ Vector Boid::centerOfMass()
     {
         return Vector(0.0, 0.0);
     }
-    int neighborCount = 0; //only close boids count in the formula not all of them
+    int neighborCount = 0; // only close boids count in the formula not all of them
     Vector vSum(0.0, 0.0);
     for (const Boid &b : boids)
     {
         double d = distance(position_, b.pos());
-        if(d > 0 && d < ds)
+        if (d > 0 && d < ds)
         {
-          vSum = vSum + b.pos();
-          neighborCount++;
+            vSum = vSum + b.pos();
+            neighborCount++;
         }
-        
     }
-    if (neighborCount>0)
+    if (neighborCount > 0)
     {
-         vSum = vSum / neighborCount; 
-    } 
+        vSum = vSum / neighborCount;
+    }
     return vSum;
 }
 
@@ -86,6 +85,10 @@ Vector Boid::cohere()
         return Vector(0.0, 0.0);
     }
     Vector center = centerOfMass();
+    if (center == Vector(0.0, 0.0))
+    {
+        return Vector(0.0, 0.0);
+    }
     Vector desired = center - position_;
     return cohesionFactor * desired;
 }
@@ -104,11 +107,16 @@ Vector Boid::align()
         if (d > 0 && d < ds)
         {
             Vector v = b.vel() - velocity_;
-            vSum =vSum + v;
+            vSum = vSum + v;
             neighborCount++;
         }
     }
+    if (neighborCount == 0)
+    {
+        return Vector(0.0, 0.0); // Return zero alignment if there are no neighbors
+    }
+
     Vector averageVelocity = vSum / neighborCount;
     return alignmentFactor * averageVelocity;
 }
-//update position and border to add
+// update position and border to add
