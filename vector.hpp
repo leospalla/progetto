@@ -27,6 +27,8 @@ class Vector {
 
   Vector& operator+=(const Vector&);
 
+ // bool operator==(const Vector&);
+
   double Magnitude() const;
 
   Vector Normalize() const;

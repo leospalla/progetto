@@ -26,7 +26,7 @@ Boid::Boid()
   }
 
 //  boids.push_back(*this);
-}
+} 
 
 Boid::Boid(double x, double y)
     : m_position{x, y},
@@ -133,10 +133,8 @@ Vector Boid::cohere(std::vector<Boid> boids) {
     }
   }
   if (neighborCount > 0) {
-    centerOfMass = centerOfMass /static_cast<double>(neighborCount);
-    Vector cohesion = centerOfMass - currentPosition;
-    cohesion = cohesion.Normalize() * m_maxSpeed - m_velocity;
-    cohesion = cohesion * cohesionFactor;
+    centerOfMass = centerOfMass /static_cast<double>(neighborCount); 
+    Vector cohesion = (centerOfMass - currentPosition) * cohesionFactor;
     cohesion.limit(m_maxSpeed);
     return cohesion;
   } else {
@@ -162,8 +160,7 @@ Vector Boid::align(std::vector<Boid> boids) {
   }
   if (neighborCount > 0) {
     averageVelocity = averageVelocity / static_cast<double>(neighborCount);
-    Vector alignment = averageVelocity.Normalize() * m_maxSpeed - m_velocity;
-    alignment = alignment * alignmentFactor;
+    Vector alignment = (averageVelocity - m_velocity) * alignmentFactor;
     alignment.limit(m_maxSpeed);
     return alignment;
   } else {
@@ -173,7 +170,7 @@ Vector Boid::align(std::vector<Boid> boids) {
 
 // updates the position, the velocity, and the acceleration of each boid
 void Boid::update(std::vector<Boid> boids) {  
-  m_acceleration = align(boids); //+ separate(boids) + cohere(boids);
+  m_acceleration = cohere(boids) + align(boids) + separate(boids);
   m_velocity += m_acceleration;
   m_velocity.limit(m_maxSpeed);
   m_position += m_velocity;

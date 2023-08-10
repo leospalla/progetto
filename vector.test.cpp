@@ -48,6 +48,11 @@ TEST_CASE("Testing the operators") {
     CHECK(v3.x == doctest::Approx(3.));
     CHECK(v3.y == doctest::Approx(5.));
   }
+ /* SUBCASE("== operator") {
+   Vector v3{v1};
+    CHECK(v3 == v1);
+    CHECK(v2 == Vector(1., 3.));
+  } */
 }
 TEST_CASE("Testing the vector functions") {
   Vector v1(2., 2.);

@@ -33,6 +33,11 @@ Vector& Vector::operator+=(const Vector& v) {
   y += v.y;
   return *this;
 }
+
+/* bool Vector::operator==(const Vector& v) {
+  return x == v.x && y == v.y; 
+} */
+
 // vector functions
 double Vector::Magnitude() const { return std::sqrt(x * x + y * y); }
 

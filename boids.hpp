@@ -17,18 +17,11 @@ class Boid {
 
   // should we add a class invariant? (it needs to go in the public anyway)
 
-  Vector separate(std::vector<Boid>);
-
-  Vector cohere(std::vector<Boid>);
-
-  Vector align(std::vector<Boid>);
-
 public:
 double const separationDistance{1.};  // must be less than the perception radius
 double const separationFactor{1.};
 double const cohesionFactor{1.};
 double const alignmentFactor{0.5};  // must be less than 1
-
 
 Boid();                // default constructor
 Boid(double, double);  // constructor with position coordinates
@@ -43,6 +36,12 @@ void setPosition(double, double);
 void setVelocity(double, double);
 
 double getSpeed();
+
+  Vector separate(std::vector<Boid>);
+
+  Vector cohere(std::vector<Boid>);
+
+  Vector align(std::vector<Boid>);
 
 void update(std::vector<Boid>); 
 void borders();
