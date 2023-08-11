@@ -9,6 +9,7 @@ class Flock
     public:
     Flock();
     void addBoid(const Boid& boid);
+    
     void updateVelocity();
     void updatePosition();
 };

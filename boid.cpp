@@ -35,7 +35,7 @@ Vector Boid::setVelocity(double vx, double vy)
     velocity_ = Vector(vx, vy);
     return velocity_;
 }
-Vector Boid::centerOfMass()
+Vector Boid::centerOfMass(std::vector<Boid> boids)
 {
     if (boids.empty())
     {
@@ -55,11 +55,14 @@ Vector Boid::centerOfMass()
     if (neighborCount > 0)
     {
         vSum = vSum / neighborCount;
+    }else
+    {
+        return position_; // so in cohere desired is 0 with no neighbors
     }
     return vSum;
 }
 
-Vector Boid::separate()
+Vector Boid::separate(std::vector<Boid> boids)
 {
     if (boids.empty())
     {
@@ -78,22 +81,18 @@ Vector Boid::separate()
     return -separationFactor * vSum;
 }
 
-Vector Boid::cohere()
+Vector Boid::cohere(std::vector<Boid> boids)
 {
     if (boids.empty())
     {
         return Vector(0.0, 0.0);
     }
-    Vector center = centerOfMass();
-    if (center == Vector(0.0, 0.0))
-    {
-        return Vector(0.0, 0.0);
-    }
+    Vector center = centerOfMass(boids);
     Vector desired = center - position_;
     return cohesionFactor * desired;
 }
 
-Vector Boid::align()
+Vector Boid::align(std::vector<Boid> boids)
 {
     if (boids.empty())
     {
@@ -119,4 +118,4 @@ Vector Boid::align()
     Vector averageVelocity = vSum / neighborCount;
     return alignmentFactor * averageVelocity;
 }
-// update position and border to add
+//border to add
