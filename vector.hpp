@@ -1,5 +1,6 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
+#include <cmath>
 
 class Vector
 {

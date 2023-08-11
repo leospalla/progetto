@@ -1,5 +1,4 @@
 #include "vector.hpp"
-#include <cmath>
 
 bool operator==(Vector const &v, Vector const &w)
 {

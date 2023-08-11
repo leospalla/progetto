@@ -19,8 +19,12 @@ Boid &Boid::operator=(const Boid &other)
     acceleration_ = other.acceleration_;
     return *this;
 }
+bool Boid::operator==(const Boid &other) const
+{
+    return pos() == other.pos();
+}
 
-double Boid::speed()
+double Boid::speed() const
 {
     return magnitude(velocity_);
 }
@@ -35,7 +39,7 @@ Vector Boid::setVelocity(double vx, double vy)
     velocity_ = Vector(vx, vy);
     return velocity_;
 }
-Vector Boid::centerOfMass(std::vector<Boid> boids)
+Vector Boid::centerOfMass(std::vector<Boid> boids) const
 {
     if (boids.empty())
     {
@@ -55,7 +59,8 @@ Vector Boid::centerOfMass(std::vector<Boid> boids)
     if (neighborCount > 0)
     {
         vSum = vSum / neighborCount;
-    }else
+    }
+    else
     {
         return position_; // so in cohere desired is 0 with no neighbors
     }
@@ -118,4 +123,4 @@ Vector Boid::align(std::vector<Boid> boids)
     Vector averageVelocity = vSum / neighborCount;
     return alignmentFactor * averageVelocity;
 }
-//border to add
+// border to add
