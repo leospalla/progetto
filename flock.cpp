@@ -8,47 +8,72 @@ void Flock::addBoid(const Boid &boid)
 void Flock::removeBoid(const Boid &boid)
 {
     auto it = std::find(m_boids.begin(), m_boids.end(), boid);
-    if (it != m_boids.begin())
+    if (it != m_boids.end())
     {
         m_boids.erase(it);
     }
 }
 void Flock::updateVelocity()
 {
-    for (Boid &b : m_boids)
+    std::vector<Vector> newVelocities(m_boids.size()); //create a new vector to pud the updated velocities
+
+    for (size_t i = 0; i < m_boids.size(); ++i)
     {
+        Boid &b = m_boids[i];
+
         Vector separatioVelocity = b.separate(m_boids);
         Vector cohesionVelocity = b.cohere(m_boids);
         Vector alignmentVelocity = b.align(m_boids);
         Vector totalVelocity = separatioVelocity + cohesionVelocity + alignmentVelocity;
-        b.setVelocity(b.vel().xcomp() + totalVelocity.xcomp(), b.vel().ycomp() + totalVelocity.ycomp());
-        if (b.speed() > b.maxSpeed())
+        Vector newVelocity = b.vel() + totalVelocity; //not setting it yet because then the boids are not updated at the same time and updated boids influence non updated boids
+        if (magnitude(newVelocity) > b.maxSpeed())
         {
-            b.vel() = (b.maxSpeed() / b.speed()) * b.vel(); // it may be better than creating the function in Vector
+            newVelocity = (b.maxSpeed() / magnitude(newVelocity)) * newVelocity;
         }
+        newVelocities[i] = newVelocity; //put the updated velocities in the new vector
+    }
+    for (size_t i = 0; i < m_boids.size(); ++i)
+    {
+        m_boids[i].setVelocity(newVelocities[i].xcomp(), newVelocities[i].ycomp()); // now we can safley set
     }
 }
-void Flock::updatePosition()
+void Flock::updatePosition() // same reasoning as for updateVelocity
 {
     updateVelocity();
-    for (Boid &b : m_boids)
+    std::vector<Vector> newPositions(m_boids.size());
+    for(size_t i = 0; i < m_boids.size(); ++i)
     {
-        Vector vSum = delta_time * b.vel();
-        b.setPosition(b.pos().xcomp() + vSum.xcomp(), b.pos().ycomp() + vSum.ycomp());
+        Boid &b = m_boids[i];
+        Vector newPosition = b.pos() + delta_time * b.vel();
+        newPositions[i] = newPosition;
+    }
+    for(size_t i = 0; i < m_boids.size(); ++i)
+    {
+        m_boids[i].setPosition(newPositions[i].xcomp(), newPositions[i].ycomp());
     }
 }
-double Flock::averageDistance() const
+double Flock::averageDistance()
 {
     if (m_boids.empty())
     {
         return 0.0;
     }
     double vDist = 0.0;
-    for (const Boid &b : m_boids)
+    double nPairs = 0.0;
+    for (size_t i = 0; i < m_boids.size(); ++i)
     {
-        vDist += distance(b.pos(), b.centerOfMass(m_boids));
+        for (size_t j = i + 1; j < m_boids.size(); ++j)
+        {
+            double dist = distance(m_boids[i].pos(), m_boids[j].pos());
+            vDist += dist;
+            ++nPairs;
+        }
     }
-    return vDist / m_boids.size();
+    if (nPairs == 0)
+    {
+        return 0.0;
+    }
+    return vDist / nPairs;
 }
 
 double Flock::averageSpeed()
@@ -72,12 +97,22 @@ double Flock::standardDeviationDistance()
     }
     double avgDistance = averageDistance();
     double stDev = 0.0;
-    for (const Boid &b : m_boids)
+    double nPairs = 0.0;
+    for (size_t i = 0; i < m_boids.size(); ++i)
     {
-        double diff = distance(b.pos(), b.centerOfMass(m_boids)) - avgDistance;
-        stDev += diff * diff;
+        for (size_t j = i + 1; j < m_boids.size(); ++j)
+        {
+            double dist = distance(m_boids[i].pos(), m_boids[j].pos());
+            double diff = dist - avgDistance;
+            stDev += diff * diff;
+            ++nPairs;
+        }
     }
-    return std::sqrt(stDev / m_boids.size() - 1);
+    if (nPairs == 0)
+    {
+        return 0.0;
+    }
+    return std::sqrt(stDev / nPairs);
 }
 double Flock::standardDeviationSpeed()
 {
@@ -92,11 +127,11 @@ double Flock::standardDeviationSpeed()
         double diff = b.speed() - avgSpeed;
         stDev += diff * diff;
     }
-    return std::sqrt(stDev / m_boids.size() - 1);
+    return std::sqrt(stDev / m_boids.size());
 }
 void Flock::simulate(int numSteps)
 {
-    for (int step = 0; step < numSteps; step++) //at each step updates and prints the collective infotmations about the flock.
+    for (int step = 0; step < numSteps; step++) // at each step updates and prints the collective infotmations about the flock.
     {
         updateVelocity();
         updatePosition();

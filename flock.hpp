@@ -11,11 +11,12 @@ private:
 
 public:
     Flock();
+    const std::vector<Boid>& getBoids() const { return m_boids; }
     void addBoid(const Boid &boid);
     void removeBoid(const Boid &boid);
     void updateVelocity();
     void updatePosition();
-    double averageDistance() const;
+    double averageDistance();
     double averageSpeed();
     double standardDeviationDistance();
     double standardDeviationSpeed();

@@ -26,7 +26,7 @@ public:
     double maxSpeed() const { return maxSpeed_; }
     Vector setPosition(double, double);
     Vector setVelocity(double, double);
-    Vector centerOfMass(std::vector<Boid>) const;
+    Vector centerOfMass(std::vector<Boid>);
     Vector separate(std::vector<Boid>); // I left them in the public because it's easier to test.
     Vector cohere(std::vector<Boid>);
     Vector align(std::vector<Boid>);

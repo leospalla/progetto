@@ -21,7 +21,7 @@ Boid &Boid::operator=(const Boid &other)
 }
 bool Boid::operator==(const Boid &other) const
 {
-    return pos() == other.pos();
+    return pos() == other.pos() && vel() == other.vel();
 }
 
 double Boid::speed() const
@@ -39,7 +39,7 @@ Vector Boid::setVelocity(double vx, double vy)
     velocity_ = Vector(vx, vy);
     return velocity_;
 }
-Vector Boid::centerOfMass(std::vector<Boid> boids) const
+Vector Boid::centerOfMass(std::vector<Boid> boids)
 {
     if (boids.empty())
     {
