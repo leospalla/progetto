@@ -50,31 +50,3 @@ void borders();
 };
 
 #endif
-
-/*
-{
-    // testing using perceptionRadius = 10. , alignFactor = 0.5
-
-    std::vector<Boid> boids;
-
-    Boid b1{};
-    Boid b2{100., 0.};
-
-    b1.setPosition(0., 0.);
-    b1.setVelocity(3., 2.);
-    b2.setPosition(2., 0.);
-    b2.setVelocity(0., 4.);
-    boids.push_back(b1);
-    boids.push_back(b2);
-    b1.update(boids);
-    // these dont work idk why
-    // through debugging i found out that for some reason in the flow control of
-    // the align function, otherBoid.getVelocity() is a (4,2) vector
-
-    CHECK(b1.getVelocity().x == doctest::Approx(1.5));
-    CHECK(b1.getVelocity().y == doctest::Approx(3.5));
-    CHECK(b1.getPosition().x == doctest::Approx(1.5));
-    CHECK(b1.getPosition().y == doctest::Approx(3.5));
-  }
-  
-  */
