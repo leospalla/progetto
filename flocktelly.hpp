@@ -7,7 +7,7 @@ class Flock
 {
 private:
     std::vector<Boid> m_boids;
-    double const delta_time{1.};
+    double const delta_time{0.001};
 
 public:
     Flock();

@@ -27,7 +27,7 @@ void Flock::updateVelocity() {
   }
 }
 void Flock::updatePosition() {
-  updateVelocity();//????????????????
+  updateVelocity();
   for (Boid &b : m_boids) {
     Vector vSum = delta_time * b.vel();
     b.setPosition(b.pos().xcomp() + vSum.xcomp(),

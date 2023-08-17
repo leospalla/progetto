@@ -59,7 +59,6 @@ TEST_CASE("testing ops") {
     f.getmboids().push_back(b);
     f.getmboids().push_back(c);
     f.updatePosition();
-    CHECK();
   }
   SUBCASE("TESTING DISTANZA MEDIA") {}
 }
