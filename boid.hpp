@@ -8,15 +8,16 @@ private:
     Vector position_{};
     Vector velocity_{};
     Vector acceleration_{0., 0.};
-    double const maxSpeed_{5.};
+    double const maxSpeed_{10.};
+    double const ds{15.};
 
 public:
     bool operator==(const Boid &other) const;
     Boid &operator=(const Boid &other); // it is needed to assign the values of a boid to another boid. I dint use it but it may be usefull.
-    double const ds{5.};
-    double const separationFactor{1.};
-    double const cohesionFactor{1.};
-    double const alignmentFactor{1.};
+    double const separationDistance{2.};
+    double const separationFactor{1.2};
+    double const cohesionFactor{0.8};
+    double const alignmentFactor{0.5};
     Boid(Vector, Vector); // Its needed for tests
     Boid(Vector);
     Boid();
@@ -31,6 +32,6 @@ public:
     Vector cohere(std::vector<Boid>);
     Vector align(std::vector<Boid>);
     double speed() const;
-    // border to add
+    void border(unsigned int, unsigned int);
 };
 #endif

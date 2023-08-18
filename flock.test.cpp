@@ -72,8 +72,8 @@ TEST_CASE("testing methods")
         flock.addBoid(b3);
         flock.updatePosition();
         const std::vector<Boid> &flk = flock.getBoids();
-        CHECK(flk[0].pos() == Vector(1.0, -1.0));
-        CHECK(flk[1].pos() == Vector(-2.0, -1.0));
-        CHECK(flk[2].pos() == Vector(4.0, 5.0));
+        CHECK(flk[0].pos() == Vector(1.0, -.1));
+        CHECK(flk[1].pos() == Vector(-0.2, -0.1));
+        CHECK(flk[2].pos() == Vector(2.2, 2.3));
     }
 }

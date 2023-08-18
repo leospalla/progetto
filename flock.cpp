@@ -37,7 +37,7 @@ void Flock::updateVelocity()
         m_boids[i].setVelocity(newVelocities[i].xcomp(), newVelocities[i].ycomp()); // now we can safley set
     }
 }
-void Flock::updatePosition() // same reasoning as for updateVelocity
+void Flock::updatePosition(unsigned int windowWidth, unsigned int windowHeight) // same reasoning as for updateVelocity
 {
     updateVelocity();
     std::vector<Vector> newPositions(m_boids.size());
@@ -50,6 +50,7 @@ void Flock::updatePosition() // same reasoning as for updateVelocity
     for(size_t i = 0; i < m_boids.size(); ++i)
     {
         m_boids[i].setPosition(newPositions[i].xcomp(), newPositions[i].ycomp());
+        m_boids[i].border(windowWidth, windowHeight);
     }
 }
 double Flock::averageDistance()
@@ -129,17 +130,17 @@ double Flock::standardDeviationSpeed()
     }
     return std::sqrt(stDev / m_boids.size());
 }
-void Flock::simulate(int numSteps)
+void Flock::simulate(int numSteps, unsigned int windowWidth, unsigned int windowHeight)
 {
-    for (int step = 0; step < numSteps; step++) // at each step updates and prints the collective infotmations about the flock.
+    for (int step = 0; step <= numSteps; step++) // at each step updates and prints the collective infotmations about the flock.
     {
-        updateVelocity();
-        updatePosition();
         double time = step * delta_time;
-        std::cout << "Time: " << time << std::endl;
+        std::cout << "Time: " << time << " seconds" << std::endl;
         std::cout << "Average distance: " << averageDistance() << std::endl;
         std::cout << "Average speed: " << averageSpeed() << std::endl;
         std::cout << "Standard deviation of distance: " << standardDeviationDistance() << std::endl;
         std::cout << "Standard deviation of speed: " << standardDeviationSpeed() << std::endl;
+        updateVelocity();
+        updatePosition(windowWidth, windowHeight);
     }
 }

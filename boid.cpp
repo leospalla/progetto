@@ -5,9 +5,13 @@ double randomNumber()
 {
     return -3.0 + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 6.0)); // generate a random number between -3. and 3.
 }
+double randomNumPos()
+{
+    return -10.0 + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 20.));
+}
 Boid::Boid(Vector r, Vector v) : position_{r}, velocity_{v} {};
 Boid::Boid(Vector r) : position_{r}, velocity_{randomNumber(), randomNumber()} {}; // acceleration is already initialized
-Boid::Boid() : position_{0., 0.}, velocity_{randomNumber(), randomNumber()} {}
+Boid::Boid() : position_{randomNumPos(), randomNumPos()}, velocity_{randomNumber(), randomNumber()} {}
 Boid &Boid::operator=(const Boid &other)
 {
     if (this == &other)
@@ -77,7 +81,7 @@ Vector Boid::separate(std::vector<Boid> boids)
     for (const Boid &b : boids)
     {
         double d = distance(position_, b.pos());
-        if (d > 0 && d < ds)
+        if (d > 0 && d < separationDistance)
         {
             Vector v = b.pos() - position_;
             vSum = vSum + v;
@@ -123,4 +127,26 @@ Vector Boid::align(std::vector<Boid> boids)
     Vector averageVelocity = vSum / neighborCount;
     return alignmentFactor * averageVelocity;
 }
-// border to add
+void Boid::border(unsigned int window_width, unsigned int window_height)
+{
+    double halfWidth = window_width / 2;
+    double halfHeight = window_height / 2;
+    if (position_.xcomp() > halfWidth )
+    {
+        setPosition(-halfWidth , position_.ycomp());
+    }
+    if (position_.xcomp() < -halfWidth)
+    {
+        setPosition(halfWidth, position_.ycomp());
+    }
+    if (position_.ycomp() > halfHeight)
+    {
+        setPosition(position_.xcomp(), -halfHeight);
+    }
+    if (position_.ycomp() < -halfHeight)
+    {
+        setPosition(position_.xcomp(), halfHeight);
+    }
+}
+
+

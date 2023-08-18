@@ -253,4 +253,40 @@ TEST_CASE("testing methods")
     Boid b(Vector(1.0, 3.0), Vector(3.0, 4.0));
     CHECK(b.speed() == doctest::Approx(5.0));
   }
+  SUBCASE("Testing border if boids are in window")
+  {
+    Boid b(Vector(-56, 51));
+    b.border(200, 200);
+    CHECK(b.pos() == Vector(-56, 51));
+  }
+  SUBCASE("Testing Border With x position > width")
+  {
+    Boid b(Vector(126, 51));
+    b.border(200, 200);
+    CHECK(b.pos() == Vector(-100, 51));
+  }
+    SUBCASE("Testing Border With x position < -width")
+  {
+    Boid b(Vector(-121, 51));
+    b.border(200, 200);
+    CHECK(b.pos() == Vector(100, 51));
+  }
+    SUBCASE("Testing Border With y position > height")
+  {
+    Boid b(Vector(-56, 181));
+    b.border(200, 200);
+    CHECK(b.pos() == Vector(-56, -100));
+  }
+    SUBCASE("Testing Border With y position < -height")
+  {
+    Boid b(Vector(-56, -203));
+    b.border(200, 200);
+    CHECK(b.pos() == Vector(-56, 100));
+  }
+    SUBCASE("Testing Border with both coordinates outside the window")
+  {
+    Boid b(Vector(128, -251));
+    b.border(200, 200);
+    CHECK(b.pos() == Vector(-100, 100));
+  }
 }
