@@ -1,7 +1,6 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 #include <cmath>
-
 class Vector
 {
 private:
@@ -15,6 +14,7 @@ public:
     double xcomp() const { return m_x; }
     double ycomp() const { return m_y; }
 };
+
 double norm(Vector const &v);
 double magnitude(Vector const &v);
 bool operator==(Vector const &v, Vector const &w);
