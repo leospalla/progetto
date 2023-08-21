@@ -1,8 +1,2 @@
 .clang-format
 doctest.h
-vector
-boids
-CMakeLists.txt
-flock
-main
-build/

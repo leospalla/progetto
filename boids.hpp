@@ -1,11 +1,12 @@
 #ifndef BOIDS_HPP
 #define BOIDS_HPP
 
-#include "vector.hpp"
 #include <iostream>
 #include <random>
 #include <stdexcept>
 #include <vector>
+
+#include "vector.hpp"
 
 namespace bd {
 class Boid {
