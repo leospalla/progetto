@@ -3,19 +3,17 @@
 #include <cmath>
 
 class Vector {
-
+  double m_x{0.};
+  double m_y{0.};
 
  public:
-  double x;
-  double y;  
-  Vector() : x{0.}, y{0.} {}                      // default constructor
-  Vector(double xp, double yp) : x{xp}, y{yp} {}  // other constructor
-  Vector(const Vector& other) : x{other.x}, y{other.y} {} //copy constructor
+  Vector() = default;                             // default constructor
+  Vector(double x, double y) : m_x{x}, m_y{y} {}  // other constructor
+  Vector(const Vector& other)
+      : m_x{other.getX()}, m_y{other.getY()} {}  // copy constructor
+
   // Operator overloading
-  Vector& operator=(const Vector&);  // doesnt need const because it has to modify the
-                                     // internal state of the object, instead since the other
-                                     // operators or functions shouldn't modify the internal
-                                     // state of the object, const is needed
+  Vector& operator=(const Vector&);
 
   Vector operator+(const Vector&) const;
 
@@ -27,19 +25,21 @@ class Vector {
 
   Vector& operator+=(const Vector&);
 
- // bool operator==(const Vector&);
+  bool operator==(const Vector&) const;
+
+  double getX() const { return m_x; }
+
+  double getY() const { return m_y; }
 
   double Magnitude() const;
 
-  Vector Normalize() const;
+  Vector normalize() const;
 
   double dotProduct(const Vector&) const;
 
-  void Set(double, double);
+  void set(double, double);
 
   double distance(const Vector&) const;
-
-  double angle(const Vector&) const;
 
   void limit(double);
 };

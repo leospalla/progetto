@@ -1,7 +1,7 @@
 .clang-format
-CMakeLists.txt
 doctest.h
 vector
-build
-appunti.cpp
 boids
+CMakeLists.txt
+flock
+main

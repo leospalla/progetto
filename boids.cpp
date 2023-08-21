@@ -1,135 +1,107 @@
 #include "boids.hpp"
 
+namespace bd {
 
-// global variable to memorize perceptionRadius taken as input
-double g_perceptionRadius = 10.;
+// generate a random number between -7. and 7.
+double randomVelocity() {
+  return -7.0 +
+         static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 14.0));
+}
 
-// generate a random number between -3. and 3.
-double randomNumber() {
-  return -3.0 + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 6.0));
+// between -10 and 10
+double randomPosition() {
+  return -10.0 +
+         static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 20.));
 }
 
 // constructors
 Boid::Boid()
-    : m_position{0., 0.},  // should be created in the same position or random?
-      m_velocity{randomNumber(), randomNumber()},
-      m_perceptionRadius{g_perceptionRadius} {
+    : m_position{randomPosition(), randomPosition()},
+      m_velocity{randomVelocity(), randomVelocity()} {
   int maxAttempts = 100;
   int attempts = 0;
   while (getSpeed() == 0 && attempts < maxAttempts) {
-    m_velocity.x = randomNumber();
-    m_velocity.y = randomNumber();
-    attempts++;
+    m_velocity.set(randomVelocity(), randomVelocity());
+    ++attempts;
   }
   if (getSpeed() == 0) {
-    throw std::runtime_error("Unable to generate non-zero velocity after 100 attempts.");
+    throw std::runtime_error(
+        "Unable to generate non-zero velocity after 100 attempts.");
   }
-
-//  boids.push_back(*this);
-} 
+}
 
 Boid::Boid(double x, double y)
-    : m_position{x, y},
-      m_velocity{randomNumber(), randomNumber()},  // random generated but it must be 0 < |velocity| < maxspeed,
-      m_perceptionRadius{g_perceptionRadius} {
+    : m_position{x, y}, m_velocity{randomVelocity(), randomVelocity()} {
   int maxAttempts = 100;
   int attempts = 0;
   while (getSpeed() == 0 && attempts < maxAttempts) {
-    m_velocity.x = randomNumber();
-    m_velocity.y = randomNumber();
-    attempts++;
+    m_velocity.set(randomVelocity(), randomVelocity());
+    ++attempts;
   }
   if (getSpeed() == 0) {
-    throw std::runtime_error("Unable to generate non-zero velocity after 100 attempts.");
+    throw std::runtime_error(
+        "Unable to generate non-zero velocity after 100 attempts.");
   }
-//  boids.push_back(*this);
-
 }
 
 Boid::Boid(Vector position)
-    : m_position{position},
-      m_velocity{randomNumber(), randomNumber()},
-      m_perceptionRadius{g_perceptionRadius} {
+    : m_position{position}, m_velocity{randomVelocity(), randomVelocity()} {
   int maxAttempts = 100;
   int attempts = 0;
   while (getSpeed() == 0 && attempts < maxAttempts) {
-    m_velocity.x = randomNumber();
-    m_velocity.y = randomNumber();
-    attempts++;
+    m_velocity.set(randomVelocity(), randomVelocity());
+    ++attempts;
   }
   if (getSpeed() == 0) {
-    throw std::runtime_error("Unable to generate non-zero velocity after 100 attempts.");
+    throw std::runtime_error(
+        "Unable to generate non-zero velocity after 100 attempts.");
   }
-//  boids.push_back(*this);
 }
 
 Boid::Boid(Vector position, Vector velocity)
-    : m_position{position},
-      m_velocity{velocity},
-      m_perceptionRadius{g_perceptionRadius} {
-//  boids.push_back(*this);
-}
-/*
-In the main.cpp we will use something like
-std::cout << "Insert perceptionRadius: " ;
-std::cin >> g_perceptionRadius;
+    : m_position{position}, m_velocity{velocity} {}
 
-so in this way we can create every boid with the same perceptionRadius
-without using a default value, but taking its value as input as requested.
-*/
+void Boid::setPosition(double x, double y) { m_position.set(x, y); }
 
-void Boid::setPosition(double x, double y) { 
-  m_position.x = x;
-  m_position.y = y;
- }
-
-void Boid::setVelocity(double vx, double vy) { 
-  m_velocity.x = vx;
-  m_velocity.y = vy;
+void Boid::setVelocity(double vx, double vy) {
+  m_velocity.set(vx, vy);
   m_velocity.limit(m_maxSpeed);
- }
-
-Boid& Boid::operator=(const Boid &other)
-{
-    if (this == &other)
-    {
-        return *this;
-    }
-    m_position = other.m_position;
-    m_velocity = other.m_velocity;
-    m_acceleration = other.m_acceleration;
-    return *this;
 }
 
-// we need to do a double getSpeed() and assert that speed must be more than 0.
-// and less than maxSpeed without changing the angle
-
-double Boid::getSpeed() { return m_velocity.Magnitude(); }
-
-Vector Boid::separate(std::vector<Boid> boids) {
-  if (boids.empty()) {
-    return Vector{0., 0.};
+Boid& Boid::operator=(const Boid& other) {
+  if (this == &other) {
+    return *this;
   }
-  Vector currentPosition = m_position;
-  auto it = boids.begin();
-  auto const last = boids.end();
+  m_position = other.m_position;
+  m_velocity = other.m_velocity;
+  m_acceleration = other.m_acceleration;
+  return *this;
+}
+
+bool Boid::operator==(const Boid& other) const {
+  return m_position == other.m_position && m_velocity == other.m_velocity;
+}
+
+double Boid::getSpeed() const { return m_velocity.Magnitude(); }
+
+Vector Boid::separate(std::vector<Boid> boids) const {
+  if (boids.empty()) {
+    return Vector(0.0, 0.0);
+  }
   Vector vSum(0.0, 0.0);
-  while (it != last) {  // while loop that uses iterators to repeat the
-                        // operation for each element of boids
-    const Vector& otherPosition = it->getPosition();
-    double distance = currentPosition.distance(otherPosition);
+  for (const Boid& other : boids) {
+    double distance = m_position.distance(other.getPosition());
     if (distance > 0 && distance < separationDistance) {
-      Vector direction = otherPosition - currentPosition;
+      Vector direction = other.getPosition() - m_position;
       vSum += direction;
     }
-    ++it;
   }
   Vector separation = vSum * -separationFactor;
   separation.limit(m_maxSpeed);
   return separation;
 }
 
-Vector Boid::cohere(std::vector<Boid> boids) {
+Vector Boid::cohere(std::vector<Boid> boids) const {
   if (boids.empty()) {
     return Vector{0., 0.};
   }
@@ -137,15 +109,15 @@ Vector Boid::cohere(std::vector<Boid> boids) {
   Vector centerOfMass(0.0, 0.0);
   int neighborCount = 0;
 
-  for (const Boid& otherBoid : boids) {  // for-each loop
+  for (const Boid& otherBoid : boids) {
     double distance = currentPosition.distance(otherBoid.getPosition());
     if (distance > 0 && distance < m_perceptionRadius) {
       centerOfMass += otherBoid.getPosition();
-      neighborCount++;
+      ++neighborCount;
     }
   }
   if (neighborCount > 0) {
-    centerOfMass = centerOfMass /static_cast<double>(neighborCount); 
+    centerOfMass = centerOfMass / static_cast<double>(neighborCount);
     Vector cohesion = (centerOfMass - currentPosition) * cohesionFactor;
     cohesion.limit(m_maxSpeed);
     return cohesion;
@@ -154,7 +126,7 @@ Vector Boid::cohere(std::vector<Boid> boids) {
   }
 }
 
-Vector Boid::align(std::vector<Boid> boids) {
+Vector Boid::align(std::vector<Boid> boids) const {
   if (boids.empty()) {
     return Vector(0.0, 0.0);
   }
@@ -167,7 +139,7 @@ Vector Boid::align(std::vector<Boid> boids) {
     double distance = currentPosition.distance(otherBoid.getPosition());
     if (distance > 0 && distance < m_perceptionRadius) {
       averageVelocity += otherBoid.getVelocity();
-      neighborCount++;
+      ++neighborCount;
     }
   }
   if (neighborCount > 0) {
@@ -180,38 +152,48 @@ Vector Boid::align(std::vector<Boid> boids) {
   }
 }
 
-// updates the position, the velocity, and the acceleration of each boid
-void Boid::update(std::vector<Boid> boids) {  
-  m_acceleration = cohere(boids) + align(boids) + separate(boids);
-  m_velocity += m_acceleration;
-  m_velocity.limit(m_maxSpeed);
-  m_position += m_velocity;
-  m_acceleration.Set(0., 0.);
+void Boid::borders(unsigned int window_width, unsigned int window_height) {
+  double halfWidth = window_width / 2;
+  double halfHeight = window_height / 2;
+  if (m_position.getX() > halfWidth) {
+    setPosition(-halfWidth, m_position.getY());
+  }
+  if (m_position.getX() < -halfWidth) {
+    setPosition(halfWidth, m_position.getY());
+  }
+  if (m_position.getY() > halfHeight) {
+    setPosition(m_position.getX(), -halfHeight);
+  }
+  if (m_position.getY() < -halfHeight) {
+    setPosition(m_position.getX(), halfHeight);
+  }
 }
-
+}  // namespace bd
 
 /*
-#include "SFML/Graphics.hpp"
-
-// variable for borders()
-sf::VideoMode desktopTemp = sf::VideoMode::getDesktopMode();
-const int window_height = desktopTemp.height;
-const int window_width = desktopTemp.width;
-#define w_height window_height
-#define w_width window_width
-
-void Boid::borders() {
-  if (m_position.x < 0) {
-    m_position.x = w_width;
-  } else if (m_position.x > w_width) {
-    m_position.x = 0;
-  }
-  if (m_position.y < 0) {
-    m_position.y = w_height;
-  } else if (m_position.y > w_height) {
-    m_position.y = 0;
-  }
-}
-
-*/
-
+Vector Boid::centerOfMass(std::vector<Boid> boids)
+    {
+        if (boids.empty())
+        {
+            return Vector(0.0, 0.0);
+        }
+        int neighborCount = 0; // only close boids count in the formula not all
+of them    Vector vSum(0.0, 0.0);    for (const Boid &other : boids)
+        {
+            double distance = m_position.distance(other.getPosition());
+            if (distance > 0 && distance < m_perceptionRadius)
+            {
+                vSum = vSum + other.getPosition();
+                ++neighborCount;
+            }
+        }
+        if (neighborCount > 0)
+        {
+            vSum = vSum / neighborCount;
+        }
+        else
+        {
+            return m_position; // so in cohere desired is 0 with no neighbors
+        }
+        return vSum;
+    }*/

@@ -1,0 +1,4 @@
+vector.t 228 4.14765e-05
+boids.t 63 0
+---
+boids.t

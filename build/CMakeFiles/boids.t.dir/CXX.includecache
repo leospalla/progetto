@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/leospallacci/boids/progetto/boids.cpp
+boids.hpp
+/home/leospallacci/boids/progetto/boids.hpp
+SFML/Graphics.hpp
+/home/leospallacci/boids/progetto/SFML/Graphics.hpp
+
+/home/leospallacci/boids/progetto/boids.hpp
+vector
+-
+random
+-
+stdexcept
+-
+iostream
+-
+vector.hpp
+/home/leospallacci/boids/progetto/vector.hpp
+
+/home/leospallacci/boids/progetto/vector.hpp
+cmath
+-
+
