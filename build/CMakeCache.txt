@@ -21,6 +21,9 @@ BUILD_TESTING:BOOL=ON
 BZRCOMMAND:FILEPATH=BZRCOMMAND-NOTFOUND
 
 //Path to a program.
+CLANG_FORMAT_EXECUTABLE:FILEPATH=/usr/bin/clang-format
+
+//Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
 
 //Path to a program.

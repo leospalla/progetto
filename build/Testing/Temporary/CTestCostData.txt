@@ -1,4 +1,4 @@
-vector.t 228 4.14765e-05
-boids.t 63 0
+vector.t 229 0.000253368
+boids.t 64 0.000280256
+flock.t 1 0.0178172
 ---
-boids.t
