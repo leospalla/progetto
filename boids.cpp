@@ -74,7 +74,6 @@ Boid& Boid::operator=(const Boid& other) {
   }
   m_position = other.m_position;
   m_velocity = other.m_velocity;
-  m_acceleration = other.m_acceleration;
   return *this;
 }
 
@@ -178,7 +177,7 @@ Vector Boid::centerOfMass(std::vector<Boid> boids)
             return Vector(0.0, 0.0);
         }
         int neighborCount = 0; // only close boids count in the formula not all
-of them    Vector vSum(0.0, 0.0);    for (const Boid &other : boids)
+of them Vector vSum(0.0, 0.0);    for (const Boid &other : boids)
         {
             double distance = m_position.distance(other.getPosition());
             if (distance > 0 && distance < m_perceptionRadius)

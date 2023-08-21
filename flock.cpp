@@ -58,19 +58,20 @@ double Flock::averageDistance() const {
   if (m_boids.empty()) {
     return 0.0;
   }
-  double vDist = 0.0;
+  double totalDistance = 0.0;
   double nPairs = 0.0;
-  for (size_t i = 0; i < m_boids.size(); ++i) {
+  for (size_t i = 0; i < m_boids.size() - 1; ++i) {
+    const Vector &posI = m_boids[i].getPosition();
     for (size_t j = i + 1; j < m_boids.size(); ++j) {
-      double dist = m_boids[i].getPosition().distance(m_boids[j].getPosition());
-      vDist += dist;
+      double dist = posI.distance(m_boids[j].getPosition());
+      totalDistance += dist;
       ++nPairs;
     }
   }
   if (nPairs == 0) {
     return 0.0;
   }
-  return vDist / nPairs;
+  return totalDistance / nPairs;
 }
 
 double Flock::averageSpeed() const {

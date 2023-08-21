@@ -27,6 +27,7 @@ class Vector {
 
   bool operator==(const Vector&) const;
 
+  // vector functions
   double getX() const { return m_x; }
 
   double getY() const { return m_y; }
@@ -35,7 +36,7 @@ class Vector {
 
   Vector normalize() const;
 
-  double dotProduct(const Vector&) const;
+  double dotProduct(const Vector&) const;  // removable
 
   void set(double, double);
 

@@ -18,23 +18,23 @@ string(APPEND CMAKE_CXX_FLAGS " -Wall -Wextra")
 string(APPEND CMAKE_CXX_FLAGS_DEBUG " -fsanitize=address,undefined -fno-omit-frame-pointer")
 string(APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG " -fsanitize=address,undefined -fno-omit-frame-pointer")
 
-#aggiunge l'eseguibile main nella directory build/
+# aggiunge l'eseguibile main nella directory build/
 add_executable(main main.cpp boids.cpp flock.cpp vector.cpp)
 
-# se il testing e' abilitato...
+# si attiva se è abilitato il testing
 if (BUILD_TESTING)
 
-# Aggiungi l'eseguibile vector.t per il test della classe Vector
+# Aggiunge l'eseguibile vector.t per il test della classe Vector
 add_executable(vector.t vector.test.cpp vector.cpp)
 add_test(NAME vector.t COMMAND vector.t)
-# Aggiungi l'eseguibile boids.t per il test della classe Boid
+# Aggiunge l'eseguibile boids.t per il test della classe Boid
 add_executable(boids.t boids.test.cpp boids.cpp vector.cpp)
 add_test(NAME boids.t COMMAND boids.t)
-# aggiungi l'eseguibile flock.t alla lista dei test
+# aggiunge l'eseguibile flock.t per il test della classe Flock
 add_executable(flock.t flock.test.cpp flock.cpp boids.cpp vector.cpp)
 add_test(NAME flock.t COMMAND flock.t)
 
-endif()
+endif() #finisce la parte di testing
 
 #automatizza la formattazione con clang-format
 find_program(CLANG_FORMAT_EXECUTABLE clang-format)

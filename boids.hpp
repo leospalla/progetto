@@ -13,10 +13,8 @@ class Boid {
  private:
   Vector m_position{};
   Vector m_velocity{};
-  Vector m_acceleration{0., 0.};
   double const m_maxSpeed{10.};
-  double m_perceptionRadius{15.};  // this needs to be taken as input or maybe
-                                   // not and just used as default
+  double m_perceptionRadius{15.};
 
  public:
   double const separationDistance{2.};
@@ -34,7 +32,6 @@ class Boid {
 
   Vector getPosition() const { return m_position; }
   Vector getVelocity() const { return m_velocity; }
-  Vector getAcceleration() const { return m_acceleration; }
   double getMaxSpeed() const { return m_maxSpeed; }
 
   void setPosition(double, double);
