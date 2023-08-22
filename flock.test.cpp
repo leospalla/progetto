@@ -19,7 +19,7 @@ TEST_CASE("testing the flock class") {
     CHECK(flk2[0] == b2);
   }
   SUBCASE("testing updatevelocity with one boid") {
-    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
     flock.addBoid(b1);
     flock.updateVelocity();
     const std::vector<bd::Boid> &flk = flock.getBoids();
@@ -27,8 +27,8 @@ TEST_CASE("testing the flock class") {
     CHECK(flk[0].getVelocity().getY() == doctest::Approx(1.0));
   }
   SUBCASE("testing updatevelocity with distant boids") {
-    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
-    bd::Boid b2(vc::Vector(100., 0.), vc::Vector(1., 1.));
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
+    bd::Boid b2(vc::Vector{100., 0.}, vc::Vector{1., 1.});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.updateVelocity();
@@ -39,9 +39,9 @@ TEST_CASE("testing the flock class") {
     CHECK(flk[1].getVelocity().getY() == doctest::Approx(1.0));
   }
   SUBCASE("testing updatevelocity with two distant boids and one close boid") {
-    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0.0, 1.0));
-    bd::Boid b2(vc::Vector(100., 0.), vc::Vector(1.0, 1.0));
-    bd::Boid b3(vc::Vector(0.0, 0.0), vc::Vector(1.0, 1.0));
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
+    bd::Boid b2(vc::Vector{100., 0.}, vc::Vector{1., 1.});
+    bd::Boid b3(vc::Vector{0., 0.}, vc::Vector{1., 1.});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
@@ -55,9 +55,9 @@ TEST_CASE("testing the flock class") {
     CHECK(flk[2].getVelocity().getY() == doctest::Approx(1.0));
   }
   SUBCASE("testing updatevelocity with 3 boids") {
-    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
-    bd::Boid b2(vc::Vector(0.0, 0.0), vc::Vector(1.0, 1.0));
-    bd::Boid b3(vc::Vector(1.0, 1.0), vc::Vector(-1.0, -1.0));
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
+    bd::Boid b2(vc::Vector{0., 0.}, vc::Vector{1., 1.});
+    bd::Boid b3(vc::Vector{1., 1.}, vc::Vector{-1., -1.});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
@@ -71,7 +71,7 @@ TEST_CASE("testing the flock class") {
     CHECK(flk[2].getVelocity().getY() == doctest::Approx(1.6));
   }
   SUBCASE("testing updatepositions with one boid") {
-    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
     flock.addBoid(b1);
     flock.updatePosition(100, 100);
     const std::vector<bd::Boid> &flk = flock.getBoids();
@@ -79,8 +79,8 @@ TEST_CASE("testing the flock class") {
     CHECK(flk[0].getPosition().getY() == doctest::Approx(0.1));
   }
   SUBCASE("testing updatepositions with distant boids (inside the border)") {
-    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
-    bd::Boid b2(vc::Vector(100., 0.), vc::Vector(1., 1.));
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
+    bd::Boid b2(vc::Vector{100., 0.}, vc::Vector{1., 1.});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.updatePosition(300, 300);
@@ -91,8 +91,8 @@ TEST_CASE("testing the flock class") {
     CHECK(flk[1].getPosition().getY() == doctest::Approx(0.1));
   }
   SUBCASE("testing updatepositions with distant boids (outside the border)") {
-    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
-    bd::Boid b2(vc::Vector(100., 0.), vc::Vector(1., 1.));
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
+    bd::Boid b2(vc::Vector{100., 0.}, vc::Vector{1., 1.});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.updatePosition(200, 200);
@@ -103,9 +103,9 @@ TEST_CASE("testing the flock class") {
     CHECK(flk[1].getPosition().getY() == doctest::Approx(0.1));
   }
   SUBCASE("testing updatepositions with two distant boids and one close boid") {
-    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0.0, 1.0));
-    bd::Boid b2(vc::Vector(100., 0.), vc::Vector(1.0, 1.0));
-    bd::Boid b3(vc::Vector(0.0, 0.0), vc::Vector(1.0, 1.0));
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
+    bd::Boid b2(vc::Vector{100., 0.}, vc::Vector{1., 1.});
+    bd::Boid b3(vc::Vector{0., 0.}, vc::Vector{1., 1.});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
@@ -119,9 +119,9 @@ TEST_CASE("testing the flock class") {
     CHECK(flk[2].getPosition().getY() == doctest::Approx(0.1));
   }
   SUBCASE("testing updatepositions with 3 boids") {
-    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
-    bd::Boid b2(vc::Vector(0.0, 0.0), vc::Vector(1.0, 1.0));
-    bd::Boid b3(vc::Vector(1.0, 1.0), vc::Vector(-1.0, -1.0));
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
+    bd::Boid b2(vc::Vector{0., 0.}, vc::Vector{1., 1.});
+    bd::Boid b3(vc::Vector{1., 1.}, vc::Vector{-1., -1.});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
@@ -135,8 +135,8 @@ TEST_CASE("testing the flock class") {
     CHECK(flk[2].getPosition().getY() == doctest::Approx(1.16));
   }
   SUBCASE("testing updateBoidParameters") {
-    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
-    bd::Boid b2(vc::Vector(100.0, 1.0), vc::Vector(-1.0, -1.0));
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
+    bd::Boid b2(vc::Vector{100., 1.}, vc::Vector{-1., -1.});
     flock.addBoid(b1);
     flock.addBoid(b2);
     const std::vector<bd::Boid> &flk = flock.getBoids();
@@ -162,57 +162,6 @@ TEST_CASE("testing the flock class") {
     CHECK(flk[1].cohesionFactor == doctest::Approx(0.25));
     CHECK(flk[1].alignmentFactor == doctest::Approx(1.));
   }
-  SUBCASE("testing countFlocks with 1 boid") {
-    bd::Boid b1(vc::Vector(0.0, 0.0));
-    flock.addBoid(b1);
-    CHECK(flock.countFlocks() == 1);
-  }
-  SUBCASE("testing countFlocks with 3 distant boids") {
-    bd::Boid b1(vc::Vector(0.0, 0.0));
-    bd::Boid b2(vc::Vector(50.0, 0.0));
-    bd::Boid b3(vc::Vector(100.0, 0.0));
-    flock.addBoid(b1);
-    flock.addBoid(b2);
-    flock.addBoid(b3);
-    CHECK(flock.countFlocks() == 3);
-  }
-  SUBCASE(
-      "testing countFlocks with 3 close boids but last and first are distant") {
-    bd::Boid b1(vc::Vector(0.0, 0.0));
-    bd::Boid b2(vc::Vector(10.0, 0.0));
-    bd::Boid b3(vc::Vector(20.0, 0.0));
-    flock.addBoid(b1);
-    flock.addBoid(b2);
-    flock.addBoid(b3);
-    CHECK(flock.countFlocks() == 1);
-  }
-  SUBCASE(
-      "testing countFlocks with 4 close boids but last and first are distant") {
-    bd::Boid b1(vc::Vector(0.0, 0.0));
-    bd::Boid b2(vc::Vector(10.0, 0.0));
-    bd::Boid b3(vc::Vector(20.0, 0.0));
-    bd::Boid b4(vc::Vector(30.0, 0.0));
-    flock.addBoid(b1);
-    flock.addBoid(b2);
-    flock.addBoid(b3);
-    flock.addBoid(b4);
-    CHECK(flock.countFlocks() == 1);
-  }
-  SUBCASE("testing countFlocks with two flocks") {
-    bd::Boid b1(vc::Vector(0.0, 0.0));
-    bd::Boid b2(vc::Vector(10.0, 0.0));
-    bd::Boid b3(vc::Vector(20.0, 0.0));
-    bd::Boid b4(vc::Vector(100.0, 0.0));
-    bd::Boid b5(vc::Vector(110.0, 0.0));
-    bd::Boid b6(vc::Vector(120.0, 0.0));
-    flock.addBoid(b1);
-    flock.addBoid(b2);
-    flock.addBoid(b3);
-    flock.addBoid(b4);
-    flock.addBoid(b5);
-    flock.addBoid(b6);
-    CHECK(flock.countFlocks() == 2);
-  }
   SUBCASE("testing average distance and its standard deviation with no boids") {
     double dist = flock.averageDistance();
     CHECK(dist == doctest::Approx(0.0));
@@ -220,7 +169,7 @@ TEST_CASE("testing the flock class") {
     CHECK(stdDev == doctest::Approx(0.0));
   }
   SUBCASE("testing average distance and its standard deviation with one boid") {
-    bd::Boid b1(vc::Vector(1.0, 0.0));
+    bd::Boid b1(vc::Vector{1.0, 0.0});
     flock.addBoid(b1);
     double dist = flock.averageDistance();
     CHECK(dist == doctest::Approx(0.0));
@@ -228,9 +177,9 @@ TEST_CASE("testing the flock class") {
     CHECK(stdDev == doctest::Approx(0.0));
   }
   SUBCASE("testing average distance and its standard deviation") {
-    bd::Boid b1(vc::Vector(1.0, 0.0));
-    bd::Boid b2(vc::Vector(5.0, 1.0));
-    bd::Boid b3(vc::Vector(3.0, 2.0));
+    bd::Boid b1(vc::Vector{1.0, 0.0});
+    bd::Boid b2(vc::Vector{5.0, 1.0});
+    bd::Boid b3(vc::Vector{3.0, 2.0});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
@@ -246,7 +195,7 @@ TEST_CASE("testing the flock class") {
     CHECK(s == doctest::Approx(0.0));
   }
   SUBCASE("testing average speed and its standard deviation with one boid") {
-    bd::Boid b1(vc::Vector(0.0, 0.0), vc::Vector(1.0, 0.0));
+    bd::Boid b1(vc::Vector{0.0, 0.0}, vc::Vector{1.0, 0.0});
     flock.addBoid(b1);
     double m = flock.averageSpeed();
     CHECK(m == doctest::Approx(1.0));
@@ -254,9 +203,9 @@ TEST_CASE("testing the flock class") {
     CHECK(s == doctest::Approx(0.0));
   }
   SUBCASE("testing average speed and its standard deviation") {
-    bd::Boid b1(vc::Vector(0.0, 0.0), vc::Vector(1.0, 0.0));
-    bd::Boid b2(vc::Vector(0.0, 0.0), vc::Vector(5.0, 1.0));
-    bd::Boid b3(vc::Vector(0.0, 0.0), vc::Vector(3.0, 2.0));
+    bd::Boid b1(vc::Vector{0.0, 0.0}, vc::Vector{1.0, 0.0});
+    bd::Boid b2(vc::Vector{0.0, 0.0}, vc::Vector{5.0, 1.0});
+    bd::Boid b3(vc::Vector{0.0, 0.0}, vc::Vector{3.0, 2.0});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
@@ -264,5 +213,88 @@ TEST_CASE("testing the flock class") {
     CHECK(m == doctest::Approx(3.23486));
     double s = flock.standardDeviationSpeed();
     CHECK(s == doctest::Approx(1.69382));
+  }
+  SUBCASE("testing countBoidsInFlock with 1 boid") {
+    bd::Boid b1(vc::Vector(0.0, 0.0));
+    flock.addBoid(b1);
+    CHECK(flock.countBoidsInFlock().size() == 1);
+    CHECK(flock.countBoidsInFlock()[0] == 1);
+  }
+  SUBCASE("testing countBoidsInFlock with 3 isolated boids") {
+    bd::Boid b1(vc::Vector{0.0, 0.0});
+    bd::Boid b2(vc::Vector{50.0, 0.0});
+    bd::Boid b3(vc::Vector{100.0, 0.0});
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    CHECK(flock.countBoidsInFlock().size() == 3);
+    CHECK(flock.countBoidsInFlock()[0] == 1);
+    CHECK(flock.countBoidsInFlock()[1] == 1);
+    CHECK(flock.countBoidsInFlock()[2] == 1);
+  }
+  SUBCASE("testing countBoidsInFlock with 3 close boids but last and first are distant") {
+    bd::Boid b1(vc::Vector{0.0, 0.0});
+    bd::Boid b2(vc::Vector{10.0, 0.0});
+    bd::Boid b3(vc::Vector{20.0, 0.0});
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    CHECK(flock.countBoidsInFlock().size() == 1);
+    CHECK(flock.countBoidsInFlock()[0] == 3);
+  }
+  SUBCASE("testing countBoidsInFlock with four close boids but last and first are distant") {
+    bd::Boid b1(vc::Vector{0.0, 0.0});
+    bd::Boid b2(vc::Vector{10.0, 0.0});
+    bd::Boid b3(vc::Vector{20.0, 0.0});
+    bd::Boid b4(vc::Vector{30.0, 0.0});
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    CHECK(flock.countBoidsInFlock().size() == 1);
+    CHECK(flock.countBoidsInFlock()[0] == 4);
+  }
+  SUBCASE("testing countBoidsInFlock with three close boids and one isolated (first)") {
+    bd::Boid b1(vc::Vector{0.0, 0.0});
+    bd::Boid b2(vc::Vector{20.0, 0.0});
+    bd::Boid b3(vc::Vector{30.0, 0.0});
+    bd::Boid b4(vc::Vector{40.0, 0.0});
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    CHECK(flock.countBoidsInFlock().size() == 2);
+    CHECK(flock.countBoidsInFlock()[0] == 1);
+    CHECK(flock.countBoidsInFlock()[1] == 3);
+  }
+  SUBCASE("testing countBoidsInFlock with three close boids and one isolated last)") {
+    bd::Boid b1(vc::Vector(20.0, 0.0));
+    bd::Boid b2(vc::Vector(30.0, 0.0));
+    bd::Boid b3(vc::Vector(40.0, 0.0));
+    bd::Boid b4(vc::Vector(0.0, 0.0));
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    CHECK(flock.countBoidsInFlock().size() == 2);
+    CHECK(flock.countBoidsInFlock()[0] == 3);
+    CHECK(flock.countBoidsInFlock()[1] == 1);
+  }
+  SUBCASE("testing countBoidsInFlock with two flocks") {
+    bd::Boid b1(vc::Vector(0.0, 0.0));
+    bd::Boid b2(vc::Vector(10.0, 0.0));
+    bd::Boid b3(vc::Vector(20.0, 0.0));
+    bd::Boid b4(vc::Vector(100.0, 0.0));
+    bd::Boid b5(vc::Vector(110.0, 0.0));
+    bd::Boid b6(vc::Vector(120.0, 0.0));
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    flock.addBoid(b5);
+    flock.addBoid(b6);
+    CHECK(flock.countBoidsInFlock().size() == 2);
+    CHECK(flock.countBoidsInFlock()[0] == 3);
+    CHECK(flock.countBoidsInFlock()[1] == 3);
   }
 }

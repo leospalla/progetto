@@ -59,7 +59,9 @@ Boid::Boid(vc::Vector position)
 }
 
 Boid::Boid(vc::Vector position, vc::Vector velocity)
-    : m_position{position}, m_velocity{velocity} {}
+    : m_position{position}, m_velocity{velocity} {
+      m_velocity.limit(m_maxSpeed);
+    }
 
 // set functions
 void Boid::setPosition(double x, double y) { m_position.set(x, y); }
@@ -92,9 +94,9 @@ bool Boid::operator==(const Boid& other) const {
 // flight rules
 vc::Vector Boid::separate(std::vector<Boid> boids) const {
   if (boids.empty()) {
-    return vc::Vector(0.0, 0.0);
+    return vc::Vector{0.0, 0.0};
   }
-  vc::Vector vSum(0.0, 0.0);
+  vc::Vector vSum{0.0, 0.0};
   for (const Boid& other : boids) {
     double distance = m_position.distance(other.getPosition());
     if (distance > 0 && distance < separationDistance) {
@@ -112,7 +114,7 @@ vc::Vector Boid::cohere(std::vector<Boid> boids) const {
     return vc::Vector{0., 0.};
   }
   vc::Vector currentPosition = m_position;
-  vc::Vector centerOfMass(0.0, 0.0);
+  vc::Vector centerOfMass{0.0, 0.0};
   int neighborCount = 0;
 
   for (const Boid& otherBoid : boids) {
@@ -134,11 +136,11 @@ vc::Vector Boid::cohere(std::vector<Boid> boids) const {
 
 vc::Vector Boid::align(std::vector<Boid> boids) const {
   if (boids.empty()) {
-    return vc::Vector(0.0, 0.0);
+    return vc::Vector{0.0, 0.0};
   }
 
   vc::Vector currentPosition = m_position;
-  vc::Vector averageVelocity(0.0, 0.0);
+  vc::Vector averageVelocity{0.0, 0.0};
   int neighborCount = 0;
 
   for (const Boid& otherBoid : boids) {
@@ -160,10 +162,10 @@ vc::Vector Boid::align(std::vector<Boid> boids) const {
 
 vc::Vector Boid::centerOfMass(std::vector<Boid> boids) const {
   if (boids.empty()) {
-    return vc::Vector(0.0, 0.0);
+    return vc::Vector{0.0, 0.0};
   }
-  int neighborCount = 0;  // only close boids count in the formula not all.
-  vc::Vector vSum(0.0, 0.0);
+  int neighborCount = 0;
+  vc::Vector vSum{0.0, 0.0};
   for (const Boid& other : boids) {
     double distance = m_position.distance(other.getPosition());
     if (distance > 0 && distance < perceptionRadius) {
@@ -174,7 +176,7 @@ vc::Vector Boid::centerOfMass(std::vector<Boid> boids) const {
   if (neighborCount > 0) {
     vSum = vSum / neighborCount;
   } else {
-    return m_position;  // so in cohere desired is 0 with no neighbors
+    return m_position;
   }
   return vSum;
 }

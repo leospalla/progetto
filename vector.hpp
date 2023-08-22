@@ -34,9 +34,7 @@ class Vector {
 
   double Magnitude() const;
 
-  Vector normalize() const;
-
-  double dotProduct(const Vector&) const;  // removable
+  void normalize();
 
   void set(double, double);
 

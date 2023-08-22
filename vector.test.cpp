@@ -3,8 +3,8 @@
 #include "vector.hpp"
 
 TEST_CASE("Testing the operators") {
-  vc::Vector v1(2., 2.);
-  vc::Vector v2(1., 3.);
+  vc::Vector v1{2., 2.};
+  vc::Vector v2{1., 3.};
   SUBCASE("+ operator") {
     vc::Vector v3 = v1 + v2;
     vc::Vector v4 = v1 + v2 + v3;
@@ -40,10 +40,10 @@ TEST_CASE("Testing the operators") {
   }
   SUBCASE("+= operator") {
     v2 += v1;
-    vc::Vector v3{};
-    v3 += v2;
     CHECK(v2.getX() == doctest::Approx(3.));
     CHECK(v2.getY() == doctest::Approx(5.));
+    vc::Vector v3{};
+    v3 += v2;
     CHECK(v3.getX() == doctest::Approx(3.));
     CHECK(v3.getY() == doctest::Approx(5.));
   }
@@ -54,8 +54,8 @@ TEST_CASE("Testing the operators") {
   }
 }
 TEST_CASE("Testing the vector functions") {
-  vc::Vector v1(2., 2.);
-  vc::Vector v2(-1., 3.);
+  vc::Vector v1{2., 2.};
+  vc::Vector v2{-1., 3.};
   SUBCASE("Null constructor") {
     vc::Vector v3{};
     CHECK(v3.getX() == doctest::Approx(0.));
@@ -71,23 +71,19 @@ TEST_CASE("Testing the vector functions") {
     CHECK(v2.Magnitude() == doctest::Approx(3.16227766));
   }
   SUBCASE("Normalize function") {
-    vc::Vector v3 = v1.normalize();
-    vc::Vector v4 = v2.normalize();
-    vc::Vector v5(0., 0.);
-    vc::Vector v6 = v5.normalize();
-    CHECK(v3.getX() == doctest::Approx(0.7071067811));
-    CHECK(v3.getY() == doctest::Approx(0.7071067811));
-    CHECK(v4.getX() == doctest::Approx(-0.316227766));
-    CHECK(v4.getY() == doctest::Approx(0.9486832981));
-    CHECK(v3.Magnitude() == doctest::Approx(1.));
-    CHECK(v4.Magnitude() == doctest::Approx(1.));
-    CHECK(v5.Magnitude() == doctest::Approx(0.));
-    CHECK(v6.getX() == doctest::Approx(0.));
-    CHECK(v6.getY() == doctest::Approx(0.));
-  }
-  SUBCASE("Dot product function") {
-    CHECK(v1.dotProduct(v2) == doctest::Approx(4.));
-    CHECK(v2.dotProduct(v1) == doctest::Approx(v1.dotProduct(v2)));
+    v1.normalize();
+    v2.normalize();
+    vc::Vector v3{0., 0.};
+    v3.normalize();
+    CHECK(v1.getX() == doctest::Approx(0.7071067811));
+    CHECK(v1.getY() == doctest::Approx(0.7071067811));
+    CHECK(v2.getX() == doctest::Approx(-0.316227766));
+    CHECK(v2.getY() == doctest::Approx(0.9486832981));
+    CHECK(v1.Magnitude() == doctest::Approx(1.));
+    CHECK(v2.Magnitude() == doctest::Approx(1.));
+    CHECK(v3.Magnitude() == doctest::Approx(0.));
+    CHECK(v3.getX() == doctest::Approx(0.));
+    CHECK(v3.getY() == doctest::Approx(0.));
   }
   SUBCASE("Set function") {
     v1.set(3., -3);

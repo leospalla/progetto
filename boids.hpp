@@ -1,19 +1,17 @@
 #ifndef BOIDS_HPP
 #define BOIDS_HPP
-
+#include "vector.hpp"
 #include <iostream>
 #include <random>
 #include <stdexcept>
 #include <vector>
-
-#include "vector.hpp"
 
 namespace bd {
 class Boid {
  private:
   vc::Vector m_position{};
   vc::Vector m_velocity{};
-  double const m_maxSpeed{10.};
+  double const m_maxSpeed{10.}; //class invariant
 
  public:
   // parameters are already initialized for testing
@@ -41,7 +39,7 @@ class Boid {
 
   vc::Vector getPosition() const { return m_position; }
   vc::Vector getVelocity() const { return m_velocity; }
-  double getMaxSpeed() const { return m_maxSpeed; }  // maybe we dont need this
+  double getMaxSpeed() const { return m_maxSpeed; }
   double getSpeed() const { return m_velocity.Magnitude(); }
 
   vc::Vector separate(std::vector<Boid>) const;
