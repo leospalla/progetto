@@ -116,6 +116,10 @@ sys/time.h
 unistd.h
 -
 
+/home/leospallacci/boids/progetto/vector.cpp
+vector.hpp
+/home/leospallacci/boids/progetto/vector.hpp
+
 /home/leospallacci/boids/progetto/vector.hpp
 cmath
 -

@@ -39,10 +39,8 @@ endif() #finisce la parte di testing
 #automatizza la formattazione con clang-format
 find_program(CLANG_FORMAT_EXECUTABLE clang-format)
 if (CLANG_FORMAT_EXECUTABLE)
-    file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.hpp)
-    add_custom_target(format
-        COMMAND ${CLANG_FORMAT_EXECUTABLE} -i ${ALL_SOURCE_FILES}
-        COMMENT "Formatting code using clang-format"
-        VERBATIM)
+    
+file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.hpp)
+add_custom_target(format COMMAND ${CLANG_FORMAT_EXECUTABLE} -i ${ALL_SOURCE_FILES} COMMENT "Formatting code using clang-format" VERBATIM)
 
 endif()

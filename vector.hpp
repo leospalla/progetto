@@ -1,14 +1,14 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 #include <cmath>
-
+namespace vc {
 class Vector {
   double m_x{0.};
   double m_y{0.};
 
  public:
   Vector() = default;                             // default constructor
-  Vector(double x, double y) : m_x{x}, m_y{y} {}  // other constructor
+  Vector(double x, double y) : m_x{x}, m_y{y} {}  // coordinates constructor
   Vector(const Vector& other)
       : m_x{other.getX()}, m_y{other.getY()} {}  // copy constructor
 
@@ -44,5 +44,5 @@ class Vector {
 
   void limit(double);
 };
-
+}  // namespace vc
 #endif

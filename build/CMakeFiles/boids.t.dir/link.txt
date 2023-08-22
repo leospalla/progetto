@@ -1,1 +1,1 @@
-/usr/bin/c++   -Wall -Wextra -O3 -DNDEBUG   CMakeFiles/boids.t.dir/boids.test.cpp.o CMakeFiles/boids.t.dir/boids.cpp.o CMakeFiles/boids.t.dir/vector.cpp.o  -o boids.t 
+/usr/bin/c++   -Wall -Wextra -g -fsanitize=address,undefined -fno-omit-frame-pointer   -fsanitize=address,undefined -fno-omit-frame-pointer CMakeFiles/boids.t.dir/boids.test.cpp.o CMakeFiles/boids.t.dir/boids.cpp.o CMakeFiles/boids.t.dir/vector.cpp.o  -o boids.t 

@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/home/leospallacci/boids/progetto/boids.cpp
+boids.hpp
+/home/leospallacci/boids/progetto/boids.hpp
+
 /home/leospallacci/boids/progetto/boids.hpp
 iostream
 -
@@ -29,6 +33,14 @@ iostream
 -
 boids.hpp
 /home/leospallacci/boids/progetto/boids.hpp
+
+/home/leospallacci/boids/progetto/main.cpp
+flock.hpp
+/home/leospallacci/boids/progetto/flock.hpp
+
+/home/leospallacci/boids/progetto/vector.cpp
+vector.hpp
+/home/leospallacci/boids/progetto/vector.hpp
 
 /home/leospallacci/boids/progetto/vector.hpp
 cmath

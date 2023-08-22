@@ -3,36 +3,36 @@
 #include "vector.hpp"
 
 TEST_CASE("Testing the operators") {
-  Vector v1(2., 2.);
-  Vector v2(1., 3.);
+  vc::Vector v1(2., 2.);
+  vc::Vector v2(1., 3.);
   SUBCASE("+ operator") {
-    Vector v3 = v1 + v2;
-    Vector v4 = v1 + v2 + v3;
+    vc::Vector v3 = v1 + v2;
+    vc::Vector v4 = v1 + v2 + v3;
     CHECK(v3.getX() == doctest::Approx(3.));
     CHECK(v3.getY() == doctest::Approx(5.));
     CHECK(v4.getX() == doctest::Approx(6.));
     CHECK(v4.getY() == doctest::Approx(10.));
   }
   SUBCASE("- operator") {
-    Vector v3 = v1 - v2;
-    Vector v4{1., -1.};
-    Vector v5 = v4 - v3;
+    vc::Vector v3 = v1 - v2;
+    vc::Vector v4{1., -1.};
+    vc::Vector v5 = v4 - v3;
     CHECK(v3.getX() == doctest::Approx(1.));
     CHECK(v3.getY() == doctest::Approx(-1.));
     CHECK(v5.getX() == doctest::Approx(0.));
     CHECK(v5.getY() == doctest::Approx(0.));
   }
   SUBCASE("* operator") {
-    Vector v3 = v1 * 3;
-    Vector v4 = v2 * -1.5;
+    vc::Vector v3 = v1 * 3;
+    vc::Vector v4 = v2 * -1.5;
     CHECK(v3.getX() == doctest::Approx(6.));
     CHECK(v3.getY() == doctest::Approx(6.));
     CHECK(v4.getX() == doctest::Approx(-1.5));
     CHECK(v4.getY() == doctest::Approx(-4.5));
   }
   SUBCASE("/ operator") {
-    Vector v3 = v1 / 2;
-    Vector v4 = v2 / -2;
+    vc::Vector v3 = v1 / 2;
+    vc::Vector v4 = v2 / -2;
     CHECK(v3.getX() == doctest::Approx(1.));
     CHECK(v3.getY() == doctest::Approx(1.));
     CHECK(v4.getX() == doctest::Approx(-0.5));
@@ -40,7 +40,7 @@ TEST_CASE("Testing the operators") {
   }
   SUBCASE("+= operator") {
     v2 += v1;
-    Vector v3{};
+    vc::Vector v3{};
     v3 += v2;
     CHECK(v2.getX() == doctest::Approx(3.));
     CHECK(v2.getY() == doctest::Approx(5.));
@@ -48,21 +48,21 @@ TEST_CASE("Testing the operators") {
     CHECK(v3.getY() == doctest::Approx(5.));
   }
   SUBCASE("== operator") {
-    Vector v3{v1};
+    vc::Vector v3{v1};
     CHECK(v3 == v1);
-    CHECK(v2 == Vector(1., 3.));
+    CHECK(v2 == vc::Vector(1., 3.));
   }
 }
 TEST_CASE("Testing the vector functions") {
-  Vector v1(2., 2.);
-  Vector v2(-1., 3.);
+  vc::Vector v1(2., 2.);
+  vc::Vector v2(-1., 3.);
   SUBCASE("Null constructor") {
-    Vector v3{};
+    vc::Vector v3{};
     CHECK(v3.getX() == doctest::Approx(0.));
     CHECK(v3.getY() == doctest::Approx(0.));
   }
   SUBCASE("Copy constructor") {
-    Vector v3{v2};
+    vc::Vector v3{v2};
     CHECK(v3.getX() == doctest::Approx(-1.));
     CHECK(v3.getY() == doctest::Approx(3.));
   }
@@ -71,10 +71,10 @@ TEST_CASE("Testing the vector functions") {
     CHECK(v2.Magnitude() == doctest::Approx(3.16227766));
   }
   SUBCASE("Normalize function") {
-    Vector v3 = v1.normalize();
-    Vector v4 = v2.normalize();
-    Vector v5(0., 0.);
-    Vector v6 = v5.normalize();
+    vc::Vector v3 = v1.normalize();
+    vc::Vector v4 = v2.normalize();
+    vc::Vector v5(0., 0.);
+    vc::Vector v6 = v5.normalize();
     CHECK(v3.getX() == doctest::Approx(0.7071067811));
     CHECK(v3.getY() == doctest::Approx(0.7071067811));
     CHECK(v4.getX() == doctest::Approx(-0.316227766));
@@ -95,10 +95,10 @@ TEST_CASE("Testing the vector functions") {
     CHECK(v1.getY() == doctest::Approx(-3.));
   }
   SUBCASE("Distance function") {
-    Vector v3 = v1 - v2;
-    Vector v4 = v2 - v1;
-    Vector v5{0., 2.};
-    Vector v6{0., 6.};
+    vc::Vector v3 = v1 - v2;
+    vc::Vector v4 = v2 - v1;
+    vc::Vector v5{0., 2.};
+    vc::Vector v6{0., 6.};
     CHECK(v1.distance(v2) == doctest::Approx(3.16227766));
     CHECK(v2.distance(v1) == doctest::Approx(3.16227766));
     CHECK(v3.Magnitude() == doctest::Approx(3.16227766));
@@ -106,7 +106,7 @@ TEST_CASE("Testing the vector functions") {
     CHECK(v5.distance(v6) == doctest::Approx(4.));
   }
   SUBCASE("Limit function") {
-    Vector v3 = v1 + v2;
+    vc::Vector v3 = v1 + v2;
     v3.limit(2.);
     CHECK(v3.Magnitude() == doctest::Approx(2.));
     v3.limit(1.);

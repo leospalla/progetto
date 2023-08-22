@@ -6,10 +6,10 @@ TEST_CASE("Testing the constructors") {
   SUBCASE("default constructor") {
     bd::Boid b1{};
     bd::Boid b2{};
-    CHECK(b1.getPosition().getX() < doctest::Approx(10.));
-    CHECK(b1.getPosition().getY() < doctest::Approx(10.));
-    CHECK(b1.getPosition().getX() > doctest::Approx(-10.));
-    CHECK(b1.getPosition().getY() > doctest::Approx(-10.));
+    CHECK(b1.getPosition().getX() < doctest::Approx(30.));
+    CHECK(b1.getPosition().getY() < doctest::Approx(30.));
+    CHECK(b1.getPosition().getX() > doctest::Approx(-30.));
+    CHECK(b1.getPosition().getY() > doctest::Approx(-30.));
     CHECK(b1.getSpeed() > doctest::Approx(0.));
     CHECK(b2.getSpeed() > doctest::Approx(0.));
     CHECK(b1.getSpeed() < doctest::Approx(10.));
@@ -28,7 +28,7 @@ TEST_CASE("Testing the constructors") {
     CHECK(b2.getSpeed() < doctest::Approx(10.));
   }
   SUBCASE("Constructor with vector") {
-    Vector v1{-2., -4.};
+    vc::Vector v1{-2., -4.};
     bd::Boid b1{v1};
     bd::Boid b2{v1 * -0.5};
     CHECK(b1.getPosition().getX() == doctest::Approx(-2.));
@@ -41,8 +41,8 @@ TEST_CASE("Testing the constructors") {
     CHECK(b2.getSpeed() < doctest::Approx(10.));
   }
   SUBCASE("Constructor with two vectors") {
-    bd::Boid b1{Vector(0., 0.), Vector(3., 2.)};
-    bd::Boid b2{Vector(2., 0.), Vector(0., 4.)};
+    bd::Boid b1{vc::Vector(0., 0.), vc::Vector(3., 2.)};
+    bd::Boid b2{vc::Vector(2., 0.), vc::Vector(0., 4.)};
     CHECK(b1.getPosition().getX() == doctest::Approx(0.));
     CHECK(b1.getPosition().getY() == doctest::Approx(0.));
     CHECK(b1.getVelocity().getX() == doctest::Approx(3.));
@@ -54,7 +54,7 @@ TEST_CASE("Testing the constructors") {
   }
 }
 TEST_CASE("Testing the Boid functions") {
-  SUBCASE("Set functions") {
+  SUBCASE("Set position/velocity  and getSpeed functions") {
     bd::Boid b1{3., -6.};
     b1.setPosition(3., -3.);
     b1.setVelocity(3., 4.);
@@ -67,6 +67,24 @@ TEST_CASE("Testing the Boid functions") {
     b1.setVelocity(-54., 34.);
     CHECK(b1.getSpeed() == doctest::Approx(10.));
   }
+  SUBCASE("Set parameters functions") {
+    bd::Boid b1{};
+    CHECK(b1.perceptionRadius == doctest::Approx(15.));
+    CHECK(b1.separationDistance == doctest::Approx(2.));
+    CHECK(b1.separationFactor == doctest::Approx(1.2));
+    CHECK(b1.cohesionFactor == doctest::Approx(0.8));
+    CHECK(b1.alignmentFactor == doctest::Approx(0.5));
+    b1.setPerceptionRadius(10.5);
+    b1.setSeparationDistance(3.);
+    b1.setSeparationFactor(2.);
+    b1.setCohesionFactor(10.);
+    b1.setAlignmentFactor(0.);
+    CHECK(b1.perceptionRadius == doctest::Approx(10.5));
+    CHECK(b1.separationDistance == doctest::Approx(3.));
+    CHECK(b1.separationFactor == doctest::Approx(2.));
+    CHECK(b1.cohesionFactor == doctest::Approx(10.));
+    CHECK(b1.alignmentFactor == doctest::Approx(0.));
+  }
   SUBCASE("separation with empty boids") {
     std::vector<bd::Boid> boids;
     bd::Boid b;
@@ -75,19 +93,19 @@ TEST_CASE("Testing the Boid functions") {
   }
   SUBCASE("separation with one boid") {
     std::vector<bd::Boid> boids;
-    bd::Boid b(Vector(1., 0.), Vector(0., 1.));
+    bd::Boid b(vc::Vector(1., 0.), vc::Vector(0., 1.));
     boids.push_back(b);
     CHECK(b.separate(boids).getX() == doctest::Approx(0.));
     CHECK(b.separate(boids).getY() == doctest::Approx(0.));
   }
   SUBCASE("separation with distant boids") {
     std::vector<bd::Boid> boids;
-    bd::Boid b1(Vector(1., 0.), Vector(0., 1.));
-    bd::Boid b2(Vector(100., 0.), Vector(1., 1.));
+    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
+    bd::Boid b2(vc::Vector(100., 0.), vc::Vector(1., 1.));
     boids.push_back(b1);
     boids.push_back(b2);
-    Vector separationVel1 = b1.separate(boids);
-    Vector separationVel2 = b2.separate(boids);
+    vc::Vector separationVel1 = b1.separate(boids);
+    vc::Vector separationVel2 = b2.separate(boids);
     CHECK(separationVel1.getX() == doctest::Approx(0.));
     CHECK(separationVel1.getY() == doctest::Approx(0.));
     CHECK(separationVel2.getX() == doctest::Approx(0.));
@@ -95,15 +113,15 @@ TEST_CASE("Testing the Boid functions") {
   }
   SUBCASE("separation with one distant and one close boid") {
     std::vector<bd::Boid> boids;
-    bd::Boid b1(Vector(1., 0.), Vector(0., 1.));
-    bd::Boid b2(Vector(100., 0.), Vector(1.0, 1.0));
-    bd::Boid b3(Vector(0.0, 0.0), Vector(1.0, 1.0));
+    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
+    bd::Boid b2(vc::Vector(100., 0.), vc::Vector(1.0, 1.0));
+    bd::Boid b3(vc::Vector(0.0, 0.0), vc::Vector(1.0, 1.0));
     boids.push_back(b1);
     boids.push_back(b2);
     boids.push_back(b3);
-    Vector separationVel1 = b1.separate(boids);
-    Vector separationVel2 = b2.separate(boids);
-    Vector separationVel3 = b3.separate(boids);
+    vc::Vector separationVel1 = b1.separate(boids);
+    vc::Vector separationVel2 = b2.separate(boids);
+    vc::Vector separationVel3 = b3.separate(boids);
     CHECK(separationVel1.getX() == doctest::Approx(1.2));
     CHECK(separationVel1.getY() == doctest::Approx(0.));
     CHECK(separationVel2.getX() == doctest::Approx(0.));
@@ -113,15 +131,15 @@ TEST_CASE("Testing the Boid functions") {
   }
   SUBCASE("separation with three boids") {
     std::vector<bd::Boid> boids;
-    bd::Boid b1(Vector(1., 0.), Vector(0., 1.));
-    bd::Boid b2(Vector(0.0, 0.0), Vector(1.0, 1.0));
-    bd::Boid b3(Vector(1.0, 1.0), Vector(-1.0, -1.0));
+    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
+    bd::Boid b2(vc::Vector(0.0, 0.0), vc::Vector(1.0, 1.0));
+    bd::Boid b3(vc::Vector(1.0, 1.0), vc::Vector(-1.0, -1.0));
     boids.push_back(b1);
     boids.push_back(b2);
     boids.push_back(b3);
-    Vector separationVel1 = b1.separate(boids);
-    Vector separationVel2 = b2.separate(boids);
-    Vector separationVel3 = b3.separate(boids);
+    vc::Vector separationVel1 = b1.separate(boids);
+    vc::Vector separationVel2 = b2.separate(boids);
+    vc::Vector separationVel3 = b3.separate(boids);
     CHECK(separationVel1.getX() == doctest::Approx(1.2));
     CHECK(separationVel1.getY() == doctest::Approx(-1.2));
     CHECK(separationVel2.getX() == doctest::Approx(-2.4));
@@ -137,19 +155,19 @@ TEST_CASE("Testing the Boid functions") {
   }
   SUBCASE("cohesion with one boid") {
     std::vector<bd::Boid> boids;
-    bd::Boid b(Vector(1., 0.), Vector(0., 1.));
+    bd::Boid b(vc::Vector(1., 0.), vc::Vector(0., 1.));
     boids.push_back(b);
     CHECK(b.cohere(boids).getX() == doctest::Approx(0.));
     CHECK(b.cohere(boids).getY() == doctest::Approx(0.));
   }
   SUBCASE("cohesion with distant boids") {
     std::vector<bd::Boid> boids;
-    bd::Boid b1(Vector(1., 0.), Vector(0., 1.));
-    bd::Boid b2(Vector(100., 0.), Vector(1.0, 1.0));
+    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
+    bd::Boid b2(vc::Vector(100., 0.), vc::Vector(1.0, 1.0));
     boids.push_back(b1);
     boids.push_back(b2);
-    Vector cohesionVel1 = b1.cohere(boids);
-    Vector cohesionVel2 = b2.cohere(boids);
+    vc::Vector cohesionVel1 = b1.cohere(boids);
+    vc::Vector cohesionVel2 = b2.cohere(boids);
     CHECK(cohesionVel1.getX() == doctest::Approx(0.));
     CHECK(cohesionVel1.getY() == doctest::Approx(0.));
     CHECK(cohesionVel1.getX() == doctest::Approx(0.));
@@ -157,15 +175,15 @@ TEST_CASE("Testing the Boid functions") {
   }
   SUBCASE("cohesion with one distant and one close boid") {
     std::vector<bd::Boid> boids;
-    bd::Boid b1(Vector(1., 0.), Vector(0., 1.));
-    bd::Boid b2(Vector(100., 0.), Vector(1.0, 1.0));
-    bd::Boid b3(Vector(0.0, 0.0), Vector(1.0, 1.0));
+    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
+    bd::Boid b2(vc::Vector(100., 0.), vc::Vector(1.0, 1.0));
+    bd::Boid b3(vc::Vector(0.0, 0.0), vc::Vector(1.0, 1.0));
     boids.push_back(b1);
     boids.push_back(b2);
     boids.push_back(b3);
-    Vector cohesionVel1 = b1.cohere(boids);
-    Vector cohesionVel2 = b2.cohere(boids);
-    Vector cohesionVel3 = b3.cohere(boids);
+    vc::Vector cohesionVel1 = b1.cohere(boids);
+    vc::Vector cohesionVel2 = b2.cohere(boids);
+    vc::Vector cohesionVel3 = b3.cohere(boids);
     CHECK(cohesionVel1.getX() == doctest::Approx(-0.8));
     CHECK(cohesionVel1.getY() == doctest::Approx(0.));
     CHECK(cohesionVel2.getX() == doctest::Approx(0.));
@@ -175,15 +193,15 @@ TEST_CASE("Testing the Boid functions") {
   }
   SUBCASE("cohesion with three boids") {
     std::vector<bd::Boid> boids;
-    bd::Boid b1(Vector(1., 0.), Vector(0., 1.));
-    bd::Boid b2(Vector(0.0, 0.0), Vector(1.0, 1.0));
-    bd::Boid b3(Vector(1.0, 1.0), Vector(-1.0, -1.0));
+    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
+    bd::Boid b2(vc::Vector(0.0, 0.0), vc::Vector(1.0, 1.0));
+    bd::Boid b3(vc::Vector(1.0, 1.0), vc::Vector(-1.0, -1.0));
     boids.push_back(b1);
     boids.push_back(b2);
     boids.push_back(b3);
-    Vector cohesionVel1 = b1.cohere(boids);
-    Vector cohesionVel2 = b2.cohere(boids);
-    Vector cohesionVel3 = b3.cohere(boids);
+    vc::Vector cohesionVel1 = b1.cohere(boids);
+    vc::Vector cohesionVel2 = b2.cohere(boids);
+    vc::Vector cohesionVel3 = b3.cohere(boids);
     CHECK(cohesionVel1.getX() == doctest::Approx(-0.4));
     CHECK(cohesionVel1.getY() == doctest::Approx(0.4));
     CHECK(cohesionVel2.getX() == doctest::Approx(0.8));
@@ -199,19 +217,19 @@ TEST_CASE("Testing the Boid functions") {
   }
   SUBCASE("alignment with one boid") {
     std::vector<bd::Boid> boids;
-    bd::Boid b(Vector(1., 0.), Vector(0., 1.));
+    bd::Boid b(vc::Vector(1., 0.), vc::Vector(0., 1.));
     boids.push_back(b);
     CHECK(b.align(boids).getX() == doctest::Approx(0.));
     CHECK(b.align(boids).getY() == doctest::Approx(0.));
   }
   SUBCASE("alignment with distant boids") {
     std::vector<bd::Boid> boids;
-    bd::Boid b1(Vector(1., 0.), Vector(0., 1.));
-    bd::Boid b2(Vector(100., 0.), Vector(1.0, 1.0));
+    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
+    bd::Boid b2(vc::Vector(100., 0.), vc::Vector(1.0, 1.0));
     boids.push_back(b1);
     boids.push_back(b2);
-    Vector alignmentVel1 = b1.align(boids);
-    Vector alignmentVel2 = b2.align(boids);
+    vc::Vector alignmentVel1 = b1.align(boids);
+    vc::Vector alignmentVel2 = b2.align(boids);
     CHECK(alignmentVel1.getX() == doctest::Approx(0.));
     CHECK(alignmentVel1.getY() == doctest::Approx(0.));
     CHECK(alignmentVel2.getX() == doctest::Approx(0.));
@@ -219,15 +237,15 @@ TEST_CASE("Testing the Boid functions") {
   }
   SUBCASE("alignment with one distant and one close boid") {
     std::vector<bd::Boid> boids;
-    bd::Boid b1(Vector(1., 0.), Vector(0., 1.));
-    bd::Boid b2(Vector(100., 0.), Vector(1.0, 1.0));
-    bd::Boid b3(Vector(0.0, 0.0), Vector(1.0, 0.0));
+    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
+    bd::Boid b2(vc::Vector(100., 0.), vc::Vector(1.0, 1.0));
+    bd::Boid b3(vc::Vector(0.0, 0.0), vc::Vector(1.0, 0.0));
     boids.push_back(b1);
     boids.push_back(b2);
     boids.push_back(b3);
-    Vector alignmentVel1 = b1.align(boids);
-    Vector alignmentVel2 = b2.align(boids);
-    Vector alignmentVel3 = b3.align(boids);
+    vc::Vector alignmentVel1 = b1.align(boids);
+    vc::Vector alignmentVel2 = b2.align(boids);
+    vc::Vector alignmentVel3 = b3.align(boids);
     CHECK(alignmentVel1.getX() == doctest::Approx(0.5));
     CHECK(alignmentVel1.getY() == doctest::Approx(-0.5));
     CHECK(alignmentVel2.getX() == doctest::Approx(0.));
@@ -238,15 +256,15 @@ TEST_CASE("Testing the Boid functions") {
 
   SUBCASE("alignment with three boids") {
     std::vector<bd::Boid> boids;
-    bd::Boid b1(Vector(1., 0.), Vector(0., 1.));
-    bd::Boid b2(Vector(0.0, 0.0), Vector(1.0, 1.0));
-    bd::Boid b3(Vector(1.0, 1.0), Vector(-1.0, -1.0));
+    bd::Boid b1(vc::Vector(1., 0.), vc::Vector(0., 1.));
+    bd::Boid b2(vc::Vector(0.0, 0.0), vc::Vector(1.0, 1.0));
+    bd::Boid b3(vc::Vector(1.0, 1.0), vc::Vector(-1.0, -1.0));
     boids.push_back(b1);
     boids.push_back(b2);
     boids.push_back(b3);
-    Vector alignmentVel1 = b1.align(boids);
-    Vector alignmentVel2 = b2.align(boids);
-    Vector alignmentVel3 = b3.align(boids);
+    vc::Vector alignmentVel1 = b1.align(boids);
+    vc::Vector alignmentVel2 = b2.align(boids);
+    vc::Vector alignmentVel3 = b3.align(boids);
     CHECK(alignmentVel1.getX() == doctest::Approx(0.));
     CHECK(alignmentVel1.getY() == doctest::Approx(-0.5));
     CHECK(alignmentVel2.getX() == doctest::Approx(-0.75));
@@ -255,33 +273,33 @@ TEST_CASE("Testing the Boid functions") {
     CHECK(alignmentVel3.getY() == doctest::Approx(1.));
   }
   SUBCASE("Testing borders if boids are in window") {
-    bd::Boid b(Vector(-56, 51));
+    bd::Boid b(vc::Vector(-56, 51));
     b.borders(200, 200);
-    CHECK(b.getPosition() == Vector(-56, 51));
+    CHECK(b.getPosition() == vc::Vector(-56, 51));
   }
   SUBCASE("Testing borders With x position > width") {
-    bd::Boid b(Vector(126, 51));
+    bd::Boid b(vc::Vector(126, 51));
     b.borders(200, 200);
-    CHECK(b.getPosition() == Vector(-100, 51));
+    CHECK(b.getPosition() == vc::Vector(-100, 51));
   }
   SUBCASE("Testing borders With x position < -width") {
-    bd::Boid b(Vector(-121, 51));
+    bd::Boid b(vc::Vector(-121, 51));
     b.borders(200, 200);
-    CHECK(b.getPosition() == Vector(100, 51));
+    CHECK(b.getPosition() == vc::Vector(100, 51));
   }
   SUBCASE("Testing borders With y position > height") {
-    bd::Boid b(Vector(-56, 181));
+    bd::Boid b(vc::Vector(-56, 181));
     b.borders(200, 200);
-    CHECK(b.getPosition() == Vector(-56, -100));
+    CHECK(b.getPosition() == vc::Vector(-56, -100));
   }
   SUBCASE("Testing borders With y position < -height") {
-    bd::Boid b(Vector(-56, -203));
+    bd::Boid b(vc::Vector(-56, -203));
     b.borders(200, 200);
-    CHECK(b.getPosition() == Vector(-56, 100));
+    CHECK(b.getPosition() == vc::Vector(-56, 100));
   }
   SUBCASE("Testing borders with both coordinates outside the window") {
-    bd::Boid b(Vector(128, -251));
+    bd::Boid b(vc::Vector(128, -251));
     b.borders(200, 200);
-    CHECK(b.getPosition() == Vector(-100, 100));
+    CHECK(b.getPosition() == vc::Vector(-100, 100));
   }
 }

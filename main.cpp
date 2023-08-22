@@ -7,7 +7,13 @@ int main() {
   unsigned int windowWidth;
   unsigned int windowHeight;
 
-  const int maxNumBoids{500};
+  double perceptionRadius;
+  double separationDistance;
+  double separationFactor;
+  double cohesionFactor;
+  double alignmentFactor;
+
+  const int maxNumBoids{1000};
   const double maxSimTime{30.};
 
   std::cout << "Insert the number of boids: " << std::endl;
@@ -57,6 +63,23 @@ int main() {
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   }
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+  std::cout << "Insert the perception radius of each boid: " << std::endl;
+  std::cin >> perceptionRadius;
+  std::cout << "Insert the separation distance of the separation rule: "
+            << std::endl;
+  std::cin >> separationDistance;
+  std::cout << "Insert the separation factor of the separation rule: "
+            << std::endl;
+  std::cin >> separationFactor;
+  std::cout << "Insert the cohesion factor of the cohesion rule: " << std::endl;
+  std::cin >> cohesionFactor;
+  std::cout << "Insert the alignment factor of the alignment rule: "
+            << std::endl;
+  std::cin >> alignmentFactor;
+
+  flock.updateBoidParameters(perceptionRadius, separationDistance,
+                             separationFactor, cohesionFactor, alignmentFactor);
 
   simulationSteps = time / flock.getDeltaTime();
   flock.simulate(simulationSteps, windowWidth, windowHeight);

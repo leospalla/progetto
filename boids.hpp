@@ -11,37 +11,44 @@
 namespace bd {
 class Boid {
  private:
-  Vector m_position{};
-  Vector m_velocity{};
+  vc::Vector m_position{};
+  vc::Vector m_velocity{};
   double const m_maxSpeed{10.};
-  double m_perceptionRadius{15.};
 
  public:
-  double const separationDistance{2.};
-  double const separationFactor{1.2};
-  double const cohesionFactor{.8};
-  double const alignmentFactor{0.5};
+  // parameters are already initialized for testing
+  double perceptionRadius{15.};
+  double separationDistance{2.};
+  double separationFactor{1.2};
+  double cohesionFactor{.8};
+  double alignmentFactor{0.5};
 
-  Boid();                // default constructor
-  Boid(double, double);  // constructor with position coordinates
-  Boid(Vector);          // constructor with position vector
-  Boid(Vector, Vector);  // constructor with both vectors
+  Boid();                        // default constructor
+  Boid(double, double);          // constructor with position coordinates
+  Boid(vc::Vector);              // constructor with position vector
+  Boid(vc::Vector, vc::Vector);  // constructor with both vectors
 
   Boid& operator=(const Boid&);
   bool operator==(const Boid&) const;
 
-  Vector getPosition() const { return m_position; }
-  Vector getVelocity() const { return m_velocity; }
-  double getMaxSpeed() const { return m_maxSpeed; }
-
+  void setPerceptionRadius(double);
+  void setSeparationDistance(double);
+  void setSeparationFactor(double);
+  void setCohesionFactor(double);
+  void setAlignmentFactor(double);
   void setPosition(double, double);
   void setVelocity(double, double);
-  double getSpeed() const;
 
-  Vector separate(std::vector<Boid>) const;
-  Vector cohere(std::vector<Boid>) const;
-  Vector align(std::vector<Boid>) const;
+  vc::Vector getPosition() const { return m_position; }
+  vc::Vector getVelocity() const { return m_velocity; }
+  double getMaxSpeed() const { return m_maxSpeed; }  // maybe we dont need this
+  double getSpeed() const { return m_velocity.Magnitude(); }
 
+  vc::Vector separate(std::vector<Boid>) const;
+  vc::Vector cohere(std::vector<Boid>) const;
+  vc::Vector align(std::vector<Boid>) const;
+
+  vc::Vector centerOfMass(std::vector<Boid>) const;
   void borders(unsigned int, unsigned int);
 };
 }  // namespace bd

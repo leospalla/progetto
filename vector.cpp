@@ -1,5 +1,5 @@
 #include "vector.hpp"
-
+namespace vc {
 // Operator overloading
 Vector& Vector::operator=(const Vector& v) {
   if (this != &v) {
@@ -46,8 +46,8 @@ Vector Vector::normalize() const {
     return Vector(m_x, m_y);  // cannot normalize a null vector
   }
 }
-// did we even use this?
-double Vector::dotProduct(const Vector& v) const {
+
+double Vector::dotProduct(const Vector& v) const {  // did we even use this?
   double dot = m_x * v.getX() + m_y * v.getY();
   return dot;
 }
@@ -70,3 +70,4 @@ void Vector::limit(double mam_x) {
     *this = normalize() * mam_x;
   }
 }
+}  // namespace vc
