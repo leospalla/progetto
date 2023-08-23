@@ -2,7 +2,7 @@
 #define FLOCK_HPP
 #include <algorithm>
 #include <iostream>
-
+#include <stack>
 #include "boids.hpp"
 namespace fk {
 class Flock {

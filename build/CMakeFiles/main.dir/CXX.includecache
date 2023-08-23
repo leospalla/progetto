@@ -27,16 +27,10 @@ algorithm
 -
 iostream
 -
+stack
+-
 boids.hpp
 /home/leospallacci/boids/progetto/boids.hpp
-
-/home/leospallacci/boids/progetto/main.cpp
-flock.hpp
-/home/leospallacci/boids/progetto/flock.hpp
-chrono
--
-thread
--
 
 /home/leospallacci/boids/progetto/vector.hpp
 cmath
