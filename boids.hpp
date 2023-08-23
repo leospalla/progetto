@@ -1,17 +1,18 @@
 #ifndef BOIDS_HPP
 #define BOIDS_HPP
-#include "vector.hpp"
 #include <iostream>
 #include <random>
 #include <stdexcept>
 #include <vector>
+
+#include "vector.hpp"
 
 namespace bd {
 class Boid {
  private:
   vc::Vector m_position{};
   vc::Vector m_velocity{};
-  double const m_maxSpeed{10.}; //class invariant
+  double const m_maxSpeed{10.};  // class invariant
 
  public:
   // parameters are already initialized for testing
@@ -22,6 +23,7 @@ class Boid {
   double alignmentFactor{0.5};
 
   Boid();                        // default constructor
+  Boid(int);                     // random position constructor
   Boid(double, double);          // constructor with position coordinates
   Boid(vc::Vector);              // constructor with position vector
   Boid(vc::Vector, vc::Vector);  // constructor with both vectors
@@ -47,7 +49,7 @@ class Boid {
   vc::Vector align(std::vector<Boid>) const;
 
   vc::Vector centerOfMass(std::vector<Boid>) const;
-  void borders(unsigned int, unsigned int);
+  void borders(int);
 };
 }  // namespace bd
 #endif

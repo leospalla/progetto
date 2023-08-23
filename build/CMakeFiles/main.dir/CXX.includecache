@@ -7,8 +7,6 @@
 #IncludeRegexTransform: 
 
 /home/leospallacci/boids/progetto/boids.hpp
-vector.hpp
-/home/leospallacci/boids/progetto/vector.hpp
 iostream
 -
 random
@@ -17,10 +15,8 @@ stdexcept
 -
 vector
 -
-
-/home/leospallacci/boids/progetto/flock.cpp
-flock.hpp
-/home/leospallacci/boids/progetto/flock.hpp
+vector.hpp
+/home/leospallacci/boids/progetto/vector.hpp
 
 /home/leospallacci/boids/progetto/flock.hpp
 algorithm
@@ -31,6 +27,14 @@ stack
 -
 boids.hpp
 /home/leospallacci/boids/progetto/boids.hpp
+
+/home/leospallacci/boids/progetto/main.cpp
+flock.hpp
+/home/leospallacci/boids/progetto/flock.hpp
+chrono
+-
+thread
+-
 
 /home/leospallacci/boids/progetto/vector.hpp
 cmath

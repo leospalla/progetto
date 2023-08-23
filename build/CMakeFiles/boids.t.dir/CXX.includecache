@@ -6,13 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/leospallacci/boids/progetto/boids.cpp
-boids.hpp
 /home/leospallacci/boids/progetto/boids.hpp
-
-/home/leospallacci/boids/progetto/boids.hpp
-vector.hpp
-/home/leospallacci/boids/progetto/vector.hpp
 iostream
 -
 random
@@ -21,6 +15,8 @@ stdexcept
 -
 vector
 -
+vector.hpp
+/home/leospallacci/boids/progetto/vector.hpp
 
 /home/leospallacci/boids/progetto/boids.test.cpp
 boids.hpp
@@ -115,10 +111,6 @@ sys/time.h
 -
 unistd.h
 -
-
-/home/leospallacci/boids/progetto/vector.cpp
-vector.hpp
-/home/leospallacci/boids/progetto/vector.hpp
 
 /home/leospallacci/boids/progetto/vector.hpp
 cmath

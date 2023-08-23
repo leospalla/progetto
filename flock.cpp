@@ -34,8 +34,7 @@ void Flock::updateVelocity() {
   }
 }
 
-void Flock::updatePosition(unsigned int windowWidth,
-                           unsigned int windowHeight) {
+void Flock::updatePosition(int length) {
   updateVelocity();
   std::vector<vc::Vector> newPositions(m_boids.size());
   for (size_t i = 0; i < m_boids.size(); ++i) {
@@ -45,7 +44,7 @@ void Flock::updatePosition(unsigned int windowWidth,
   }
   for (size_t j = 0; j < m_boids.size(); ++j) {
     m_boids[j].setPosition(newPositions[j].getX(), newPositions[j].getY());
-    m_boids[j].borders(windowWidth, windowHeight);
+    m_boids[j].borders(length);
   }
 }
 
@@ -167,8 +166,7 @@ std::vector<int> Flock::countBoidsInFlock() const {
 }
 
 // at each step updates and prints the collective informations about the flock.
-void Flock::simulate(int numSteps, [[maybe_unused]] unsigned int windowWidth,
-                     [[maybe_unused]] unsigned int windowHeight) {
+void Flock::simulate(int numSteps, [[maybe_unused]] int length) {
   for (int step = 0; step <= numSteps; ++step) {
     double time = step * m_delta_time;
     std::cout << "Time: " << time << std::endl;
@@ -176,14 +174,15 @@ void Flock::simulate(int numSteps, [[maybe_unused]] unsigned int windowWidth,
               << standardDeviationDistance() << std::endl;
     std::cout << "Average speed: " << averageSpeed() << " +/- "
               << standardDeviationSpeed() << std::endl;
-    std::cout << "Number of flocks: " << countBoidsInFlock().size()
-              << std::endl;
-    for (size_t i{0}; i < countBoidsInFlock().size(); ++i) {
-      std::cout << "Number of boids inside flock n°" << i + 1 << " : "
-                << countBoidsInFlock()[i] << std::endl;
+    std::vector<int> flockCounts = countBoidsInFlock();
+    std::cout << "Number of flocks: " << flockCounts.size() << std::endl;
+    for (size_t i = 0; i < flockCounts.size(); ++i) {
+      std::cout << "Number of boids inside flock " << i + 1 << ": "
+                << flockCounts[i] << std::endl;
     }
+  
     updateVelocity();
-    updatePosition(windowHeight, windowHeight);
+    updatePosition(length);
   }
 }
 }  // namespace fk

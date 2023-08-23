@@ -1,10 +1,10 @@
-Start testing: Aug 23 16:25 CEST
+Start testing: Aug 23 22:03 CEST
 ----------------------------------------------------------
 1/3 Testing: vector.t
 1/3 Test: vector.t
 Command: "/home/leospallacci/boids/progetto/build/vector.t"
 Directory: /home/leospallacci/boids/progetto/build
-"vector.t" start time: Aug 23 16:25 CEST
+"vector.t" start time: Aug 23 22:03 CEST
 Output:
 ----------------------------------------------------------
 [doctest] doctest version is "2.4.11"
@@ -17,7 +17,7 @@ Output:
 Test time =   0.05 sec
 ----------------------------------------------------------
 Test Passed.
-"vector.t" end time: Aug 23 16:25 CEST
+"vector.t" end time: Aug 23 22:03 CEST
 "vector.t" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -25,20 +25,20 @@ Test Passed.
 2/3 Test: boids.t
 Command: "/home/leospallacci/boids/progetto/build/boids.t"
 Directory: /home/leospallacci/boids/progetto/build
-"boids.t" start time: Aug 23 16:25 CEST
+"boids.t" start time: Aug 23 22:03 CEST
 Output:
 ----------------------------------------------------------
 [doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
 [doctest] test cases:   2 |   2 passed | 0 failed | 0 skipped
-[doctest] assertions: 117 | 117 passed | 0 failed |
+[doctest] assertions: 129 | 129 passed | 0 failed |
 [doctest] Status: SUCCESS!
 <end of output>
-Test time =   0.04 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"boids.t" end time: Aug 23 16:25 CEST
+"boids.t" end time: Aug 23 22:03 CEST
 "boids.t" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -46,7 +46,7 @@ Test Passed.
 3/3 Test: flock.t
 Command: "/home/leospallacci/boids/progetto/build/flock.t"
 Directory: /home/leospallacci/boids/progetto/build
-"flock.t" start time: Aug 23 16:25 CEST
+"flock.t" start time: Aug 23 22:03 CEST
 Output:
 ----------------------------------------------------------
 [doctest] doctest version is "2.4.11"
@@ -56,11 +56,11 @@ Output:
 [doctest] assertions: 102 | 102 passed | 0 failed |
 [doctest] Status: SUCCESS!
 <end of output>
-Test time =   0.01 sec
+Test time =   0.05 sec
 ----------------------------------------------------------
 Test Passed.
-"flock.t" end time: Aug 23 16:25 CEST
+"flock.t" end time: Aug 23 22:03 CEST
 "flock.t" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Aug 23 16:25 CEST
+End testing: Aug 23 22:03 CEST

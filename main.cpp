@@ -7,8 +7,7 @@ int main() {
   int numBoids;
   double time;
   int simulationSteps;
-  unsigned int windowWidth;
-  unsigned int windowHeight;
+int lenght;
 
   double perceptionRadius;
   double separationDistance;
@@ -18,12 +17,12 @@ int main() {
 
   const int maxNumBoids{1000};
   const double maxSimTime{30.};
-  const unsigned int maxDimension{1000};
+  const int maxDimension{1000};
   std::cout << "Simulating the behaviour of boids inside flocks..." << std::endl << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
+ // std::this_thread::sleep_for(std::chrono::seconds(2));
   std::cout << "Please proceed with the input phase (press Ctrl+Z at any time to stop the program)." << std::endl;
   std::cout << "Note: Only numerical inputs are accepted, every non-numerical input won't be considered." << std::endl << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(5));
+ // std::this_thread::sleep_for(std::chrono::seconds(5));
 
 
   std::cout << "Insert the number of boids: " << std::endl;
@@ -37,12 +36,6 @@ int main() {
   }
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // if u insert a double the number after inteferes so this ignores another time also after the cycle ends
 
-
-  for (int i = 0; i < numBoids; ++i) {
-    bd::Boid b;
-    flock.addBoid(b);
-  }
-
   std::cout << "Insert the time of simulation (seconds): " << std::endl;
   while (!(std::cin >> time) || time <= 0 || time > maxSimTime)
   {
@@ -52,28 +45,24 @@ int main() {
   }
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-  std::cout << "Insert the window width: " << std::endl;
+  std::cout << "Insert the lenght of the space: " << std::endl;
   std::cout << "Note: If you enter a decimal value, only the integer part will be considered." << std::endl;
-  while (!(std::cin >> windowWidth) || windowWidth <= 30 || windowWidth >= maxDimension)
+  while (!(std::cin >> lenght) || lenght > maxDimension)
   {
-    std::cout << "Invalid input. Please enter a positive integer bigger than 30, up to: " << maxDimension << std::endl;
+    std::cout << "Invalid input. Please enter a positive integer up to: " << maxDimension << std::endl;
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   }
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-  std::cout << "Insert the window height: " << std::endl;
-  std::cout << "Note: If you enter a decimal value, only the integer part will be considered." << std::endl;
-  while (!(std::cin >> windowHeight) || windowHeight <= 30 || windowHeight >= maxDimension)
-  {
-    std::cout << "Invalid input. Please enter a positive integer bigger than 30, up to: " << maxDimension << std::endl;
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  
+  for (int i = 0; i < numBoids; ++i) {
+    bd::Boid b{lenght};
+    flock.addBoid(b);
   }
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
   std::cout << "Insert the perception radius of each boid: " << std::endl;
-  while (!(std::cin >> perceptionRadius) || perceptionRadius <= 0 || perceptionRadius >= windowHeight || perceptionRadius >= windowWidth) {
+  while (!(std::cin >> perceptionRadius) || perceptionRadius <= 0 || perceptionRadius >= lenght) {
     std::cout << "Invalid input. Please enter a positive double smaller than the window dimensions." << std::endl;
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -115,7 +104,7 @@ int main() {
   flock.updateBoidParameters(perceptionRadius, separationDistance, separationFactor, cohesionFactor, alignmentFactor);
 
   simulationSteps = time / flock.getDeltaTime();
-  flock.simulate(simulationSteps, windowWidth, windowHeight);
+  flock.simulate(simulationSteps, lenght);
 
   return 0;
 }

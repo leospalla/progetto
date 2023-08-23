@@ -2,21 +2,42 @@
 
 namespace bd {
 
-// generate a random number between -7. and 7.
+// generate a random number between -7. and 7. to not exceed maxSpeed
 double randomVelocity() {
   return -7.0 +
          static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 14.0));
 }
 
-// between -30 and 30
+// between -30 and 30 (used for testing)
 double randomPosition() {
   return -30.0 +
          static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 60.));
 }
 
+//overload used for input
+double randomPosition(int x) {
+  return -x +
+         static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / x / 2));
+}
+
 // constructors
 Boid::Boid()
     : m_position{randomPosition(), randomPosition()},
+      m_velocity{randomVelocity(), randomVelocity()} {
+  int maxAttempts = 100;
+  int attempts = 0;
+  while (getSpeed() == 0 && attempts < maxAttempts) {
+    m_velocity.set(randomVelocity(), randomVelocity());
+    ++attempts;
+  }
+  if (getSpeed() == 0) {
+    throw std::runtime_error(
+        "Unable to generate non-zero velocity after 100 attempts.");
+  }
+}
+
+Boid::Boid(int x)
+    : m_position{randomPosition(x), randomPosition(x)},
       m_velocity{randomVelocity(), randomVelocity()} {
   int maxAttempts = 100;
   int attempts = 0;
@@ -181,9 +202,9 @@ vc::Vector Boid::centerOfMass(std::vector<Boid> boids) const {
   return vSum;
 }
 
-void Boid::borders(unsigned int window_width, unsigned int window_height) {
-  double halfWidth = window_width / 2;
-  double halfHeight = window_height / 2;
+void Boid::borders(int length) {
+  double halfWidth = length / 2;
+  double halfHeight = length / 2;
   if (m_position.getX() > halfWidth) {
     setPosition(-halfWidth, m_position.getY());
   }

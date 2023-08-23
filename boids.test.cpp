@@ -3,13 +3,29 @@
 #include "doctest.h"
 
 TEST_CASE("Testing the constructors") {
-  SUBCASE("default constructor") {
+  SUBCASE("Default constructor") {
     bd::Boid b1{};
     bd::Boid b2{};
     CHECK(b1.getPosition().getX() < doctest::Approx(30.));
     CHECK(b1.getPosition().getY() < doctest::Approx(30.));
     CHECK(b1.getPosition().getX() > doctest::Approx(-30.));
     CHECK(b1.getPosition().getY() > doctest::Approx(-30.));
+    CHECK(b1.getSpeed() > doctest::Approx(0.));
+    CHECK(b2.getSpeed() > doctest::Approx(0.));
+    CHECK(b1.getSpeed() < doctest::Approx(10.));
+    CHECK(b2.getSpeed() < doctest::Approx(10.));
+  }
+  SUBCASE("Constructor with random position") {
+    bd::Boid b1{100};
+    bd::Boid b2{-4};
+    CHECK(b1.getPosition().getX() < doctest::Approx(100.));
+    CHECK(b1.getPosition().getY() < doctest::Approx(100.));
+    CHECK(b1.getPosition().getX() > doctest::Approx(-100.));
+    CHECK(b1.getPosition().getY() > doctest::Approx(-100.));
+    CHECK(b2.getPosition().getX() < doctest::Approx(4.));
+    CHECK(b2.getPosition().getY() < doctest::Approx(4.));
+    CHECK(b2.getPosition().getX() > doctest::Approx(-4.));
+    CHECK(b2.getPosition().getY() > doctest::Approx(-4.));
     CHECK(b1.getSpeed() > doctest::Approx(0.));
     CHECK(b2.getSpeed() > doctest::Approx(0.));
     CHECK(b1.getSpeed() < doctest::Approx(10.));
@@ -277,32 +293,32 @@ TEST_CASE("Testing the Boid functions") {
   }
   SUBCASE("Testing borders if boids are in window") {
     bd::Boid b(vc::Vector{-56, 51});
-    b.borders(200, 200);
+    b.borders(200);
     CHECK(b.getPosition() == vc::Vector{-56, 51});
   }
   SUBCASE("Testing borders With x position > width") {
     bd::Boid b(vc::Vector{126, 51});
-    b.borders(200, 200);
+    b.borders(200);
     CHECK(b.getPosition() == vc::Vector{-100, 51});
   }
   SUBCASE("Testing borders With x position < -width") {
     bd::Boid b(vc::Vector{-121, 51});
-    b.borders(200, 200);
+    b.borders(200);
     CHECK(b.getPosition() == vc::Vector{100, 51});
   }
   SUBCASE("Testing borders With y position > height") {
     bd::Boid b(vc::Vector{-56, 181});
-    b.borders(200, 200);
+    b.borders(200);
     CHECK(b.getPosition() == vc::Vector{-56, -100});
   }
   SUBCASE("Testing borders With y position < -height") {
     bd::Boid b(vc::Vector{-56, -203});
-    b.borders(200, 200);
+    b.borders(200);
     CHECK(b.getPosition() == vc::Vector{-56, 100});
   }
   SUBCASE("Testing borders with both coordinates outside the window") {
     bd::Boid b(vc::Vector{128, -251});
-    b.borders(200, 200);
+    b.borders(200);
     CHECK(b.getPosition() == vc::Vector{-100, 100});
   }
 }

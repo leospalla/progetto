@@ -73,7 +73,7 @@ TEST_CASE("testing the flock class") {
   SUBCASE("testing updatepositions with one boid") {
     bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
     flock.addBoid(b1);
-    flock.updatePosition(100, 100);
+    flock.updatePosition(100);
     const std::vector<bd::Boid> &flk = flock.getBoids();
     CHECK(flk[0].getPosition().getX() == doctest::Approx(1));
     CHECK(flk[0].getPosition().getY() == doctest::Approx(0.1));
@@ -83,7 +83,7 @@ TEST_CASE("testing the flock class") {
     bd::Boid b2(vc::Vector{100., 0.}, vc::Vector{1., 1.});
     flock.addBoid(b1);
     flock.addBoid(b2);
-    flock.updatePosition(300, 300);
+    flock.updatePosition(300);
     const std::vector<bd::Boid> &flk = flock.getBoids();
     CHECK(flk[0].getPosition().getX() == doctest::Approx(1));
     CHECK(flk[0].getPosition().getY() == doctest::Approx(0.1));
@@ -95,7 +95,7 @@ TEST_CASE("testing the flock class") {
     bd::Boid b2(vc::Vector{100., 0.}, vc::Vector{1., 1.});
     flock.addBoid(b1);
     flock.addBoid(b2);
-    flock.updatePosition(200, 200);
+    flock.updatePosition(200);
     const std::vector<bd::Boid> &flk = flock.getBoids();
     CHECK(flk[0].getPosition().getX() == doctest::Approx(1));
     CHECK(flk[0].getPosition().getY() == doctest::Approx(0.1));
@@ -109,7 +109,7 @@ TEST_CASE("testing the flock class") {
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    flock.updatePosition(300, 300);
+    flock.updatePosition(300);
     const std::vector<bd::Boid> &flk = flock.getBoids();
     CHECK(flk[0].getPosition().getX() == doctest::Approx(1.09));
     CHECK(flk[0].getPosition().getY() == doctest::Approx(0.1));
@@ -125,7 +125,7 @@ TEST_CASE("testing the flock class") {
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    flock.updatePosition(100, 100);
+    flock.updatePosition(100);
     const std::vector<bd::Boid> &flk = flock.getBoids();
     CHECK(flk[0].getPosition().getX() == doctest::Approx(1.08));
     CHECK(flk[0].getPosition().getY() == doctest::Approx(-0.03));

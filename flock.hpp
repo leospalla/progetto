@@ -20,7 +20,7 @@ class Flock {
   void removeBoid(const bd::Boid &boid); //i dont think we even used this
 
   void updateVelocity();
-  void updatePosition(unsigned int, unsigned int);
+  void updatePosition(int);
   void updateBoidParameters(double, double, double, double, double);
 
   double averageDistance() const;
@@ -31,7 +31,7 @@ class Flock {
 
   std::vector<int> countBoidsInFlock() const;
 
-  void simulate(int, unsigned int, unsigned int);
+  void simulate(int, int);
 };
 }  // namespace fk
 #endif
