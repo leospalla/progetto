@@ -215,7 +215,7 @@ TEST_CASE("testing the flock class") {
     CHECK(s == doctest::Approx(1.69382));
   }
   SUBCASE("testing countBoidsInFlock with 1 boid") {
-    bd::Boid b1(vc::Vector(0.0, 0.0));
+    bd::Boid b1(vc::Vector{0.0, 0.0});
     flock.addBoid(b1);
     CHECK(flock.countBoidsInFlock().size() == 1);
     CHECK(flock.countBoidsInFlock()[0] == 1);
@@ -276,10 +276,10 @@ TEST_CASE("testing the flock class") {
   SUBCASE(
       "testing countBoidsInFlock with three close boids and one isolated "
       "last)") {
-    bd::Boid b1(vc::Vector(20.0, 0.0));
-    bd::Boid b2(vc::Vector(30.0, 0.0));
-    bd::Boid b3(vc::Vector(40.0, 0.0));
-    bd::Boid b4(vc::Vector(0.0, 0.0));
+    bd::Boid b1(vc::Vector{20.0, 0.0});
+    bd::Boid b2(vc::Vector{30.0, 0.0});
+    bd::Boid b3(vc::Vector{40.0, 0.0});
+    bd::Boid b4(vc::Vector{0.0, 0.0});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
@@ -289,12 +289,12 @@ TEST_CASE("testing the flock class") {
     CHECK(flock.countBoidsInFlock()[1] == 1);
   }
   SUBCASE("testing countBoidsInFlock with two flocks") {
-    bd::Boid b1(vc::Vector(0.0, 0.0));
-    bd::Boid b2(vc::Vector(10.0, 0.0));
-    bd::Boid b3(vc::Vector(20.0, 0.0));
-    bd::Boid b4(vc::Vector(100.0, 0.0));
-    bd::Boid b5(vc::Vector(110.0, 0.0));
-    bd::Boid b6(vc::Vector(120.0, 0.0));
+    bd::Boid b1(vc::Vector{0.0, 0.0});
+    bd::Boid b2(vc::Vector{10.0, 0.0});
+    bd::Boid b3(vc::Vector{20.0, 0.0});
+    bd::Boid b4(vc::Vector{100.0, 0.0});
+    bd::Boid b5(vc::Vector{110.0, 0.0});
+    bd::Boid b6(vc::Vector{120.0, 0.0});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
@@ -306,12 +306,12 @@ TEST_CASE("testing the flock class") {
     CHECK(flock.countBoidsInFlock()[1] == 3);
   }
   SUBCASE("testing countBoidsInFlock with two flocks but alternated") {
-    bd::Boid b1(vc::Vector(0.0, 0.0));
-    bd::Boid b2(vc::Vector(10.0, 0.0));
-    bd::Boid b3(vc::Vector(120.0, 0.0));
-    bd::Boid b4(vc::Vector(100.0, 0.0));
-    bd::Boid b5(vc::Vector(110.0, 0.0));
-    bd::Boid b6(vc::Vector(20.0, 0.0));
+    bd::Boid b1(vc::Vector{0.0, 0.0});
+    bd::Boid b2(vc::Vector{10.0, 0.0});
+    bd::Boid b3(vc::Vector{120.0, 0.0});
+    bd::Boid b4(vc::Vector{100.0, 0.0});
+    bd::Boid b5(vc::Vector{110.0, 0.0});
+    bd::Boid b6(vc::Vector{20.0, 0.0});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
@@ -323,11 +323,11 @@ TEST_CASE("testing the flock class") {
     CHECK(flock.countBoidsInFlock()[1] == 3);
   }
   SUBCASE("testing countBoidsInFlock with two flocks but alternated") {
-    bd::Boid b1(vc::Vector(0.0, 0.0));
-    bd::Boid b2(vc::Vector(10.0, 0.0));
-    bd::Boid b3(vc::Vector(120.0, 0.0));
-    bd::Boid b4(vc::Vector(110.0, 0.0));
-    bd::Boid b5(vc::Vector(20.0, 0.0));
+    bd::Boid b1(vc::Vector{0.0, 0.0});
+    bd::Boid b2(vc::Vector{10.0, 0.0});
+    bd::Boid b3(vc::Vector{120.0, 0.0});
+    bd::Boid b4(vc::Vector{110.0, 0.0});
+    bd::Boid b5(vc::Vector{20.0, 0.0});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
