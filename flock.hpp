@@ -27,12 +27,11 @@ namespace fk
 
     double averageDistance() const;
     double averageSpeed() const;
-    // int countFlocks() const;
-    std::vector<int> countBoidsInFlock();
-    std::vector<int> countBoidsInFlockIsolated();
 
     double standardDeviationDistance() const;
     double standardDeviationSpeed() const;
+
+    std::vector<int> countBoidsInFlock();
 
     void simulate(int, unsigned int, unsigned int);
   };

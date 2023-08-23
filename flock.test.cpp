@@ -77,14 +77,14 @@ TEST_CASE("testing methods")
     double s = flock.standardDeviationSpeed();
     CHECK(s == doctest::Approx(1.69382));
   }
-    SUBCASE("testing countFlocks with 1 boid")
+  SUBCASE("testing countBoidsInFlock with 1 boid")
   {
     bd::Boid b1(vc::Vector(0.0, 0.0));
     flock.addBoid(b1);
     CHECK(flock.countBoidsInFlock().size() == 1);
     CHECK(flock.countBoidsInFlock()[0] == 1);
   }
-      SUBCASE("testing countFlocks with 3 distant boids")
+  SUBCASE("testing countBoidsInFlock with 3 isolated boids")
   {
     bd::Boid b1(vc::Vector(0.0, 0.0));
     bd::Boid b2(vc::Vector(50.0, 0.0));
@@ -97,7 +97,7 @@ TEST_CASE("testing methods")
     CHECK(flock.countBoidsInFlock()[1] == 1);
     CHECK(flock.countBoidsInFlock()[2] == 1);
   }
-  SUBCASE("testing countFlocks with 3 close boids but last and first are distant")
+  SUBCASE("testing countBoidsInFlock with 3 close boids but last and first are distant")
   {
     bd::Boid b1(vc::Vector(0.0, 0.0));
     bd::Boid b2(vc::Vector(10.0, 0.0));
@@ -108,7 +108,7 @@ TEST_CASE("testing methods")
     CHECK(flock.countBoidsInFlock().size() == 1);
     CHECK(flock.countBoidsInFlock()[0] == 3);
   }
-    SUBCASE("testing countFlocks with 4 close boids but last and first are distant")
+  SUBCASE("testing countBoidsInFlock with four close boids but last and first are distant")
   {
     bd::Boid b1(vc::Vector(0.0, 0.0));
     bd::Boid b2(vc::Vector(10.0, 0.0));
@@ -121,7 +121,35 @@ TEST_CASE("testing methods")
     CHECK(flock.countBoidsInFlock().size() == 1);
     CHECK(flock.countBoidsInFlock()[0] == 4);
   }
-    SUBCASE("testing countFlocks with two flocks")
+  SUBCASE("testing countBoidsInFlock with three close boids and one isolated (first)")
+  {
+    bd::Boid b1(vc::Vector(0.0, 0.0));
+    bd::Boid b2(vc::Vector(20.0, 0.0));
+    bd::Boid b3(vc::Vector(30.0, 0.0));
+    bd::Boid b4(vc::Vector(40.0, 0.0));
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    CHECK(flock.countBoidsInFlock().size() == 2);
+    CHECK(flock.countBoidsInFlock()[0] == 1);
+    CHECK(flock.countBoidsInFlock()[1] == 3);
+  }
+    SUBCASE("testing countBoidsInFlock with three close boids and one isolated (last)")
+  {
+    bd::Boid b1(vc::Vector(20.0, 0.0));
+    bd::Boid b2(vc::Vector(30.0, 0.0));
+    bd::Boid b3(vc::Vector(40.0, 0.0));
+    bd::Boid b4(vc::Vector(0.0, 0.0));
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    CHECK(flock.countBoidsInFlock().size() == 2);
+    CHECK(flock.countBoidsInFlock()[0] == 3);
+    CHECK(flock.countBoidsInFlock()[1] == 1);
+  }
+  SUBCASE("testing countBoidsInFlock with two flocks")
   {
     bd::Boid b1(vc::Vector(0.0, 0.0));
     bd::Boid b2(vc::Vector(10.0, 0.0));

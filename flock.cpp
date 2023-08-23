@@ -68,54 +68,6 @@ namespace fk
     }
   }
 
-  /*
-  int Flock::countFlocks() const
-  {
-    if (m_boids.empty())
-    {
-      return 0;
-    }
-    std::vector<bool> visited(m_boids.size(), false);
-    int numFlocks{0};
-    bd::Boid b1;
-    for (size_t i{0}; i < m_boids.size(); ++i)
-    {
-      int sameflk{0};
-      if (!visited[i])
-      {
-        visited[i] = true;
-        ++numFlocks;
-        for (size_t k{0}; k < m_boids.size(); ++k)
-        {
-          if (k != i && visited[k] && m_boids[i].getPosition().distance(m_boids[k].getPosition()) <= b1.getPreceptionRadius())
-          {
-            ++sameflk;
-          }
-        }
-        if (sameflk != 0)
-        {
-          --numFlocks;
-        }
-        for (const bd::Boid &b : m_boids)
-        {
-          size_t j = &b - &m_boids[0];
-          if (!visited[j] && m_boids[i].getPosition().distance(m_boids[j].getPosition()) <= b.getPreceptionRadius())
-          {
-            visited[j] = true;
-          }
-        }
-      }
-    }
-    return numFlocks;
-  }
-  */
-
-  std::vector<int> countBoidsInFlockIsolated() 
-  {
-    //da trattare solo quando si ha un boid isolato e chiamare nella funzione generale.
-    
-  }
-
   std::vector<int> Flock::countBoidsInFlock()
   {
     std::vector<int> empty;
@@ -154,7 +106,7 @@ namespace fk
         {
           --numFlocks;
         }
-        if (i != 0 && oldNumFlocks != numFlocks)
+        if (numBoids != 1 && oldNumFlocks != numFlocks)
         {
           memberCounts.push_back(numBoids - 1);
           numBoids = 1;
@@ -167,22 +119,17 @@ namespace fk
             ++numBoids;
           }
         }
-        if (i == 0 && numBoids == 1)
+        if (numBoids == 1)
         {
           memberCounts.push_back(numBoids);
           numBoids = 0;
-          m_boids.erase(m_boids.begin());
-          std::vector<int> iteratedCounter;
-          iteratedCounter = countBoidsInFlock();
-          for (size_t l{0}; l < iteratedCounter.size(); ++l)
-          {
-            memberCounts.push_back(iteratedCounter[l]);
-          }
-          return memberCounts;
         }
       }
     }
-    memberCounts.push_back(numBoids);
+    if (numBoids != 0)
+    {
+      memberCounts.push_back(numBoids);
+    }
     return memberCounts;
   }
 
@@ -277,6 +224,10 @@ namespace fk
       std::cout << "Average distance: " << averageDistance() << " +/- " << standardDeviationDistance() << std::endl;
       std::cout << "Average speed: " << averageSpeed() << " +/- " << standardDeviationSpeed() << std::endl;
       std::cout << "number of flocks " << countBoidsInFlock().size() << std::endl;
+      for (size_t i{0}; i < countBoidsInFlock().size(); ++i)
+      {
+        std::cout << "the number of boids in flock: " << i + 1 << " is: " << countBoidsInFlock()[i] << std::endl;
+      }
       updateVelocity();
       updatePosition(windowHeight, windowHeight);
     }

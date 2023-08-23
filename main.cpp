@@ -27,7 +27,7 @@ int main()
   }
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // if u insert a double the number after inteferes so this ignores another time also after the cycle ends
 
-  for (int i = 0; i <= numBoids; ++i)
+  for (int i = 0; i < numBoids; ++i)
   {
     bd::Boid b;
     flock.addBoid(b);
