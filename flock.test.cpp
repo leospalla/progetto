@@ -81,7 +81,8 @@ TEST_CASE("testing methods")
   {
     bd::Boid b1(vc::Vector(0.0, 0.0));
     flock.addBoid(b1);
-    CHECK(flock.countFlocks() == 1);
+    CHECK(flock.countBoidsInFlock().size() == 1);
+    CHECK(flock.countBoidsInFlock()[0] == 1);
   }
       SUBCASE("testing countFlocks with 3 distant boids")
   {
@@ -91,7 +92,10 @@ TEST_CASE("testing methods")
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    CHECK(flock.countFlocks() == 3);
+    CHECK(flock.countBoidsInFlock().size() == 3);
+    CHECK(flock.countBoidsInFlock()[0] == 1);
+    CHECK(flock.countBoidsInFlock()[1] == 1);
+    CHECK(flock.countBoidsInFlock()[2] == 1);
   }
   SUBCASE("testing countFlocks with 3 close boids but last and first are distant")
   {
@@ -101,7 +105,8 @@ TEST_CASE("testing methods")
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    CHECK(flock.countFlocks() == 1);
+    CHECK(flock.countBoidsInFlock().size() == 1);
+    CHECK(flock.countBoidsInFlock()[0] == 3);
   }
     SUBCASE("testing countFlocks with 4 close boids but last and first are distant")
   {
@@ -113,7 +118,8 @@ TEST_CASE("testing methods")
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.addBoid(b4);
-    CHECK(flock.countFlocks() == 1);
+    CHECK(flock.countBoidsInFlock().size() == 1);
+    CHECK(flock.countBoidsInFlock()[0] == 4);
   }
     SUBCASE("testing countFlocks with two flocks")
   {
@@ -129,7 +135,9 @@ TEST_CASE("testing methods")
     flock.addBoid(b4);
     flock.addBoid(b5);
     flock.addBoid(b6);
-    CHECK(flock.countFlocks() == 2);
+    CHECK(flock.countBoidsInFlock().size() == 2);
+    CHECK(flock.countBoidsInFlock()[0] == 3);
+    CHECK(flock.countBoidsInFlock()[1] == 3);
   }
   SUBCASE("testing updatevelocity with one boid")
   {

@@ -4,33 +4,37 @@
 #include <iostream>
 
 #include "boid.hpp"
-namespace fk {
-class Flock {
- private:
-  std::vector<bd::Boid> m_boids;
-  double delta_time{.1};
+namespace fk
+{
+  class Flock
+  {
+  private:
+    std::vector<bd::Boid> m_boids;
+    double const m_deltaTime{.1};
 
- public:
-  Flock();
+  public:
+    Flock();
 
-  const std::vector<bd::Boid> &getBoids() const { return m_boids; }
-  double getDeltaTime() const { return delta_time; }
-  
-  void setDeltaTime(double); 
-  void addBoid(const bd::Boid &boid);
-  void removeBoid(const bd::Boid &boid);
+    const std::vector<bd::Boid> &getBoids() const { return m_boids; }
+    double getDeltaTime() const { return m_deltaTime; }
 
-  void updateVelocity();
-  void updatePosition(unsigned int, unsigned int);
+    void addBoid(const bd::Boid &boid);
+    void removeBoid(const bd::Boid &boid);
 
-  double averageDistance() const;
-  double averageSpeed() const;
-  int countFlocks() const;
+    void updateVelocity();
+    void updatePosition(unsigned int, unsigned int);
+    void updateBoidParameters(double, double, double, double, double); // needs testing
 
-  double standardDeviationDistance() const;
-  double standardDeviationSpeed() const;
+    double averageDistance() const;
+    double averageSpeed() const;
+    // int countFlocks() const;
+    std::vector<int> countBoidsInFlock();
+    std::vector<int> countBoidsInFlockIsolated();
 
-  void simulate(int, unsigned int, unsigned int);
-};
-}  // namespace fk
+    double standardDeviationDistance() const;
+    double standardDeviationSpeed() const;
+
+    void simulate(int, unsigned int, unsigned int);
+  };
+} // namespace fk
 #endif

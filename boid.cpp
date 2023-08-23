@@ -76,6 +76,10 @@ namespace bd
     m_velocity.set(vx, vy);
     m_velocity.limit(m_maxSpeed);
   }
+  void Boid::setPerceptionRadius(double x)
+  {
+    perceptionRadius = x;
+  }
   void Boid::setSeparationDistance(double x)
   {
     separationDistance = x;
@@ -122,7 +126,7 @@ namespace bd
     for (const Boid &other : boids)
     {
       double distance = m_position.distance(other.getPosition());
-      if (distance > 0 && distance < m_perceptionRadius)
+      if (distance > 0 && distance < perceptionRadius)
       {
         vSum = vSum + other.getPosition();
         ++neighborCount;
@@ -185,7 +189,7 @@ namespace bd
     for (const Boid &otherBoid : boids)
     {
       double distance = currentPosition.distance(otherBoid.getPosition());
-      if (distance > 0 && distance < m_perceptionRadius)
+      if (distance > 0 && distance < perceptionRadius)
       {
         averageVelocity += otherBoid.getVelocity();
         ++neighborCount;

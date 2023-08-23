@@ -74,6 +74,25 @@ TEST_CASE("Testing the Boid functions")
     b1.setVelocity(-54., 34.);
     CHECK(b1.getSpeed() == doctest::Approx(10.));
   }
+  SUBCASE("Set parameters functions")
+  {
+    bd::Boid b1{};
+    CHECK(b1.perceptionRadius == doctest::Approx(15.));
+    CHECK(b1.separationDistance == doctest::Approx(2.));
+    CHECK(b1.separationFactor == doctest::Approx(1.2));
+    CHECK(b1.cohesionFactor == doctest::Approx(0.8));
+    CHECK(b1.alignmentFactor == doctest::Approx(0.5));
+    b1.setPerceptionRadius(10.5);
+    b1.setSeparationDistance(3.);
+    b1.setSeparationFactor(2.);
+    b1.setCohesionFactor(10.);
+    b1.setAlignmentFactor(0.);
+    CHECK(b1.perceptionRadius == doctest::Approx(10.5));
+    CHECK(b1.separationDistance == doctest::Approx(3.));
+    CHECK(b1.separationFactor == doctest::Approx(2.));
+    CHECK(b1.cohesionFactor == doctest::Approx(10.));
+    CHECK(b1.alignmentFactor == doctest::Approx(0.));
+  }
   SUBCASE("center of mass with empty boids")
   {
     std::vector<bd::Boid> boids;

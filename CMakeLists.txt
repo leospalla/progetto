@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(statistics VERSION 0.1.0)
+project(boids VERSION 0.1.0)
 
 # abilita il supporto per i test, tra cui l'opzione BUILD_TESTING usata sotto
 include(CTest)
@@ -18,16 +18,30 @@ string(APPEND CMAKE_CXX_FLAGS " -Wall -Wextra")
 string(APPEND CMAKE_CXX_FLAGS_DEBUG " -fsanitize=address,undefined -fno-omit-frame-pointer")
 string(APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG " -fsanitize=address,undefined -fno-omit-frame-pointer")
 
-#add_executable(statistics main.cpp statistics.cpp)
+# aggiunge l'eseguibile main nella directory build/
+add_executable(main main.cpp boid.cpp flock.cpp vector.cpp)
 
-# se il testing e' abilitato...
-#   per disabilitare il testing, passare -DBUILD_TESTING=OFF a cmake durante la fase di configurazione
+# si attiva se è abilitato il testing
 if (BUILD_TESTING)
 
-  # aggiungi l'eseguibile statistics.t
-  add_executable(statistics.t statistics.test.cpp statistics.cpp)
-  # aggiungi l'eseguibile statistics.t alla lista dei test
-  add_test(NAME statistics.t COMMAND statistics.t)
+# Aggiunge l'eseguibile vector.t per il test della classe Vector
+add_executable(vector.t vector.test.cpp vector.cpp)
+add_test(NAME vector.t COMMAND vector.t)
+# Aggiunge l'eseguibile boids.t per il test della classe Boid
+add_executable(boid.t boid.test.cpp boid.cpp vector.cpp)
+add_test(NAME boid.t COMMAND boid.t)
+# aggiunge l'eseguibile flock.t per il test della classe Flock
+add_executable(flock.t flock.test.cpp flock.cpp boid.cpp vector.cpp)
+add_test(NAME flock.t COMMAND flock.t)
+
+endif() #finisce la parte di testing
+
+#automatizza la formattazione con clang-format
+find_program(CLANG_FORMAT_EXECUTABLE clang-format)
+if (CLANG_FORMAT_EXECUTABLE)
+    
+file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.hpp)
+add_custom_target(format COMMAND ${CLANG_FORMAT_EXECUTABLE} -i ${ALL_SOURCE_FILES} COMMENT "Formatting code using clang-format" VERBATIM)
 
 endif()
 

@@ -4,11 +4,6 @@ namespace fk
   // constructor, empty container of Boids
   Flock::Flock() : m_boids{std::vector<bd::Boid>()} {};
 
-  void Flock::setDeltaTime(double x)
-  {
-    delta_time = x;
-  }
-
   void Flock::addBoid(const bd::Boid &boid) { m_boids.push_back(boid); }
 
   void Flock::removeBoid(const bd::Boid &boid)
@@ -51,7 +46,7 @@ namespace fk
     for (size_t i = 0; i < m_boids.size(); ++i)
     {
       bd::Boid &b = m_boids[i];
-      vc::Vector newPosition = b.getPosition() + b.getVelocity() * delta_time;
+      vc::Vector newPosition = b.getPosition() + b.getVelocity() * m_deltaTime;
       newPositions[i] = newPosition;
     }
     for (size_t i = 0; i < m_boids.size(); ++i)
@@ -61,6 +56,19 @@ namespace fk
     }
   }
 
+  void Flock::updateBoidParameters(double perceptionRadius, double separationDistance, double separationFactor, double cohesionFactor, double alignmentFactor)
+  {
+    for (bd::Boid &boid : m_boids)
+    {
+      boid.setPerceptionRadius(perceptionRadius);
+      boid.setSeparationDistance(separationDistance);
+      boid.setSeparationFactor(separationFactor);
+      boid.setCohesionFactor(cohesionFactor);
+      boid.setAlignmentFactor(alignmentFactor);
+    }
+  }
+
+  /*
   int Flock::countFlocks() const
   {
     if (m_boids.empty())
@@ -99,6 +107,83 @@ namespace fk
       }
     }
     return numFlocks;
+  }
+  */
+
+  std::vector<int> countBoidsInFlockIsolated() 
+  {
+    //da trattare solo quando si ha un boid isolato e chiamare nella funzione generale.
+    
+  }
+
+  std::vector<int> Flock::countBoidsInFlock()
+  {
+    std::vector<int> empty;
+    std::vector<int> one(1, 1);
+    if (m_boids.size() == 0)
+    {
+      return empty;
+    }
+    if (m_boids.size() == 1)
+    {
+      return one;
+    }
+    std::vector<bool> visited(m_boids.size(), false);
+    std::vector<int> memberCounts;
+    bd::Boid b;
+    int numBoids{0};
+    int numFlocks{0};
+    int oldNumFlocks{0};
+    for (size_t i{0}; i < m_boids.size(); ++i)
+    {
+      int sameflk{0};
+      if (!visited[i])
+      {
+        visited[i] = true;
+        oldNumFlocks = numFlocks;
+        ++numBoids;
+        ++numFlocks;
+        for (size_t k{0}; k < m_boids.size(); ++k)
+        {
+          if (k != i && visited[k] && m_boids[i].getPosition().distance(m_boids[k].getPosition()) <= b.getPreceptionRadius())
+          {
+            ++sameflk;
+          }
+        }
+        if (sameflk != 0)
+        {
+          --numFlocks;
+        }
+        if (i != 0 && oldNumFlocks != numFlocks)
+        {
+          memberCounts.push_back(numBoids - 1);
+          numBoids = 1;
+        }
+        for (size_t j{i + 1}; j < m_boids.size(); ++j)
+        {
+          if (!visited[j] && m_boids[i].getPosition().distance(m_boids[j].getPosition()) <= b.getPreceptionRadius())
+          {
+            visited[j] = true;
+            ++numBoids;
+          }
+        }
+        if (i == 0 && numBoids == 1)
+        {
+          memberCounts.push_back(numBoids);
+          numBoids = 0;
+          m_boids.erase(m_boids.begin());
+          std::vector<int> iteratedCounter;
+          iteratedCounter = countBoidsInFlock();
+          for (size_t l{0}; l < iteratedCounter.size(); ++l)
+          {
+            memberCounts.push_back(iteratedCounter[l]);
+          }
+          return memberCounts;
+        }
+      }
+    }
+    memberCounts.push_back(numBoids);
+    return memberCounts;
   }
 
   double Flock::averageDistance() const
@@ -187,11 +272,11 @@ namespace fk
   {
     for (int step = 0; step <= numSteps; ++step)
     {
-      double time = step * delta_time;
+      double time = step * m_deltaTime;
       std::cout << "Time: " << time << " seconds" << std::endl;
       std::cout << "Average distance: " << averageDistance() << " +/- " << standardDeviationDistance() << std::endl;
       std::cout << "Average speed: " << averageSpeed() << " +/- " << standardDeviationSpeed() << std::endl;
-      std::cout << "number of flocks " << countFlocks() << std::endl;
+      std::cout << "number of flocks " << countBoidsInFlock().size() << std::endl;
       updateVelocity();
       updatePosition(windowHeight, windowHeight);
     }

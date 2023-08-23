@@ -2,12 +2,12 @@
 int main()
 {
   fk::Flock flock;
+  
+  double perceptionRadius;
   double separationDistance;
   double separationFactor;
   double cohesionFactor;
   double alignmentFactor;
-
-  double deltaTime;
   
   int numBoids;
   double time;
@@ -58,6 +58,18 @@ int main()
   }
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
+  std::cout << "Insert the perception radius of each boid: " << std::endl;
+  std::cin >> perceptionRadius;
+  std::cout << "Insert the separation distance of the separation rule: " << std::endl;
+  std::cin >> separationDistance;
+  std::cout << "Insert the separation factor of the separation rule: " << std::endl;
+  std::cin >> separationFactor;
+  std::cout << "Insert the cohesion factor of the cohesion rule: " << std::endl;
+  std::cin >> cohesionFactor;
+  std::cout << "Insert the alignment factor of the alignment rule: " << std::endl;
+  std::cin >> alignmentFactor;
+
+  flock.updateBoidParameters(perceptionRadius, separationDistance, separationFactor, cohesionFactor, alignmentFactor);
   simulationSteps = time / flock.getDeltaTime();
   flock.simulate(simulationSteps, windowWidth, windowHeight);
   return 0;
