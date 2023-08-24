@@ -44,11 +44,12 @@ class Boid {
   double getMaxSpeed() const { return m_maxSpeed; }
   double getSpeed() const { return m_velocity.Magnitude(); }
 
+  vc::Vector centerOfMass(std::vector<Boid>) const;
+
   vc::Vector separate(std::vector<Boid>) const;
   vc::Vector cohere(std::vector<Boid>) const;
   vc::Vector align(std::vector<Boid>) const;
 
-  vc::Vector centerOfMass(std::vector<Boid>) const;
   void borders(int);
 };
 }  // namespace bd

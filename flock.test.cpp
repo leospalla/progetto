@@ -1,7 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "flock.hpp"
-
 #include "doctest.h"
+#include "flock.hpp"
 TEST_CASE("testing the flock class") {
   fk::Flock flock;
   SUBCASE("testing add boid and remove functions") {
@@ -217,8 +216,8 @@ TEST_CASE("testing the flock class") {
   SUBCASE("testing countBoidsInFlock with 1 boid") {
     bd::Boid b1(vc::Vector{0.0, 0.0});
     flock.addBoid(b1);
-    CHECK(flock.countBoidsInFlock().size() == 1);
-    CHECK(flock.countBoidsInFlock()[0] == 1);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius).size() == 1);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[0] == 1);
   }
   SUBCASE("testing countBoidsInFlock with 3 isolated boids") {
     bd::Boid b1(vc::Vector{0.0, 0.0});
@@ -227,10 +226,10 @@ TEST_CASE("testing the flock class") {
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    CHECK(flock.countBoidsInFlock().size() == 3);
-    CHECK(flock.countBoidsInFlock()[0] == 1);
-    CHECK(flock.countBoidsInFlock()[1] == 1);
-    CHECK(flock.countBoidsInFlock()[2] == 1);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius).size() == 3);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[0] == 1);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[1] == 1);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[2] == 1);
   }
   SUBCASE(
       "testing countBoidsInFlock with 3 close boids but last and first are "
@@ -241,8 +240,8 @@ TEST_CASE("testing the flock class") {
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    CHECK(flock.countBoidsInFlock().size() == 1);
-    CHECK(flock.countBoidsInFlock()[0] == 3);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius).size() == 1);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[0] == 3);
   }
   SUBCASE(
       "testing countBoidsInFlock with four close boids but last and first are "
@@ -255,8 +254,8 @@ TEST_CASE("testing the flock class") {
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.addBoid(b4);
-    CHECK(flock.countBoidsInFlock().size() == 1);
-    CHECK(flock.countBoidsInFlock()[0] == 4);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius).size() == 1);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[0] == 4);
   }
   SUBCASE(
       "testing countBoidsInFlock with three close boids and one isolated "
@@ -269,9 +268,9 @@ TEST_CASE("testing the flock class") {
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.addBoid(b4);
-    CHECK(flock.countBoidsInFlock().size() == 2);
-    CHECK(flock.countBoidsInFlock()[0] == 1);
-    CHECK(flock.countBoidsInFlock()[1] == 3);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius).size() == 2);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[0] == 1);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[1] == 3);
   }
   SUBCASE(
       "testing countBoidsInFlock with three close boids and one isolated "
@@ -284,9 +283,9 @@ TEST_CASE("testing the flock class") {
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.addBoid(b4);
-    CHECK(flock.countBoidsInFlock().size() == 2);
-    CHECK(flock.countBoidsInFlock()[0] == 3);
-    CHECK(flock.countBoidsInFlock()[1] == 1);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius).size() == 2);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[0] == 3);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[1] == 1);
   }
   SUBCASE("testing countBoidsInFlock with two flocks") {
     bd::Boid b1(vc::Vector{0.0, 0.0});
@@ -301,9 +300,9 @@ TEST_CASE("testing the flock class") {
     flock.addBoid(b4);
     flock.addBoid(b5);
     flock.addBoid(b6);
-    CHECK(flock.countBoidsInFlock().size() == 2);
-    CHECK(flock.countBoidsInFlock()[0] == 3);
-    CHECK(flock.countBoidsInFlock()[1] == 3);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius).size() == 2);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[0] == 3);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[1] == 3);
   }
   SUBCASE("testing countBoidsInFlock with two flocks but alternated") {
     bd::Boid b1(vc::Vector{0.0, 0.0});
@@ -318,9 +317,9 @@ TEST_CASE("testing the flock class") {
     flock.addBoid(b4);
     flock.addBoid(b5);
     flock.addBoid(b6);
-    CHECK(flock.countBoidsInFlock().size() == 2);
-    CHECK(flock.countBoidsInFlock()[0] == 3);
-    CHECK(flock.countBoidsInFlock()[1] == 3);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius).size() == 2);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[0] == 3);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[1] == 3);
   }
   SUBCASE("testing countBoidsInFlock with two flocks but alternated") {
     bd::Boid b1(vc::Vector{0.0, 0.0});
@@ -333,8 +332,8 @@ TEST_CASE("testing the flock class") {
     flock.addBoid(b3);
     flock.addBoid(b4);
     flock.addBoid(b5);
-    CHECK(flock.countBoidsInFlock().size() == 2);
-    CHECK(flock.countBoidsInFlock()[0] == 3);
-    CHECK(flock.countBoidsInFlock()[1] == 2);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius).size() == 2);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[0] == 3);
+    CHECK(flock.countBoidsInFlock(b1.perceptionRadius)[1] == 2);
   }
 }

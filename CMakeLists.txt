@@ -1,42 +1,42 @@
 cmake_minimum_required(VERSION 3.16)
 project(boids VERSION 0.1.0)
 
-# abilita il supporto per i test, tra cui l'opzione BUILD_TESTING usata sotto
+# Enable support for tests, including the BUILD_TESTING option used below
 include(CTest)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# richiedi l'uso di C++17, senza estensioni non-standard offerte dal compilatore usato 
+# Require the use of C++17, without non-standard compiler extensions
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
-# abilita warning
+# Enable compiler warnings
 string(APPEND CMAKE_CXX_FLAGS " -Wall -Wextra")
 
-# abilita l'address sanitizer e l'undefined-behaviour sanitizer in debug mode
+# Enable AddressSanitizer and UndefinedBehaviorSanitizer in debug mode
 string(APPEND CMAKE_CXX_FLAGS_DEBUG " -fsanitize=address,undefined -fno-omit-frame-pointer")
 string(APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG " -fsanitize=address,undefined -fno-omit-frame-pointer")
 
-# aggiunge l'eseguibile main nella directory build/
+# Add the main executable in the build/ directory
 add_executable(main main.cpp boids.cpp flock.cpp vector.cpp)
 
-# si attiva se è abilitato il testing
+# Activate if testing is enabled
 if (BUILD_TESTING)
 
-# Aggiunge l'eseguibile vector.t per il test della classe Vector
+# Add the vector.t executable for testing the Vector class
 add_executable(vector.t vector.test.cpp vector.cpp)
 add_test(NAME vector.t COMMAND vector.t)
-# Aggiunge l'eseguibile boids.t per il test della classe Boid
+# Add the boids.t executable for testing the Boid class
 add_executable(boids.t boids.test.cpp boids.cpp vector.cpp)
 add_test(NAME boids.t COMMAND boids.t)
-# aggiunge l'eseguibile flock.t per il test della classe Flock
+# Add the flock.t executable for testing the Flock class
 add_executable(flock.t flock.test.cpp flock.cpp boids.cpp vector.cpp)
 add_test(NAME flock.t COMMAND flock.t)
 
-endif() #finisce la parte di testing
+endif() # End of testing section
 
-#automatizza la formattazione con clang-format
+# Automate code formatting using clang-format
 find_program(CLANG_FORMAT_EXECUTABLE clang-format)
 if (CLANG_FORMAT_EXECUTABLE)
     

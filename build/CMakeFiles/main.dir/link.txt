@@ -1,1 +1,1 @@
-/usr/bin/c++   -Wall -Wextra -g -fsanitize=address,undefined -fno-omit-frame-pointer   -fsanitize=address,undefined -fno-omit-frame-pointer CMakeFiles/main.dir/main.cpp.o CMakeFiles/main.dir/boids.cpp.o CMakeFiles/main.dir/flock.cpp.o CMakeFiles/main.dir/vector.cpp.o  -o main 
+/usr/bin/c++   -Wall -Wextra -O3 -DNDEBUG   CMakeFiles/main.dir/main.cpp.o CMakeFiles/main.dir/boids.cpp.o CMakeFiles/main.dir/flock.cpp.o CMakeFiles/main.dir/vector.cpp.o  -o main 

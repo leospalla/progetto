@@ -70,7 +70,7 @@ TEST_CASE("Testing the constructors") {
   }
 }
 TEST_CASE("Testing the Boid functions") {
-  SUBCASE("Set position/velocity  and getSpeed functions") {
+  SUBCASE("Set position/velocity and getSpeed functions") {
     bd::Boid b1{3., -6.};
     b1.setPosition(3., -3.);
     b1.setVelocity(3., 4.);
@@ -82,6 +82,60 @@ TEST_CASE("Testing the Boid functions") {
     CHECK(b1.getSpeed() == doctest::Approx(5.));
     b1.setVelocity(-54., 34.);
     CHECK(b1.getSpeed() == doctest::Approx(10.));
+  }
+  SUBCASE("center of mass with empty boids") {
+    std::vector<bd::Boid> boids;
+    bd::Boid b;
+    CHECK(b.centerOfMass(boids).getX() == doctest::Approx(0.));
+    CHECK(b.centerOfMass(boids).getY() == doctest::Approx(0.));
+  }
+  SUBCASE("center of mass with one boid") {
+    std::vector<bd::Boid> boids;
+    bd::Boid b(vc::Vector{1., 0.}, vc::Vector{0., 1.});
+    boids.push_back(b);
+    CHECK(b.centerOfMass(boids).getX() == doctest::Approx(1.));
+    CHECK(b.centerOfMass(boids).getY() == doctest::Approx(0.));
+  }
+  SUBCASE("center of mass with distant boids") {
+    std::vector<bd::Boid> boids;
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
+    bd::Boid b2(vc::Vector{100., 0.}, vc::Vector{1.0, 1.0});
+    boids.push_back(b1);
+    boids.push_back(b2);
+    CHECK(b1.centerOfMass(boids).getX() == doctest::Approx(1.));
+    CHECK(b1.centerOfMass(boids).getY() == doctest::Approx(0.));
+    CHECK(b2.centerOfMass(boids).getX() == doctest::Approx(100.));
+    CHECK(b2.centerOfMass(boids).getY() == doctest::Approx(0.));
+  }
+  SUBCASE("center of mass with one distant and one close boid") {
+    std::vector<bd::Boid> boids;
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
+    bd::Boid b2(vc::Vector{100., 0.}, vc::Vector{1.0, 1.0});
+    bd::Boid b3(vc::Vector{0.0, 0.0}, vc::Vector{1.0, 0.0});
+    boids.push_back(b1);
+    boids.push_back(b2);
+    boids.push_back(b3);
+    CHECK(b1.centerOfMass(boids).getX() == doctest::Approx(0.));
+    CHECK(b1.centerOfMass(boids).getY() == doctest::Approx(0.));
+    CHECK(b2.centerOfMass(boids).getX() == doctest::Approx(100.));
+    CHECK(b2.centerOfMass(boids).getY() == doctest::Approx(0.));
+    CHECK(b3.centerOfMass(boids).getX() == doctest::Approx(1.));
+    CHECK(b3.centerOfMass(boids).getY() == doctest::Approx(0.));
+  }
+  SUBCASE("center of mass with three boids") {
+    std::vector<bd::Boid> boids;
+    bd::Boid b1(vc::Vector{1., 0.}, vc::Vector{0., 1.});
+    bd::Boid b2(vc::Vector{0., 0.}, vc::Vector{1.0, 1.0});
+    bd::Boid b3(vc::Vector{2.0, 2.0}, vc::Vector{-1.0, -1.0});
+    boids.push_back(b1);
+    boids.push_back(b2);
+    boids.push_back(b3);
+    CHECK(b1.centerOfMass(boids).getX() == doctest::Approx(1.));
+    CHECK(b1.centerOfMass(boids).getY() == doctest::Approx(1.));
+    CHECK(b2.centerOfMass(boids).getX() == doctest::Approx(1.5));
+    CHECK(b2.centerOfMass(boids).getY() == doctest::Approx(1.));
+    CHECK(b3.centerOfMass(boids).getX() == doctest::Approx(0.5));
+    CHECK(b3.centerOfMass(boids).getY() == doctest::Approx(0.));
   }
   SUBCASE("Set parameters functions") {
     bd::Boid b1{};

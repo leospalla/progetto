@@ -13,7 +13,7 @@ void Flock::removeBoid(const bd::Boid &boid) {
 }
 
 void Flock::updateVelocity() {
-  // create a new vector to put the updated velocities
+  // creates a new vector to put the updated velocities
   std::vector<vc::Vector> newVelocities(m_boids.size());
   for (size_t i = 0; i < m_boids.size(); ++i) {
     bd::Boid &b = m_boids[i];
@@ -23,7 +23,7 @@ void Flock::updateVelocity() {
     vc::Vector totalVelocity =
         separationVelocity + cohesionVelocity + alignmentVelocity;
     // not setting it yet because then the boids are not
-    // updated at the same time and updated boids influence non updated boids
+    // updated at the same time and updated boids influence non-updated boids
     vc::Vector newVelocity = b.getVelocity() + totalVelocity;
     newVelocity.limit(b.getMaxSpeed());
     newVelocities[i] = newVelocity;
@@ -34,7 +34,8 @@ void Flock::updateVelocity() {
   }
 }
 
-void Flock::updatePosition(int length) {
+// same thing for updateVelocity
+void Flock::updatePosition(int size) {
   updateVelocity();
   std::vector<vc::Vector> newPositions(m_boids.size());
   for (size_t i = 0; i < m_boids.size(); ++i) {
@@ -44,7 +45,7 @@ void Flock::updatePosition(int length) {
   }
   for (size_t j = 0; j < m_boids.size(); ++j) {
     m_boids[j].setPosition(newPositions[j].getX(), newPositions[j].getY());
-    m_boids[j].borders(length);
+    m_boids[j].borders(size);
   }
 }
 
@@ -126,47 +127,39 @@ double Flock::standardDeviationSpeed() const {
   return std::sqrt(stDev / m_boids.size());
 }
 
-//implementazione con std::stack
-//cosi va e fanno pure i test ma il main no, è da cambiare simulate
-std::vector<int> Flock::countBoidsInFlock() const {
-  bd::Boid b{};
+std::vector<int> Flock::countBoidsInFlock(double perceptionRadius) const {
   std::vector<int> memberCounts;
   std::vector<bool> visited(m_boids.size(), false);
-
   for (size_t i = 0; i < m_boids.size(); ++i) {
     if (!visited[i]) {
       int numBoidsInFlock = 0;
       std::stack<size_t> stack;
       stack.push(i);
-
       while (!stack.empty()) {
         size_t currentBoidIndex = stack.top();
         stack.pop();
         if (!visited[currentBoidIndex]) {
           visited[currentBoidIndex] = true;
           ++numBoidsInFlock;
-
           for (size_t j = 0; j < m_boids.size(); ++j) {
             if (!visited[j] && m_boids[j].getPosition().distance(
                                    m_boids[currentBoidIndex].getPosition()) <=
-                                   b.perceptionRadius) {
+                                   perceptionRadius) {
               stack.push(j);
             }
           }
         }
       }
-
       if (numBoidsInFlock > 0) {
         memberCounts.push_back(numBoidsInFlock);
       }
     }
   }
-
   return memberCounts;
 }
 
 // at each step updates and prints the collective informations about the flock.
-void Flock::simulate(int numSteps, [[maybe_unused]] int length) {
+void Flock::simulate(int numSteps, int size, double perceptionRadius) {
   for (int step = 0; step <= numSteps; ++step) {
     double time = step * m_delta_time;
     std::cout << "Time: " << time << std::endl;
@@ -174,149 +167,14 @@ void Flock::simulate(int numSteps, [[maybe_unused]] int length) {
               << standardDeviationDistance() << std::endl;
     std::cout << "Average speed: " << averageSpeed() << " +/- "
               << standardDeviationSpeed() << std::endl;
-    std::vector<int> flockCounts = countBoidsInFlock();
+    std::vector<int> flockCounts = countBoidsInFlock(perceptionRadius);
     std::cout << "Number of flocks: " << flockCounts.size() << std::endl;
     for (size_t i = 0; i < flockCounts.size(); ++i) {
-      std::cout << "Number of boids inside flock " << i + 1 << ": "
+      std::cout << "Number of boids inside flock n°" << i + 1 << ": "
                 << flockCounts[i] << std::endl;
     }
-  
     updateVelocity();
-    updatePosition(length);
+    updatePosition(size);
   }
 }
 }  // namespace fk
-
-/*
-altra possibile implementazione con variabile bool:
-è da controllare gli indici dei cicli perchè nei test
-da errori di heap-buffer-overflow
-
-
-std::vector<int> Flock::countBoidsInFlock() const {
-  std::vector<int> empty;
-  std::vector<int> one(1, 1);
-  if (m_boids.size() == 0) {
-    return empty;
-  }
-  if (m_boids.size() == 1) {
-    return one;
-  }
-  std::vector<bool> visited(m_boids.size(), false);
-  std::vector<int> memberCounts;
-  bd::Boid b;
-  int numBoids{0};
-  int numFlocks{0};
-  int oldNumFlocks{0};
-  bool isStartingNewFlock = true;
-
-  for (size_t i = 0; i < m_boids.size(); ++i) {
-    int sameflk = 0;
-    if (!visited[i]) {
-      visited[i] = true;
-      if (isStartingNewFlock) {
-        oldNumFlocks = numFlocks;
-        ++numBoids;
-        ++numFlocks;
-        isStartingNewFlock = false;
-      }
-      for (size_t k = 0; k < m_boids.size(); ++k) {
-        if (k != i && visited[k] &&
-            m_boids[i].getPosition().distance(m_boids[k].getPosition()) <=
-                b.perceptionRadius) {
-          ++sameflk;
-        }
-      }
-      if (sameflk != 0) {
-        --numFlocks;
-      }
-      if (numBoids != 1 && oldNumFlocks != numFlocks) {
-        memberCounts.push_back(numBoids);
-        numBoids = 1;
-        isStartingNewFlock = true;
-      }
-      //maybe here there's a problem with the index like
-      //if i = m_boids.size() - 1 then j goes out the
-      //memory of the vector
-        for (size_t j = i + 1; j < m_boids.size(); ++j) {
-          if (!visited[j] &&
-              m_boids[i].getPosition().distance(m_boids[j].getPosition()) <=
-                  b.perceptionRadius) {
-            visited[j] = true;
-            ++numBoids;
-          }
-      }
-      if (numBoids == 1) {
-        memberCounts.push_back(numBoids);
-        numBoids = 0;
-        isStartingNewFlock = true;
-      }
-    }
-  }
-  if (numBoids != 0) {
-    memberCounts.push_back(numBoids);
-  }
-  return memberCounts;
-}*/
-
-
-/*
-vecchia implementazione che va bene tranne con ultimo boid:
-
-
-std::vector<int> Flock::countBoidsInFlock() const {
-  std::vector<int> empty;
-  std::vector<int> one(1, 1);
-  if (m_boids.size() == 0) {
-    return empty;
-  }
-  if (m_boids.size() == 1) {
-    return one;
-  }
-  std::vector<bool> visited(m_boids.size(), false);
-  std::vector<int> memberCounts;
-  bd::Boid b;
-  int numBoids{0};
-  int numFlocks{0};
-  int oldNumFlocks{0};
-  for (size_t i{0}; i < m_boids.size(); ++i) {
-    int sameflk{0};
-    if (!visited[i]) {
-      visited[i] = true;
-      oldNumFlocks = numFlocks;
-      ++numBoids;
-      ++numFlocks;
-      for (size_t k{0}; k < m_boids.size(); ++k) {
-        if (k != i && visited[k] &&
-            m_boids[i].getPosition().distance(m_boids[k].getPosition()) <=
-                b.perceptionRadius) {
-          ++sameflk;
-        }
-      }
-      if (sameflk != 0) {
-        --numFlocks;
-      }
-      if (numBoids != 1 && oldNumFlocks != numFlocks) {
-        memberCounts.push_back(numBoids - 1);
-        numBoids = 1;
-      }
-      for (size_t j{i + 1}; j < m_boids.size(); ++j) {
-        if (!visited[j] &&
-            m_boids[i].getPosition().distance(m_boids[j].getPosition()) <=
-                b.perceptionRadius) {
-          visited[j] = true;
-          ++numBoids;
-        }
-      }
-      if (numBoids == 1) {
-        memberCounts.push_back(numBoids);
-        numBoids = 0;
-      }
-    }
-  }
-  if (numBoids != 0) {
-    memberCounts.push_back(numBoids);
-  }
-  return memberCounts;
-}
-*/

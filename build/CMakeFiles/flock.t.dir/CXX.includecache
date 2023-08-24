@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/home/leospallacci/boids/progetto/boids.cpp
+boids.hpp
+/home/leospallacci/boids/progetto/boids.hpp
+
 /home/leospallacci/boids/progetto/boids.hpp
 iostream
 -
@@ -106,6 +110,10 @@ sys/time.h
 unistd.h
 -
 
+/home/leospallacci/boids/progetto/flock.cpp
+flock.hpp
+/home/leospallacci/boids/progetto/flock.hpp
+
 /home/leospallacci/boids/progetto/flock.hpp
 algorithm
 -
@@ -117,10 +125,14 @@ boids.hpp
 /home/leospallacci/boids/progetto/boids.hpp
 
 /home/leospallacci/boids/progetto/flock.test.cpp
-flock.hpp
-/home/leospallacci/boids/progetto/flock.hpp
 doctest.h
 /home/leospallacci/boids/progetto/doctest.h
+flock.hpp
+/home/leospallacci/boids/progetto/flock.hpp
+
+/home/leospallacci/boids/progetto/vector.cpp
+vector.hpp
+/home/leospallacci/boids/progetto/vector.hpp
 
 /home/leospallacci/boids/progetto/vector.hpp
 cmath

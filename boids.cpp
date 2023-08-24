@@ -14,7 +14,7 @@ double randomPosition() {
          static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 60.));
 }
 
-//overload used for input
+// overloaded because its used for input
 double randomPosition(int x) {
   return -x +
          static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / x / 2));
@@ -81,8 +81,8 @@ Boid::Boid(vc::Vector position)
 
 Boid::Boid(vc::Vector position, vc::Vector velocity)
     : m_position{position}, m_velocity{velocity} {
-      m_velocity.limit(m_maxSpeed);
-    }
+  m_velocity.limit(m_maxSpeed);
+}
 
 // set functions
 void Boid::setPosition(double x, double y) { m_position.set(x, y); }
@@ -112,6 +112,27 @@ bool Boid::operator==(const Boid& other) const {
   return m_position == other.m_position && m_velocity == other.m_velocity;
 }
 
+vc::Vector Boid::centerOfMass(std::vector<Boid> boids) const {
+  if (boids.empty()) {
+    return vc::Vector{0.0, 0.0};
+  }
+  int neighborCount = 0;  // only close boids count in the formula
+  vc::Vector vSum{0.0, 0.0};
+  for (const Boid& other : boids) {
+    double distance = m_position.distance(other.getPosition());
+    if (distance > 0 && distance < perceptionRadius) {
+      vSum = vSum + other.getPosition();
+      ++neighborCount;
+    }
+  }
+  if (neighborCount > 0) {
+    vSum = vSum / neighborCount;
+  } else {
+    return m_position;  // so in cohere desired is 0 with no neighbors
+  }
+  return vSum;
+}
+
 // flight rules
 vc::Vector Boid::separate(std::vector<Boid> boids) const {
   if (boids.empty()) {
@@ -132,27 +153,11 @@ vc::Vector Boid::separate(std::vector<Boid> boids) const {
 
 vc::Vector Boid::cohere(std::vector<Boid> boids) const {
   if (boids.empty()) {
-    return vc::Vector{0., 0.};
+    return vc::Vector(0.0, 0.0);
   }
-  vc::Vector currentPosition = m_position;
-  vc::Vector centerOfMass{0.0, 0.0};
-  int neighborCount = 0;
-
-  for (const Boid& otherBoid : boids) {
-    double distance = currentPosition.distance(otherBoid.getPosition());
-    if (distance > 0 && distance < perceptionRadius) {
-      centerOfMass += otherBoid.getPosition();
-      ++neighborCount;
-    }
-  }
-  if (neighborCount > 0) {
-    centerOfMass = centerOfMass / static_cast<double>(neighborCount);
-    vc::Vector cohesion = (centerOfMass - currentPosition) * cohesionFactor;
-    cohesion.limit(m_maxSpeed);
-    return cohesion;
-  } else {
-    return vc::Vector{0., 0.};
-  }
+  vc::Vector center = centerOfMass(boids);
+  vc::Vector cohesion = center - m_position;
+  return cohesion * cohesionFactor;
 }
 
 vc::Vector Boid::align(std::vector<Boid> boids) const {
@@ -181,30 +186,9 @@ vc::Vector Boid::align(std::vector<Boid> boids) const {
   }
 }
 
-vc::Vector Boid::centerOfMass(std::vector<Boid> boids) const {
-  if (boids.empty()) {
-    return vc::Vector{0.0, 0.0};
-  }
-  int neighborCount = 0;
-  vc::Vector vSum{0.0, 0.0};
-  for (const Boid& other : boids) {
-    double distance = m_position.distance(other.getPosition());
-    if (distance > 0 && distance < perceptionRadius) {
-      vSum = vSum + other.getPosition();
-      ++neighborCount;
-    }
-  }
-  if (neighborCount > 0) {
-    vSum = vSum / neighborCount;
-  } else {
-    return m_position;
-  }
-  return vSum;
-}
-
-void Boid::borders(int length) {
-  double halfWidth = length / 2;
-  double halfHeight = length / 2;
+void Boid::borders(int size) {
+  double halfWidth = size / 2;
+  double halfHeight = size / 2;
   if (m_position.getX() > halfWidth) {
     setPosition(-halfWidth, m_position.getY());
   }
