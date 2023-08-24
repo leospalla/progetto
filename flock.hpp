@@ -30,8 +30,9 @@ namespace fk
 
     double standardDeviationDistance() const;
     double standardDeviationSpeed() const;
-
+    int countFlocks() const;
     std::vector<int> countBoidsInFlock();
+    // std::vector<int> reOrderBoidsInFlock(std::vector<int>, std::vector<bd::Boid>);
 
     void simulate(int, unsigned int, unsigned int);
   };

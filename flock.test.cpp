@@ -163,9 +163,43 @@ TEST_CASE("testing methods")
     flock.addBoid(b4);
     flock.addBoid(b5);
     flock.addBoid(b6);
+    CHECK( flock.countBoidsInFlock().size() == 2);
+    CHECK(flock.countBoidsInFlock()[0] == 3);
+    CHECK(flock.countBoidsInFlock()[1] == 3);
+  }
+    SUBCASE("testing countBoidsInFlock with two flocks but alternated")
+  {
+    bd::Boid b1(vc::Vector(0.0, 0.0));
+    bd::Boid b2(vc::Vector(10.0, 0.0));
+    bd::Boid b3(vc::Vector(120.0, 0.0));
+    bd::Boid b4(vc::Vector(100.0, 0.0));
+    bd::Boid b5(vc::Vector(110.0, 0.0));
+    bd::Boid b6(vc::Vector(20.0, 0.0));
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    flock.addBoid(b5);
+    flock.addBoid(b6);
     CHECK(flock.countBoidsInFlock().size() == 2);
     CHECK(flock.countBoidsInFlock()[0] == 3);
     CHECK(flock.countBoidsInFlock()[1] == 3);
+  }
+      SUBCASE("testing countBoidsInFlock with two flocks but alternated")
+  {
+    bd::Boid b1(vc::Vector(0.0, 0.0));
+    bd::Boid b2(vc::Vector(10.0, 0.0));
+    bd::Boid b3(vc::Vector(120.0, 0.0));
+    bd::Boid b4(vc::Vector(100.0, 0.0));
+    bd::Boid b6(vc::Vector(20.0, 0.0));
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    flock.addBoid(b6);
+    CHECK(flock.countBoidsInFlock().size() == 2);
+    CHECK(flock.countBoidsInFlock()[0] == 3);
+    CHECK(flock.countBoidsInFlock()[1] == 2);
   }
   SUBCASE("testing updatevelocity with one boid")
   {

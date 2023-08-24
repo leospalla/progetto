@@ -68,7 +68,113 @@ namespace fk
     }
   }
 
-  std::vector<int> Flock::countBoidsInFlock()
+   std::vector<int> Flock::countBoidsInFlock()
+   {
+     std::vector<int> empty;
+     std::vector<int> one(1, 1);
+     if (m_boids.size() == 0)
+     {
+       return empty;
+     }
+     if (m_boids.size() == 1)
+     {
+       return one;
+     }
+     std::vector<bool> visited(m_boids.size(), false);
+     std::vector<int> memberCounts;
+     bd::Boid b;
+     double minDist{b.getPreceptionRadius()};
+     int numBoids{0};
+     int numFlocks{0};
+     int oldNumFlocks{0};
+     for (size_t i{0}; i < m_boids.size(); ++i)
+     {
+       int sameflk{0};
+       if (!visited[i])
+       {
+         visited[i] = true;
+         oldNumFlocks = numFlocks;
+         ++numBoids;
+         ++numFlocks;
+         for (size_t k{0}; k < m_boids.size(); ++k)
+         {
+           if (k != i && visited[k] && m_boids[i].getPosition().distance(m_boids[k].getPosition()) <= minDist)
+           {
+             ++sameflk;
+           }
+         }
+         if (numBoids != 1 && sameflk != 0)
+         {
+           --numFlocks;
+         }
+         if (numBoids != 1 && oldNumFlocks != numFlocks)
+         {
+           memberCounts.push_back(numBoids - 1);
+           numBoids = 1;
+         }
+         for (size_t j{i + 1}; j < m_boids.size(); ++j)
+         {
+           if (!visited[j] && m_boids[i].getPosition().distance(m_boids[j].getPosition()) <= minDist)
+           {
+             visited[j] = true;
+             ++numBoids;
+           }
+         }
+         if (numBoids == 1)
+         {
+           memberCounts.push_back(numBoids);
+           numBoids = 0;
+         }
+       }
+     }
+     if (numBoids != 0)
+     {
+       memberCounts.push_back(numBoids);
+     }
+     return memberCounts;
+   }
+
+  /*int Flock::countFlocks() const
+  {
+    if (m_boids.empty())
+    {
+      return 0;
+    }
+    std::vector<bool> visited(m_boids.size(), false);
+    bd::Boid b;
+    int numFlocks{0};
+    double minDist{b.getPreceptionRadius()};
+    for (size_t i{0}; i < m_boids.size(); ++i)
+    {
+      int sameflk{0};
+      if (!visited[i])
+      {
+        visited[i] = true;
+        ++numFlocks;
+        for (size_t k{0}; k < m_boids.size(); ++k)
+        {
+          if (k != i && visited[k] && m_boids[i].getPosition().distance(m_boids[k].getPosition()) <= minDist)
+          {
+            ++sameflk;
+          }
+        }
+        if (sameflk != 0)
+        {
+          --numFlocks;
+        }
+        for (size_t j{i + 1}; j < m_boids.size(); ++j)
+        {
+          if (!visited[j] && m_boids[i].getPosition().distance(m_boids[j].getPosition()) <= minDist)
+          {
+            visited[j] = true;
+          }
+        }
+      }
+    }
+    return numFlocks;
+  }*/
+
+  /*std::vector<int> Flock::countBoidsInFlock(int numFlocks)
   {
     std::vector<int> empty;
     std::vector<int> one(1, 1);
@@ -80,58 +186,69 @@ namespace fk
     {
       return one;
     }
-    std::vector<bool> visited(m_boids.size(), false);
-    std::vector<int> memberCounts;
     bd::Boid b;
-    int numBoids{0};
-    int numFlocks{0};
-    int oldNumFlocks{0};
-    for (size_t i{0}; i < m_boids.size(); ++i)
+    std::vector<int> memberCounts;
+    std::vector<bool> visited(m_boids.size(), false);
+    std::vector<std::vector<bool>> visitedGroups(numFlocks, visited);
+    std::vector<size_t> visitedIndexes;
+    double minDist{b.getPreceptionRadius()};
+    for (int k{0}; k < numFlocks; ++k)
     {
-      int sameflk{0};
-      if (!visited[i])
+      bool isolatedBoid{false};
+      int numBoids{0};
+      for (size_t i{0}; i < m_boids.size(); ++i)
       {
-        visited[i] = true;
-        oldNumFlocks = numFlocks;
-        ++numBoids;
-        ++numFlocks;
-        for (size_t k{0}; k < m_boids.size(); ++k)
+        int sameflk{0};
+        if ((!visitedGroups[k][i] && std::find(visitedIndexes.begin(), visitedIndexes.end(), i) == visitedIndexes.end()))
         {
-          if (k != i && visited[k] && m_boids[i].getPosition().distance(m_boids[k].getPosition()) <= b.getPreceptionRadius())
+          visitedGroups[k][i] = true;
+          ++numBoids;
+
+          for (size_t l{0}; l < m_boids.size(); ++l)
           {
-            ++sameflk;
+            if (l != i && visitedGroups[k][l] && m_boids[i].getPosition().distance(m_boids[l].getPosition()) <= minDist)
+            {
+              ++sameflk;
+            }
           }
-        }
-        if (sameflk != 0)
-        {
-          --numFlocks;
-        }
-        if (numBoids != 1 && oldNumFlocks != numFlocks)
-        {
-          memberCounts.push_back(numBoids - 1);
-          numBoids = 1;
-        }
-        for (size_t j{i + 1}; j < m_boids.size(); ++j)
-        {
-          if (!visited[j] && m_boids[i].getPosition().distance(m_boids[j].getPosition()) <= b.getPreceptionRadius())
+          if (sameflk == 0)
           {
-            visited[j] = true;
-            ++numBoids;
+            --numBoids;
+            visitedGroups[k][i] = false;
           }
-        }
-        if (numBoids == 1)
-        {
-          memberCounts.push_back(numBoids);
-          numBoids = 0;
+          if (sameflk != 0)
+          {
+            visitedIndexes.push_back(i);
+          }
+
+          for (size_t j{i + 1}; j < m_boids.size(); ++j)
+          {
+            if (!visitedGroups[k][j] && m_boids[i].getPosition().distance(m_boids[j].getPosition()) <= minDist)
+            {
+              visitedGroups[k][j] = true;
+              visitedIndexes.push_back(j);
+              ++numBoids;
+            }
+          }
+
+          if (numBoids == 1)
+          {
+            isolatedBoid = true;
+            break;
+          }
         }
       }
-    }
-    if (numBoids != 0)
-    {
-      memberCounts.push_back(numBoids);
+      if (isolatedBoid)
+      {
+        memberCounts.push_back(numBoids);
+      }
+      if (!isolatedBoid)
+      {
+        memberCounts.push_back(numBoids);
+      }
     }
     return memberCounts;
-  }
+  }*/
 
   double Flock::averageDistance() const
   {
