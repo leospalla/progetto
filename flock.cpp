@@ -68,187 +68,47 @@ namespace fk
     }
   }
 
-   std::vector<int> Flock::countBoidsInFlock()
-   {
-     std::vector<int> empty;
-     std::vector<int> one(1, 1);
-     if (m_boids.size() == 0)
-     {
-       return empty;
-     }
-     if (m_boids.size() == 1)
-     {
-       return one;
-     }
-     std::vector<bool> visited(m_boids.size(), false);
-     std::vector<int> memberCounts;
-     bd::Boid b;
-     double minDist{b.getPreceptionRadius()};
-     int numBoids{0};
-     int numFlocks{0};
-     int oldNumFlocks{0};
-     for (size_t i{0}; i < m_boids.size(); ++i)
-     {
-       int sameflk{0};
-       if (!visited[i])
-       {
-         visited[i] = true;
-         oldNumFlocks = numFlocks;
-         ++numBoids;
-         ++numFlocks;
-         for (size_t k{0}; k < m_boids.size(); ++k)
-         {
-           if (k != i && visited[k] && m_boids[i].getPosition().distance(m_boids[k].getPosition()) <= minDist)
-           {
-             ++sameflk;
-           }
-         }
-         if (numBoids != 1 && sameflk != 0)
-         {
-           --numFlocks;
-         }
-         if (numBoids != 1 && oldNumFlocks != numFlocks)
-         {
-           memberCounts.push_back(numBoids - 1);
-           numBoids = 1;
-         }
-         for (size_t j{i + 1}; j < m_boids.size(); ++j)
-         {
-           if (!visited[j] && m_boids[i].getPosition().distance(m_boids[j].getPosition()) <= minDist)
-           {
-             visited[j] = true;
-             ++numBoids;
-           }
-         }
-         if (numBoids == 1)
-         {
-           memberCounts.push_back(numBoids);
-           numBoids = 0;
-         }
-       }
-     }
-     if (numBoids != 0)
-     {
-       memberCounts.push_back(numBoids);
-     }
-     return memberCounts;
-   }
-
-  /*int Flock::countFlocks() const
+  std::vector<int> Flock::countBoidsInFlock(double perceptionRadius) const
   {
-    if (m_boids.empty())
-    {
-      return 0;
-    }
-    std::vector<bool> visited(m_boids.size(), false);
-    bd::Boid b;
-    int numFlocks{0};
-    double minDist{b.getPreceptionRadius()};
-    for (size_t i{0}; i < m_boids.size(); ++i)
-    {
-      int sameflk{0};
-      if (!visited[i])
-      {
-        visited[i] = true;
-        ++numFlocks;
-        for (size_t k{0}; k < m_boids.size(); ++k)
-        {
-          if (k != i && visited[k] && m_boids[i].getPosition().distance(m_boids[k].getPosition()) <= minDist)
-          {
-            ++sameflk;
-          }
-        }
-        if (sameflk != 0)
-        {
-          --numFlocks;
-        }
-        for (size_t j{i + 1}; j < m_boids.size(); ++j)
-        {
-          if (!visited[j] && m_boids[i].getPosition().distance(m_boids[j].getPosition()) <= minDist)
-          {
-            visited[j] = true;
-          }
-        }
-      }
-    }
-    return numFlocks;
-  }*/
-
-  /*std::vector<int> Flock::countBoidsInFlock(int numFlocks)
-  {
-    std::vector<int> empty;
-    std::vector<int> one(1, 1);
-    if (m_boids.size() == 0)
-    {
-      return empty;
-    }
-    if (m_boids.size() == 1)
-    {
-      return one;
-    }
-    bd::Boid b;
     std::vector<int> memberCounts;
     std::vector<bool> visited(m_boids.size(), false);
-    std::vector<std::vector<bool>> visitedGroups(numFlocks, visited);
-    std::vector<size_t> visitedIndexes;
-    double minDist{b.getPreceptionRadius()};
-    for (int k{0}; k < numFlocks; ++k)
+
+    for (size_t i = 0; i < m_boids.size(); ++i)
     {
-      bool isolatedBoid{false};
-      int numBoids{0};
-      for (size_t i{0}; i < m_boids.size(); ++i)
+      if (!visited[i])
       {
-        int sameflk{0};
-        if ((!visitedGroups[k][i] && std::find(visitedIndexes.begin(), visitedIndexes.end(), i) == visitedIndexes.end()))
+        int numBoidsInFlock = 0;
+        std::stack<size_t> stack;
+        stack.push(i);
+
+        while (!stack.empty())
         {
-          visitedGroups[k][i] = true;
-          ++numBoids;
-
-          for (size_t l{0}; l < m_boids.size(); ++l)
+          size_t currentBoidIndex = stack.top();
+          stack.pop();
+          if (!visited[currentBoidIndex])
           {
-            if (l != i && visitedGroups[k][l] && m_boids[i].getPosition().distance(m_boids[l].getPosition()) <= minDist)
+            visited[currentBoidIndex] = true;
+            ++numBoidsInFlock;
+
+            for (size_t j = 0; j < m_boids.size(); ++j)
             {
-              ++sameflk;
+              if (!visited[j] && m_boids[j].getPosition().distance(m_boids[currentBoidIndex].getPosition()) <= perceptionRadius)
+              {
+                stack.push(j);
+              }
             }
-          }
-          if (sameflk == 0)
-          {
-            --numBoids;
-            visitedGroups[k][i] = false;
-          }
-          if (sameflk != 0)
-          {
-            visitedIndexes.push_back(i);
-          }
-
-          for (size_t j{i + 1}; j < m_boids.size(); ++j)
-          {
-            if (!visitedGroups[k][j] && m_boids[i].getPosition().distance(m_boids[j].getPosition()) <= minDist)
-            {
-              visitedGroups[k][j] = true;
-              visitedIndexes.push_back(j);
-              ++numBoids;
-            }
-          }
-
-          if (numBoids == 1)
-          {
-            isolatedBoid = true;
-            break;
           }
         }
-      }
-      if (isolatedBoid)
-      {
-        memberCounts.push_back(numBoids);
-      }
-      if (!isolatedBoid)
-      {
-        memberCounts.push_back(numBoids);
+
+        if (numBoidsInFlock > 0)
+        {
+          memberCounts.push_back(numBoidsInFlock);
+        }
       }
     }
+
     return memberCounts;
-  }*/
+  }
 
   double Flock::averageDistance() const
   {
@@ -332,18 +192,20 @@ namespace fk
   }
 
   // at each step updates and prints the collective informations about the flock.
-  void Flock::simulate(int numSteps, unsigned int windowWidth, unsigned int windowHeight)
+  void Flock::simulate(int numSteps, unsigned int windowWidth, unsigned int windowHeight, double perceptionRadius)
   {
     for (int step = 0; step <= numSteps; ++step)
     {
+      std::vector<int> memberCounts;
+      memberCounts = countBoidsInFlock(perceptionRadius);
       double time = step * m_deltaTime;
       std::cout << "Time: " << time << " seconds" << std::endl;
       std::cout << "Average distance: " << averageDistance() << " +/- " << standardDeviationDistance() << std::endl;
       std::cout << "Average speed: " << averageSpeed() << " +/- " << standardDeviationSpeed() << std::endl;
-      std::cout << "number of flocks " << countBoidsInFlock().size() << std::endl;
-      for (size_t i{0}; i < countBoidsInFlock().size(); ++i)
+      std::cout << "number of flocks " << memberCounts.size() << std::endl;
+      for (size_t i{0}; i < memberCounts.size(); ++i)
       {
-        std::cout << "the number of boids in flock: " << i + 1 << " is: " << countBoidsInFlock()[i] << std::endl;
+        std::cout << "the number of boids in flock: " << i + 1 << " is: " << memberCounts[i] << std::endl;
       }
       updateVelocity();
       updatePosition(windowHeight, windowHeight);

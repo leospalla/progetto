@@ -3,6 +3,7 @@
 #include "flock.hpp"
 TEST_CASE("testing methods")
 {
+  double perceptionRadius{15};
   fk::Flock flock;
   SUBCASE("testing add boid and remove functions")
   {
@@ -81,8 +82,8 @@ TEST_CASE("testing methods")
   {
     bd::Boid b1(vc::Vector(0.0, 0.0));
     flock.addBoid(b1);
-    CHECK(flock.countBoidsInFlock().size() == 1);
-    CHECK(flock.countBoidsInFlock()[0] == 1);
+    CHECK(flock.countBoidsInFlock(perceptionRadius).size() == 1);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[0] == 1);
   }
   SUBCASE("testing countBoidsInFlock with 3 isolated boids")
   {
@@ -92,10 +93,10 @@ TEST_CASE("testing methods")
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    CHECK(flock.countBoidsInFlock().size() == 3);
-    CHECK(flock.countBoidsInFlock()[0] == 1);
-    CHECK(flock.countBoidsInFlock()[1] == 1);
-    CHECK(flock.countBoidsInFlock()[2] == 1);
+    CHECK(flock.countBoidsInFlock(perceptionRadius).size() == 3);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[0] == 1);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[1] == 1);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[2] == 1);
   }
   SUBCASE("testing countBoidsInFlock with 3 close boids but last and first are distant")
   {
@@ -105,8 +106,8 @@ TEST_CASE("testing methods")
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    CHECK(flock.countBoidsInFlock().size() == 1);
-    CHECK(flock.countBoidsInFlock()[0] == 3);
+    CHECK(flock.countBoidsInFlock(perceptionRadius).size() == 1);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[0] == 3);
   }
   SUBCASE("testing countBoidsInFlock with four close boids but last and first are distant")
   {
@@ -118,8 +119,8 @@ TEST_CASE("testing methods")
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.addBoid(b4);
-    CHECK(flock.countBoidsInFlock().size() == 1);
-    CHECK(flock.countBoidsInFlock()[0] == 4);
+    CHECK(flock.countBoidsInFlock(perceptionRadius).size() == 1);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[0] == 4);
   }
   SUBCASE("testing countBoidsInFlock with three close boids and one isolated (first)")
   {
@@ -131,9 +132,9 @@ TEST_CASE("testing methods")
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.addBoid(b4);
-    CHECK(flock.countBoidsInFlock().size() == 2);
-    CHECK(flock.countBoidsInFlock()[0] == 1);
-    CHECK(flock.countBoidsInFlock()[1] == 3);
+    CHECK(flock.countBoidsInFlock(perceptionRadius).size() == 2);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[0] == 1);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[1] == 3);
   }
     SUBCASE("testing countBoidsInFlock with three close boids and one isolated (last)")
   {
@@ -145,9 +146,9 @@ TEST_CASE("testing methods")
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.addBoid(b4);
-    CHECK(flock.countBoidsInFlock().size() == 2);
-    CHECK(flock.countBoidsInFlock()[0] == 3);
-    CHECK(flock.countBoidsInFlock()[1] == 1);
+    CHECK(flock.countBoidsInFlock(perceptionRadius).size() == 2);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[0] == 3);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[1] == 1);
   }
   SUBCASE("testing countBoidsInFlock with two flocks")
   {
@@ -163,9 +164,9 @@ TEST_CASE("testing methods")
     flock.addBoid(b4);
     flock.addBoid(b5);
     flock.addBoid(b6);
-    CHECK( flock.countBoidsInFlock().size() == 2);
-    CHECK(flock.countBoidsInFlock()[0] == 3);
-    CHECK(flock.countBoidsInFlock()[1] == 3);
+    CHECK( flock.countBoidsInFlock(perceptionRadius).size() == 2);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[0] == 3);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[1] == 3);
   }
     SUBCASE("testing countBoidsInFlock with two flocks but alternated")
   {
@@ -181,15 +182,15 @@ TEST_CASE("testing methods")
     flock.addBoid(b4);
     flock.addBoid(b5);
     flock.addBoid(b6);
-    CHECK(flock.countBoidsInFlock().size() == 2);
-    CHECK(flock.countBoidsInFlock()[0] == 3);
-    CHECK(flock.countBoidsInFlock()[1] == 3);
+    CHECK(flock.countBoidsInFlock(perceptionRadius).size() == 2);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[0] == 3);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[1] == 3);
   }
       SUBCASE("testing countBoidsInFlock with two flocks but alternated")
   {
     bd::Boid b1(vc::Vector(0.0, 0.0));
     bd::Boid b2(vc::Vector(10.0, 0.0));
-    bd::Boid b3(vc::Vector(120.0, 0.0));
+    bd::Boid b3(vc::Vector(110.0, 0.0));
     bd::Boid b4(vc::Vector(100.0, 0.0));
     bd::Boid b6(vc::Vector(20.0, 0.0));
     flock.addBoid(b1);
@@ -197,9 +198,9 @@ TEST_CASE("testing methods")
     flock.addBoid(b3);
     flock.addBoid(b4);
     flock.addBoid(b6);
-    CHECK(flock.countBoidsInFlock().size() == 2);
-    CHECK(flock.countBoidsInFlock()[0] == 3);
-    CHECK(flock.countBoidsInFlock()[1] == 2);
+    CHECK(flock.countBoidsInFlock(perceptionRadius).size() == 2);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[0] == 3);
+    CHECK(flock.countBoidsInFlock(perceptionRadius)[1] == 2);
   }
   SUBCASE("testing updatevelocity with one boid")
   {

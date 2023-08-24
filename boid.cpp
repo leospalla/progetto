@@ -9,10 +9,10 @@ namespace bd
     return -7.0 + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 14.0));
   }
 
-  // between -30 and 30
+  // between -50 and 50
   double randomPosition()
   {
-    return -30.0 + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 60.));
+    return -50.0 + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 100.));
   }
 
   // constructors

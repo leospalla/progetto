@@ -2,6 +2,7 @@
 #define FLOCK_HPP
 #include <algorithm>
 #include <iostream>
+#include <stack>
 
 #include "boid.hpp"
 namespace fk
@@ -30,11 +31,11 @@ namespace fk
 
     double standardDeviationDistance() const;
     double standardDeviationSpeed() const;
-    int countFlocks() const;
-    std::vector<int> countBoidsInFlock();
+   // int countFlocks() const;
+    std::vector<int> countBoidsInFlock(double) const;
     // std::vector<int> reOrderBoidsInFlock(std::vector<int>, std::vector<bd::Boid>);
 
-    void simulate(int, unsigned int, unsigned int);
+    void simulate(int, unsigned int, unsigned int, double);
   };
 } // namespace fk
 #endif
