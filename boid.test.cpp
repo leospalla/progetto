@@ -1,5 +1,5 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "boids.hpp"
+#include "boid.hpp"
 #include "doctest.h"
 
 TEST_CASE("Testing the constructors") {
@@ -348,31 +348,37 @@ TEST_CASE("Testing the Boid functions") {
   SUBCASE("Testing borders if boids are in window") {
     bd::Boid b(vc::Vector{-56, 51});
     b.borders(200);
-    CHECK(b.getPosition() == vc::Vector{-56, 51});
+    CHECK(b.getPosition().getX() == doctest::Approx(-56.));
+    CHECK(b.getPosition().getY() == doctest::Approx(51.));
   }
   SUBCASE("Testing borders With x position > width") {
     bd::Boid b(vc::Vector{126, 51});
     b.borders(200);
-    CHECK(b.getPosition() == vc::Vector{-100, 51});
+    CHECK(b.getPosition().getX() == doctest::Approx(-100.));
+    CHECK(b.getPosition().getY() == doctest::Approx(51.));
   }
   SUBCASE("Testing borders With x position < -width") {
     bd::Boid b(vc::Vector{-121, 51});
     b.borders(200);
-    CHECK(b.getPosition() == vc::Vector{100, 51});
+    CHECK(b.getPosition().getX() == doctest::Approx(100.));
+    CHECK(b.getPosition().getY() == doctest::Approx(51.));
   }
   SUBCASE("Testing borders With y position > height") {
     bd::Boid b(vc::Vector{-56, 181});
     b.borders(200);
-    CHECK(b.getPosition() == vc::Vector{-56, -100});
+    CHECK(b.getPosition().getX() == doctest::Approx(-56.));
+    CHECK(b.getPosition().getY() == doctest::Approx(-100.));
   }
   SUBCASE("Testing borders With y position < -height") {
     bd::Boid b(vc::Vector{-56, -203});
     b.borders(200);
-    CHECK(b.getPosition() == vc::Vector{-56, 100});
+    CHECK(b.getPosition().getX() == doctest::Approx(-56.));
+    CHECK(b.getPosition().getY() == doctest::Approx(100.));
   }
   SUBCASE("Testing borders with both coordinates outside the window") {
     bd::Boid b(vc::Vector{128, -251});
     b.borders(200);
-    CHECK(b.getPosition() == vc::Vector{-100, 100});
+    CHECK(b.getPosition().getX() == doctest::Approx(-100.));
+    CHECK(b.getPosition().getY() == doctest::Approx(100.));
   }
 }

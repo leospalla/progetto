@@ -16,9 +16,9 @@ int main() {
   double cohesionFactor;
   double alignmentFactor;
 
-  const int maxNumBoids{1000};
+  const int maxNumBoids{100};
   const double maxSimTime{30.};
-  const int maxDimension{1000};
+  const int maxDimension{100};
   std::cout << "Simulating the behaviour of boids inside flocks..." << std::endl
             << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));
@@ -49,9 +49,8 @@ int main() {
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
   std::cout << "Insert the time of simulation (seconds): " << std::endl;
-  while (!(std::cin >> time) || time <= 0.01 || time > maxSimTime) {
-    std::cout << "Invalid input. Please enter a positive double bigger than "
-                 "0.01 up to: "
+  while (!(std::cin >> time) || time <= flock.getDeltaTime() || time > maxSimTime) {
+    std::cout << "Invalid input. Please enter a positive double bigger than " << flock.getDeltaTime() << " up to: "
               << maxSimTime << std::endl;
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -71,6 +70,7 @@ int main() {
   }
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
+// for loop that generates boids in random points of the space
   for (int i = 0; i < numBoids; ++i) {
     bd::Boid b{size};
     flock.addBoid(b);
@@ -80,7 +80,7 @@ int main() {
   while (!(std::cin >> perceptionRadius) || perceptionRadius <= 0 ||
          perceptionRadius >= size) {
     std::cout << "Invalid input. Please enter a positive double smaller than "
-                 "the window dimensions."
+                 "the space size."
               << std::endl;
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');

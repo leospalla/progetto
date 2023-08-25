@@ -19,7 +19,7 @@ string(APPEND CMAKE_CXX_FLAGS_DEBUG " -fsanitize=address,undefined -fno-omit-fra
 string(APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG " -fsanitize=address,undefined -fno-omit-frame-pointer")
 
 # Add the main executable in the build/ directory
-add_executable(main main.cpp boids.cpp flock.cpp vector.cpp)
+add_executable(main main.cpp boid.cpp flock.cpp vector.cpp)
 
 # Activate if testing is enabled
 if (BUILD_TESTING)
@@ -27,20 +27,20 @@ if (BUILD_TESTING)
 # Add the vector.t executable for testing the Vector class
 add_executable(vector.t vector.test.cpp vector.cpp)
 add_test(NAME vector.t COMMAND vector.t)
-# Add the boids.t executable for testing the Boid class
-add_executable(boids.t boids.test.cpp boids.cpp vector.cpp)
-add_test(NAME boids.t COMMAND boids.t)
+# Add the boid.t executable for testing the Boid class
+add_executable(boid.t boid.test.cpp boid.cpp vector.cpp)
+add_test(NAME boid.t COMMAND boid.t)
 # Add the flock.t executable for testing the Flock class
-add_executable(flock.t flock.test.cpp flock.cpp boids.cpp vector.cpp)
+add_executable(flock.t flock.test.cpp flock.cpp boid.cpp vector.cpp)
 add_test(NAME flock.t COMMAND flock.t)
 
 endif() # End of testing section
 
-# Automate code formatting using clang-format
+# Automatize code formatting using clang-format
 find_program(CLANG_FORMAT_EXECUTABLE clang-format)
 if (CLANG_FORMAT_EXECUTABLE)
     
 file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.hpp)
-add_custom_target(format COMMAND ${CLANG_FORMAT_EXECUTABLE} -i ${ALL_SOURCE_FILES} COMMENT "Formatting code using clang-format" VERBATIM)
+add_custom_target(format COMMAND ${CLANG_FORMAT_EXECUTABLE} -i ${ALL_SOURCE_FILES} COMMENT "Formatting code using clang-format")
 
 endif()

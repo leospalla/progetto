@@ -1,5 +1,5 @@
-#ifndef BOIDS_HPP
-#define BOIDS_HPP
+#ifndef BOID_HPP
+#define BOID_HPP
 #include <iostream>
 #include <random>
 #include <stdexcept>
