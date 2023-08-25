@@ -54,9 +54,9 @@ CMAKE_BINARY_DIR = /home/leospallacci/boids/progetto/build
 
 # The main recursive "all" target.
 all: CMakeFiles/flock.t.dir/all
-all: CMakeFiles/boids.t.dir/all
 all: CMakeFiles/vector.t.dir/all
 all: CMakeFiles/main.dir/all
+all: CMakeFiles/boid.t.dir/all
 
 .PHONY : all
 
@@ -75,7 +75,6 @@ clean: CMakeFiles/NightlyConfigure.dir/clean
 clean: CMakeFiles/NightlyMemoryCheck.dir/clean
 clean: CMakeFiles/ExperimentalTest.dir/clean
 clean: CMakeFiles/ContinuousUpdate.dir/clean
-clean: CMakeFiles/boids.t.dir/clean
 clean: CMakeFiles/NightlyUpdate.dir/clean
 clean: CMakeFiles/vector.t.dir/clean
 clean: CMakeFiles/ExperimentalMemCheck.dir/clean
@@ -86,6 +85,7 @@ clean: CMakeFiles/ExperimentalConfigure.dir/clean
 clean: CMakeFiles/Continuous.dir/clean
 clean: CMakeFiles/NightlyTest.dir/clean
 clean: CMakeFiles/main.dir/clean
+clean: CMakeFiles/boid.t.dir/clean
 clean: CMakeFiles/Nightly.dir/clean
 clean: CMakeFiles/NightlySubmit.dir/clean
 clean: CMakeFiles/NightlyStart.dir/clean
@@ -344,33 +344,6 @@ ContinuousUpdate: CMakeFiles/ContinuousUpdate.dir/rule
 CMakeFiles/ContinuousUpdate.dir/clean:
 	$(MAKE) -f CMakeFiles/ContinuousUpdate.dir/build.make CMakeFiles/ContinuousUpdate.dir/clean
 .PHONY : CMakeFiles/ContinuousUpdate.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/boids.t.dir
-
-# All Build rule for target.
-CMakeFiles/boids.t.dir/all:
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/depend
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leospallacci/boids/progetto/build/CMakeFiles --progress-num=1,2,3,4 "Built target boids.t"
-.PHONY : CMakeFiles/boids.t.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/boids.t.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/leospallacci/boids/progetto/build/CMakeFiles 4
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/boids.t.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/leospallacci/boids/progetto/build/CMakeFiles 0
-.PHONY : CMakeFiles/boids.t.dir/rule
-
-# Convenience name for target.
-boids.t: CMakeFiles/boids.t.dir/rule
-
-.PHONY : boids.t
-
-# clean rule for target.
-CMakeFiles/boids.t.dir/clean:
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/clean
-.PHONY : CMakeFiles/boids.t.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/NightlyUpdate.dir
@@ -641,6 +614,33 @@ main: CMakeFiles/main.dir/rule
 CMakeFiles/main.dir/clean:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/clean
 .PHONY : CMakeFiles/main.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/boid.t.dir
+
+# All Build rule for target.
+CMakeFiles/boid.t.dir/all:
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/depend
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leospallacci/boids/progetto/build/CMakeFiles --progress-num=1,2,3,4 "Built target boid.t"
+.PHONY : CMakeFiles/boid.t.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/boid.t.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leospallacci/boids/progetto/build/CMakeFiles 4
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/boid.t.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leospallacci/boids/progetto/build/CMakeFiles 0
+.PHONY : CMakeFiles/boid.t.dir/rule
+
+# Convenience name for target.
+boid.t: CMakeFiles/boid.t.dir/rule
+
+.PHONY : boid.t
+
+# clean rule for target.
+CMakeFiles/boid.t.dir/clean:
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/clean
+.PHONY : CMakeFiles/boid.t.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/Nightly.dir

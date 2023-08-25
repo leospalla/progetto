@@ -55,7 +55,7 @@ include CMakeFiles/format.dir/progress.make
 
 CMakeFiles/format:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/leospallacci/boids/progetto/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Formatting code using clang-format"
-	/usr/bin/clang-format -i /home/leospallacci/boids/progetto/boids.cpp /home/leospallacci/boids/progetto/boids.hpp /home/leospallacci/boids/progetto/boids.test.cpp /home/leospallacci/boids/progetto/build/CMakeFiles/3.16.3/CompilerIdCXX/CMakeCXXCompilerId.cpp /home/leospallacci/boids/progetto/flock.cpp /home/leospallacci/boids/progetto/flock.hpp /home/leospallacci/boids/progetto/flock.test.cpp /home/leospallacci/boids/progetto/main.cpp /home/leospallacci/boids/progetto/vector.cpp /home/leospallacci/boids/progetto/vector.hpp /home/leospallacci/boids/progetto/vector.test.cpp
+	/usr/bin/clang-format -i /home/leospallacci/boids/progetto/boid.cpp /home/leospallacci/boids/progetto/boid.hpp /home/leospallacci/boids/progetto/boid.test.cpp /home/leospallacci/boids/progetto/build/CMakeFiles/3.16.3/CompilerIdCXX/CMakeCXXCompilerId.cpp /home/leospallacci/boids/progetto/flock.cpp /home/leospallacci/boids/progetto/flock.hpp /home/leospallacci/boids/progetto/flock.test.cpp /home/leospallacci/boids/progetto/main.cpp /home/leospallacci/boids/progetto/vector.cpp /home/leospallacci/boids/progetto/vector.hpp /home/leospallacci/boids/progetto/vector.test.cpp
 
 format: CMakeFiles/format
 format: CMakeFiles/format.dir/build.make

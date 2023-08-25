@@ -83,18 +83,18 @@ CMakeFiles/flock.t.dir/flock.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/flock.t.dir/flock.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/leospallacci/boids/progetto/flock.cpp -o CMakeFiles/flock.t.dir/flock.cpp.s
 
-CMakeFiles/flock.t.dir/boids.cpp.o: CMakeFiles/flock.t.dir/flags.make
-CMakeFiles/flock.t.dir/boids.cpp.o: ../boids.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/leospallacci/boids/progetto/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/flock.t.dir/boids.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/flock.t.dir/boids.cpp.o -c /home/leospallacci/boids/progetto/boids.cpp
+CMakeFiles/flock.t.dir/boid.cpp.o: CMakeFiles/flock.t.dir/flags.make
+CMakeFiles/flock.t.dir/boid.cpp.o: ../boid.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/leospallacci/boids/progetto/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/flock.t.dir/boid.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/flock.t.dir/boid.cpp.o -c /home/leospallacci/boids/progetto/boid.cpp
 
-CMakeFiles/flock.t.dir/boids.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/flock.t.dir/boids.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/leospallacci/boids/progetto/boids.cpp > CMakeFiles/flock.t.dir/boids.cpp.i
+CMakeFiles/flock.t.dir/boid.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/flock.t.dir/boid.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/leospallacci/boids/progetto/boid.cpp > CMakeFiles/flock.t.dir/boid.cpp.i
 
-CMakeFiles/flock.t.dir/boids.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/flock.t.dir/boids.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/leospallacci/boids/progetto/boids.cpp -o CMakeFiles/flock.t.dir/boids.cpp.s
+CMakeFiles/flock.t.dir/boid.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/flock.t.dir/boid.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/leospallacci/boids/progetto/boid.cpp -o CMakeFiles/flock.t.dir/boid.cpp.s
 
 CMakeFiles/flock.t.dir/vector.cpp.o: CMakeFiles/flock.t.dir/flags.make
 CMakeFiles/flock.t.dir/vector.cpp.o: ../vector.cpp
@@ -113,7 +113,7 @@ CMakeFiles/flock.t.dir/vector.cpp.s: cmake_force
 flock_t_OBJECTS = \
 "CMakeFiles/flock.t.dir/flock.test.cpp.o" \
 "CMakeFiles/flock.t.dir/flock.cpp.o" \
-"CMakeFiles/flock.t.dir/boids.cpp.o" \
+"CMakeFiles/flock.t.dir/boid.cpp.o" \
 "CMakeFiles/flock.t.dir/vector.cpp.o"
 
 # External object files for target flock.t
@@ -121,7 +121,7 @@ flock_t_EXTERNAL_OBJECTS =
 
 flock.t: CMakeFiles/flock.t.dir/flock.test.cpp.o
 flock.t: CMakeFiles/flock.t.dir/flock.cpp.o
-flock.t: CMakeFiles/flock.t.dir/boids.cpp.o
+flock.t: CMakeFiles/flock.t.dir/boid.cpp.o
 flock.t: CMakeFiles/flock.t.dir/vector.cpp.o
 flock.t: CMakeFiles/flock.t.dir/build.make
 flock.t: CMakeFiles/flock.t.dir/link.txt

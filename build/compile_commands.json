@@ -11,27 +11,12 @@
 },
 {
   "directory": "/home/leospallacci/boids/progetto/build",
-  "command": "/usr/bin/c++     -Wall -Wextra -O3 -DNDEBUG   -std=gnu++17 -o CMakeFiles/flock.t.dir/boids.cpp.o -c /home/leospallacci/boids/progetto/boids.cpp",
-  "file": "/home/leospallacci/boids/progetto/boids.cpp"
+  "command": "/usr/bin/c++     -Wall -Wextra -O3 -DNDEBUG   -std=gnu++17 -o CMakeFiles/flock.t.dir/boid.cpp.o -c /home/leospallacci/boids/progetto/boid.cpp",
+  "file": "/home/leospallacci/boids/progetto/boid.cpp"
 },
 {
   "directory": "/home/leospallacci/boids/progetto/build",
   "command": "/usr/bin/c++     -Wall -Wextra -O3 -DNDEBUG   -std=gnu++17 -o CMakeFiles/flock.t.dir/vector.cpp.o -c /home/leospallacci/boids/progetto/vector.cpp",
-  "file": "/home/leospallacci/boids/progetto/vector.cpp"
-},
-{
-  "directory": "/home/leospallacci/boids/progetto/build",
-  "command": "/usr/bin/c++     -Wall -Wextra -O3 -DNDEBUG   -std=gnu++17 -o CMakeFiles/boids.t.dir/boids.test.cpp.o -c /home/leospallacci/boids/progetto/boids.test.cpp",
-  "file": "/home/leospallacci/boids/progetto/boids.test.cpp"
-},
-{
-  "directory": "/home/leospallacci/boids/progetto/build",
-  "command": "/usr/bin/c++     -Wall -Wextra -O3 -DNDEBUG   -std=gnu++17 -o CMakeFiles/boids.t.dir/boids.cpp.o -c /home/leospallacci/boids/progetto/boids.cpp",
-  "file": "/home/leospallacci/boids/progetto/boids.cpp"
-},
-{
-  "directory": "/home/leospallacci/boids/progetto/build",
-  "command": "/usr/bin/c++     -Wall -Wextra -O3 -DNDEBUG   -std=gnu++17 -o CMakeFiles/boids.t.dir/vector.cpp.o -c /home/leospallacci/boids/progetto/vector.cpp",
   "file": "/home/leospallacci/boids/progetto/vector.cpp"
 },
 {
@@ -51,8 +36,8 @@
 },
 {
   "directory": "/home/leospallacci/boids/progetto/build",
-  "command": "/usr/bin/c++     -Wall -Wextra -O3 -DNDEBUG   -std=gnu++17 -o CMakeFiles/main.dir/boids.cpp.o -c /home/leospallacci/boids/progetto/boids.cpp",
-  "file": "/home/leospallacci/boids/progetto/boids.cpp"
+  "command": "/usr/bin/c++     -Wall -Wextra -O3 -DNDEBUG   -std=gnu++17 -o CMakeFiles/main.dir/boid.cpp.o -c /home/leospallacci/boids/progetto/boid.cpp",
+  "file": "/home/leospallacci/boids/progetto/boid.cpp"
 },
 {
   "directory": "/home/leospallacci/boids/progetto/build",
@@ -62,6 +47,21 @@
 {
   "directory": "/home/leospallacci/boids/progetto/build",
   "command": "/usr/bin/c++     -Wall -Wextra -O3 -DNDEBUG   -std=gnu++17 -o CMakeFiles/main.dir/vector.cpp.o -c /home/leospallacci/boids/progetto/vector.cpp",
+  "file": "/home/leospallacci/boids/progetto/vector.cpp"
+},
+{
+  "directory": "/home/leospallacci/boids/progetto/build",
+  "command": "/usr/bin/c++     -Wall -Wextra -O3 -DNDEBUG   -std=gnu++17 -o CMakeFiles/boid.t.dir/boid.test.cpp.o -c /home/leospallacci/boids/progetto/boid.test.cpp",
+  "file": "/home/leospallacci/boids/progetto/boid.test.cpp"
+},
+{
+  "directory": "/home/leospallacci/boids/progetto/build",
+  "command": "/usr/bin/c++     -Wall -Wextra -O3 -DNDEBUG   -std=gnu++17 -o CMakeFiles/boid.t.dir/boid.cpp.o -c /home/leospallacci/boids/progetto/boid.cpp",
+  "file": "/home/leospallacci/boids/progetto/boid.cpp"
+},
+{
+  "directory": "/home/leospallacci/boids/progetto/build",
+  "command": "/usr/bin/c++     -Wall -Wextra -O3 -DNDEBUG   -std=gnu++17 -o CMakeFiles/boid.t.dir/vector.cpp.o -c /home/leospallacci/boids/progetto/vector.cpp",
   "file": "/home/leospallacci/boids/progetto/vector.cpp"
 }
 ]

@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/flock.t.dir/boids.cpp.o"
+  "CMakeFiles/flock.t.dir/boid.cpp.o"
   "CMakeFiles/flock.t.dir/flock.cpp.o"
   "CMakeFiles/flock.t.dir/flock.test.cpp.o"
   "CMakeFiles/flock.t.dir/vector.cpp.o"

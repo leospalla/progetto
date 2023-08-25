@@ -23,7 +23,7 @@ class Boid {
   double alignmentFactor{0.5};
 
   Boid();                        // default constructor
-  Boid(int);                     // random position constructor
+  Boid(int);                     // random position constructor for main
   Boid(double, double);          // constructor with position coordinates
   Boid(vc::Vector);              // constructor with position vector
   Boid(vc::Vector, vc::Vector);  // constructor with both vectors

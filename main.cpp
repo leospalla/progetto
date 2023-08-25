@@ -49,9 +49,10 @@ int main() {
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
   std::cout << "Insert the time of simulation (seconds): " << std::endl;
-  while (!(std::cin >> time) || time <= flock.getDeltaTime() || time > maxSimTime) {
-    std::cout << "Invalid input. Please enter a positive double bigger than " << flock.getDeltaTime() << " up to: "
-              << maxSimTime << std::endl;
+  while (!(std::cin >> time) || time <= flock.getDeltaTime() ||
+         time > maxSimTime) {
+    std::cout << "Invalid input. Please enter a positive double bigger than "
+              << flock.getDeltaTime() << " up to: " << maxSimTime << std::endl;
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   }
@@ -70,7 +71,7 @@ int main() {
   }
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-// for loop that generates boids in random points of the space
+  // for loop that generates boids in random points of the space
   for (int i = 0; i < numBoids; ++i) {
     bd::Boid b{size};
     flock.addBoid(b);

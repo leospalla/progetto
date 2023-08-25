@@ -239,19 +239,6 @@ ContinuousUpdate/fast:
 .PHONY : ContinuousUpdate/fast
 
 #=============================================================================
-# Target rules for targets named boids.t
-
-# Build rule for target.
-boids.t: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 boids.t
-.PHONY : boids.t
-
-# fast build rule for target.
-boids.t/fast:
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/build
-.PHONY : boids.t/fast
-
-#=============================================================================
 # Target rules for targets named NightlyUpdate
 
 # Build rule for target.
@@ -380,6 +367,19 @@ main: cmake_check_build_system
 main/fast:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
+
+#=============================================================================
+# Target rules for targets named boid.t
+
+# Build rule for target.
+boid.t: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 boid.t
+.PHONY : boid.t
+
+# fast build rule for target.
+boid.t/fast:
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/build
+.PHONY : boid.t/fast
 
 #=============================================================================
 # Target rules for targets named Nightly
@@ -550,65 +550,65 @@ ContinuousSubmit/fast:
 	$(MAKE) -f CMakeFiles/ContinuousSubmit.dir/build.make CMakeFiles/ContinuousSubmit.dir/build
 .PHONY : ContinuousSubmit/fast
 
-boids.o: boids.cpp.o
+boid.o: boid.cpp.o
 
-.PHONY : boids.o
-
-# target to build an object file
-boids.cpp.o:
-	$(MAKE) -f CMakeFiles/flock.t.dir/build.make CMakeFiles/flock.t.dir/boids.cpp.o
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/boids.cpp.o
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/boids.cpp.o
-.PHONY : boids.cpp.o
-
-boids.i: boids.cpp.i
-
-.PHONY : boids.i
-
-# target to preprocess a source file
-boids.cpp.i:
-	$(MAKE) -f CMakeFiles/flock.t.dir/build.make CMakeFiles/flock.t.dir/boids.cpp.i
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/boids.cpp.i
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/boids.cpp.i
-.PHONY : boids.cpp.i
-
-boids.s: boids.cpp.s
-
-.PHONY : boids.s
-
-# target to generate assembly for a file
-boids.cpp.s:
-	$(MAKE) -f CMakeFiles/flock.t.dir/build.make CMakeFiles/flock.t.dir/boids.cpp.s
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/boids.cpp.s
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/boids.cpp.s
-.PHONY : boids.cpp.s
-
-boids.test.o: boids.test.cpp.o
-
-.PHONY : boids.test.o
+.PHONY : boid.o
 
 # target to build an object file
-boids.test.cpp.o:
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/boids.test.cpp.o
-.PHONY : boids.test.cpp.o
+boid.cpp.o:
+	$(MAKE) -f CMakeFiles/flock.t.dir/build.make CMakeFiles/flock.t.dir/boid.cpp.o
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/boid.cpp.o
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/boid.cpp.o
+.PHONY : boid.cpp.o
 
-boids.test.i: boids.test.cpp.i
+boid.i: boid.cpp.i
 
-.PHONY : boids.test.i
+.PHONY : boid.i
 
 # target to preprocess a source file
-boids.test.cpp.i:
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/boids.test.cpp.i
-.PHONY : boids.test.cpp.i
+boid.cpp.i:
+	$(MAKE) -f CMakeFiles/flock.t.dir/build.make CMakeFiles/flock.t.dir/boid.cpp.i
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/boid.cpp.i
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/boid.cpp.i
+.PHONY : boid.cpp.i
 
-boids.test.s: boids.test.cpp.s
+boid.s: boid.cpp.s
 
-.PHONY : boids.test.s
+.PHONY : boid.s
 
 # target to generate assembly for a file
-boids.test.cpp.s:
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/boids.test.cpp.s
-.PHONY : boids.test.cpp.s
+boid.cpp.s:
+	$(MAKE) -f CMakeFiles/flock.t.dir/build.make CMakeFiles/flock.t.dir/boid.cpp.s
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/boid.cpp.s
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/boid.cpp.s
+.PHONY : boid.cpp.s
+
+boid.test.o: boid.test.cpp.o
+
+.PHONY : boid.test.o
+
+# target to build an object file
+boid.test.cpp.o:
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/boid.test.cpp.o
+.PHONY : boid.test.cpp.o
+
+boid.test.i: boid.test.cpp.i
+
+.PHONY : boid.test.i
+
+# target to preprocess a source file
+boid.test.cpp.i:
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/boid.test.cpp.i
+.PHONY : boid.test.cpp.i
+
+boid.test.s: boid.test.cpp.s
+
+.PHONY : boid.test.s
+
+# target to generate assembly for a file
+boid.test.cpp.s:
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/boid.test.cpp.s
+.PHONY : boid.test.cpp.s
 
 flock.o: flock.cpp.o
 
@@ -701,9 +701,9 @@ vector.o: vector.cpp.o
 # target to build an object file
 vector.cpp.o:
 	$(MAKE) -f CMakeFiles/flock.t.dir/build.make CMakeFiles/flock.t.dir/vector.cpp.o
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/vector.cpp.o
 	$(MAKE) -f CMakeFiles/vector.t.dir/build.make CMakeFiles/vector.t.dir/vector.cpp.o
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/vector.cpp.o
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/vector.cpp.o
 .PHONY : vector.cpp.o
 
 vector.i: vector.cpp.i
@@ -713,9 +713,9 @@ vector.i: vector.cpp.i
 # target to preprocess a source file
 vector.cpp.i:
 	$(MAKE) -f CMakeFiles/flock.t.dir/build.make CMakeFiles/flock.t.dir/vector.cpp.i
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/vector.cpp.i
 	$(MAKE) -f CMakeFiles/vector.t.dir/build.make CMakeFiles/vector.t.dir/vector.cpp.i
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/vector.cpp.i
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/vector.cpp.i
 .PHONY : vector.cpp.i
 
 vector.s: vector.cpp.s
@@ -725,9 +725,9 @@ vector.s: vector.cpp.s
 # target to generate assembly for a file
 vector.cpp.s:
 	$(MAKE) -f CMakeFiles/flock.t.dir/build.make CMakeFiles/flock.t.dir/vector.cpp.s
-	$(MAKE) -f CMakeFiles/boids.t.dir/build.make CMakeFiles/boids.t.dir/vector.cpp.s
 	$(MAKE) -f CMakeFiles/vector.t.dir/build.make CMakeFiles/vector.t.dir/vector.cpp.s
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/vector.cpp.s
+	$(MAKE) -f CMakeFiles/boid.t.dir/build.make CMakeFiles/boid.t.dir/vector.cpp.s
 .PHONY : vector.cpp.s
 
 vector.test.o: vector.test.cpp.o
@@ -775,7 +775,6 @@ help:
 	@echo "... NightlyMemoryCheck"
 	@echo "... ExperimentalTest"
 	@echo "... ContinuousUpdate"
-	@echo "... boids.t"
 	@echo "... NightlyUpdate"
 	@echo "... vector.t"
 	@echo "... ExperimentalMemCheck"
@@ -786,6 +785,7 @@ help:
 	@echo "... Continuous"
 	@echo "... NightlyTest"
 	@echo "... main"
+	@echo "... boid.t"
 	@echo "... Nightly"
 	@echo "... NightlySubmit"
 	@echo "... NightlyStart"
@@ -799,12 +799,12 @@ help:
 	@echo "... ContinuousMemCheck"
 	@echo "... ContinuousTest"
 	@echo "... ContinuousSubmit"
-	@echo "... boids.o"
-	@echo "... boids.i"
-	@echo "... boids.s"
-	@echo "... boids.test.o"
-	@echo "... boids.test.i"
-	@echo "... boids.test.s"
+	@echo "... boid.o"
+	@echo "... boid.i"
+	@echo "... boid.s"
+	@echo "... boid.test.o"
+	@echo "... boid.test.i"
+	@echo "... boid.test.s"
 	@echo "... flock.o"
 	@echo "... flock.i"
 	@echo "... flock.s"

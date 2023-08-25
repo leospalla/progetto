@@ -22,6 +22,12 @@ vector
 vector.hpp
 /home/leospallacci/boids/progetto/vector.hpp
 
+/home/leospallacci/boids/progetto/boid.test.cpp
+boid.hpp
+/home/leospallacci/boids/progetto/boid.hpp
+doctest.h
+/home/leospallacci/boids/progetto/doctest.h
+
 /home/leospallacci/boids/progetto/doctest.h
 signal.h
 -
@@ -109,24 +115,6 @@ sys/time.h
 -
 unistd.h
 -
-
-/home/leospallacci/boids/progetto/flock.cpp
-flock.hpp
-/home/leospallacci/boids/progetto/flock.hpp
-
-/home/leospallacci/boids/progetto/flock.hpp
-algorithm
--
-stack
--
-boid.hpp
-/home/leospallacci/boids/progetto/boid.hpp
-
-/home/leospallacci/boids/progetto/flock.test.cpp
-doctest.h
-/home/leospallacci/boids/progetto/doctest.h
-flock.hpp
-/home/leospallacci/boids/progetto/flock.hpp
 
 /home/leospallacci/boids/progetto/vector.cpp
 vector.hpp

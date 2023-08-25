@@ -164,11 +164,9 @@ vc::Vector Boid::align(std::vector<Boid> boids) const {
   if (boids.empty()) {
     return vc::Vector{0.0, 0.0};
   }
-
   vc::Vector currentPosition = m_position;
   vc::Vector averageVelocity{0.0, 0.0};
   int neighborCount = 0;
-
   for (const Boid& otherBoid : boids) {
     double distance = currentPosition.distance(otherBoid.getPosition());
     if (distance > 0 && distance < perceptionRadius) {

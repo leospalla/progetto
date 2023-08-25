@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/leospallacci/boids/progetto/boids.cpp
-boids.hpp
-/home/leospallacci/boids/progetto/boids.hpp
+/home/leospallacci/boids/progetto/boid.cpp
+boid.hpp
+/home/leospallacci/boids/progetto/boid.hpp
 
-/home/leospallacci/boids/progetto/boids.hpp
+/home/leospallacci/boids/progetto/boid.hpp
 iostream
 -
 random
@@ -29,12 +29,10 @@ flock.hpp
 /home/leospallacci/boids/progetto/flock.hpp
 algorithm
 -
-iostream
--
 stack
 -
-boids.hpp
-/home/leospallacci/boids/progetto/boids.hpp
+boid.hpp
+/home/leospallacci/boids/progetto/boid.hpp
 
 /home/leospallacci/boids/progetto/main.cpp
 chrono

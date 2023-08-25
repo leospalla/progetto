@@ -4,7 +4,7 @@
 namespace vc {
 class Vector {
   double m_x{0.};
-  double m_y{0.}; 
+  double m_y{0.};
 
  public:
   Vector() = default;                             // default constructor

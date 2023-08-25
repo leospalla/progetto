@@ -49,7 +49,7 @@ TEST_CASE("Testing the operators") {
   }
   SUBCASE("== operator") {
     vc::Vector v3{v1};
-    CHECK(v3 == v1); 
+    CHECK(v3 == v1);
     CHECK(v2 == vc::Vector(1., 3.));
   }
 }
