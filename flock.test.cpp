@@ -179,6 +179,7 @@ TEST_CASE("testing the flock class") {
     bd::Boid b1(vc::Vector{1.0, 0.0});
     bd::Boid b2(vc::Vector{5.0, 1.0});
     bd::Boid b3(vc::Vector{3.0, 2.0});
+    bd::Boid b4(vc::Vector{0.0, 0.0});
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
@@ -186,6 +187,9 @@ TEST_CASE("testing the flock class") {
     CHECK(dist == doctest::Approx(3.0625));
     double stdDev = flock.standardDeviationDistance();
     CHECK(stdDev == doctest::Approx(0.787965));
+    flock.addBoid(b4);
+    CHECK(flock.averageDistance() == doctest::Approx(3.148695253));
+    CHECK(flock.standardDeviationDistance() == doctest::Approx(1.323776745));
   }
   SUBCASE("testing average speed and its standard deviation with no boids") {
     double m = flock.averageSpeed();

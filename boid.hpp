@@ -31,6 +31,7 @@ class Boid {
   Boid& operator=(const Boid&);
   bool operator==(const Boid&) const;
 
+  // set functions
   void setPerceptionRadius(double);
   void setSeparationDistance(double);
   void setSeparationFactor(double);
@@ -39,6 +40,7 @@ class Boid {
   void setPosition(double, double);
   void setVelocity(double, double);
 
+  // get functions
   vc::Vector getPosition() const { return m_position; }
   vc::Vector getVelocity() const { return m_velocity; }
   double getMaxSpeed() const { return m_maxSpeed; }
@@ -46,6 +48,7 @@ class Boid {
 
   vc::Vector centerOfMass(std::vector<Boid>) const;
 
+  // flight rules
   vc::Vector separate(std::vector<Boid>) const;
   vc::Vector cohere(std::vector<Boid>) const;
   vc::Vector align(std::vector<Boid>) const;

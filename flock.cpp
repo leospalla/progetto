@@ -68,6 +68,7 @@ double Flock::averageDistance() const {
   }
   double totalDistance = 0.;
   double nPairs = 0.;
+  // uses a nested for loop to compute all distances
   for (size_t i = 0; i < m_boids.size() - 1; ++i) {
     const vc::Vector &posI = m_boids[i].getPosition();
     for (size_t j = i + 1; j < m_boids.size(); ++j) {
@@ -99,17 +100,13 @@ double Flock::standardDeviationDistance() const {
   }
   double avgDistance = averageDistance();
   double stDev = 0.0;
-  double nPairs = 0.0;
+  double nPairs = m_boids.size() * (m_boids.size() - 1) / 2;
   for (size_t i = 0; i < m_boids.size(); ++i) {
     for (size_t j = i + 1; j < m_boids.size(); ++j) {
       double dist = m_boids[i].getPosition().distance(m_boids[j].getPosition());
       double diff = dist - avgDistance;
       stDev += diff * diff;
-      ++nPairs;
     }
-  }
-  if (nPairs == 0) {
-    return 0.;
   }
   return std::sqrt(stDev / nPairs);
 }
@@ -127,6 +124,8 @@ double Flock::standardDeviationSpeed() const {
   return std::sqrt(stDev / m_boids.size());
 }
 
+// memberCounts gives the number of boids in each flock
+// visited is needed to count out boids already considered
 std::vector<int> Flock::countBoidsInFlock(double perceptionRadius) const {
   std::vector<int> memberCounts;
   std::vector<bool> visited(m_boids.size(), false);

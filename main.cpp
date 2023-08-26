@@ -29,13 +29,13 @@ int main() {
                "input won't be considered."
             << std::endl
             << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(5));
+  std::this_thread::sleep_for(std::chrono::seconds(4));
 
   std::cout << "Insert the number of boids: " << std::endl;
   std::cout << "Note: If you enter a decimal value, only the integer part will "
                "be considered."
             << std::endl;
-  // while loop that controls input, checks if the type is correct, if the type
+  // while loop that controls input: checks if the type is correct, if the type
   // is double takes only the integer part
   while (!(std::cin >> numBoids) || numBoids <= 0 || numBoids > maxNumBoids) {
     std::cout << "Invalid input. Please enter a positive integer up to: "
@@ -44,8 +44,7 @@ int main() {
     // if there are some wrong characters it ignores them for the next input
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   }
-  // if u insert a double the number after inteferes so this ignores another
-  // time also after the cycle ends
+  // this ignores another time after the cycle ends to ignore letters or symbols
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
   std::cout << "Insert the time of simulation (seconds): " << std::endl;
@@ -128,7 +127,6 @@ int main() {
 
   flock.updateBoidParameters(perceptionRadius, separationDistance,
                              separationFactor, cohesionFactor, alignmentFactor);
-
   simulationSteps = time / flock.getDeltaTime();
   flock.simulate(simulationSteps, size, perceptionRadius);
 

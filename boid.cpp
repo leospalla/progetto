@@ -24,7 +24,7 @@ double randomPosition(int x) {
 Boid::Boid()
     : m_position{randomPosition(), randomPosition()},
       m_velocity{randomVelocity(), randomVelocity()} {
-  int maxAttempts = 100;
+  int maxAttempts = 10;
   int attempts = 0;
   while (getSpeed() == 0 && attempts < maxAttempts) {
     m_velocity.set(randomVelocity(), randomVelocity());
@@ -32,14 +32,14 @@ Boid::Boid()
   }
   if (getSpeed() == 0) {
     throw std::runtime_error(
-        "Unable to generate non-zero velocity after 100 attempts.");
+        "Unable to generate non-zero velocity after 10 attempts.");
   }
 }
 
 Boid::Boid(int x)
     : m_position{randomPosition(x), randomPosition(x)},
       m_velocity{randomVelocity(), randomVelocity()} {
-  int maxAttempts = 100;
+  int maxAttempts = 10;
   int attempts = 0;
   while (getSpeed() == 0 && attempts < maxAttempts) {
     m_velocity.set(randomVelocity(), randomVelocity());
@@ -47,13 +47,13 @@ Boid::Boid(int x)
   }
   if (getSpeed() == 0) {
     throw std::runtime_error(
-        "Unable to generate non-zero velocity after 100 attempts.");
+        "Unable to generate non-zero velocity after 10 attempts.");
   }
 }
 
 Boid::Boid(double x, double y)
     : m_position{x, y}, m_velocity{randomVelocity(), randomVelocity()} {
-  int maxAttempts = 100;
+  int maxAttempts = 10;
   int attempts = 0;
   while (getSpeed() == 0 && attempts < maxAttempts) {
     m_velocity.set(randomVelocity(), randomVelocity());
@@ -61,13 +61,13 @@ Boid::Boid(double x, double y)
   }
   if (getSpeed() == 0) {
     throw std::runtime_error(
-        "Unable to generate non-zero velocity after 100 attempts.");
+        "Unable to generate non-zero velocity after 10 attempts.");
   }
 }
 
 Boid::Boid(vc::Vector position)
     : m_position{position}, m_velocity{randomVelocity(), randomVelocity()} {
-  int maxAttempts = 100;
+  int maxAttempts = 10;
   int attempts = 0;
   while (getSpeed() == 0 && attempts < maxAttempts) {
     m_velocity.set(randomVelocity(), randomVelocity());
@@ -75,7 +75,7 @@ Boid::Boid(vc::Vector position)
   }
   if (getSpeed() == 0) {
     throw std::runtime_error(
-        "Unable to generate non-zero velocity after 100 attempts.");
+        "Unable to generate non-zero velocity after 10 attempts.");
   }
 }
 
@@ -118,7 +118,7 @@ vc::Vector Boid::centerOfMass(std::vector<Boid> boids) const {
   }
   int neighborCount = 0;  // only close boids count in the formula
   vc::Vector vSum{0.0, 0.0};
-  for (const Boid& other : boids) {
+  for (const Boid& other : boids) {  // for-each loop that computes distances
     double distance = m_position.distance(other.getPosition());
     if (distance > 0 && distance < perceptionRadius) {
       vSum = vSum + other.getPosition();
@@ -128,7 +128,7 @@ vc::Vector Boid::centerOfMass(std::vector<Boid> boids) const {
   if (neighborCount > 0) {
     vSum = vSum / neighborCount;
   } else {
-    return m_position;  // so in cohere desired is 0 with no neighbors
+    return m_position;  // so in cohere with no neighbors desired is 0
   }
   return vSum;
 }
@@ -147,7 +147,6 @@ vc::Vector Boid::separate(std::vector<Boid> boids) const {
     }
   }
   vc::Vector separation = vSum * -separationFactor;
-  separation.limit(m_maxSpeed);
   return separation;
 }
 
@@ -176,15 +175,15 @@ vc::Vector Boid::align(std::vector<Boid> boids) const {
   }
   if (neighborCount > 0) {
     averageVelocity = averageVelocity / static_cast<double>(neighborCount);
-    vc::Vector alignment = (averageVelocity - m_velocity) * alignmentFactor;
-    alignment.limit(m_maxSpeed);
-    return alignment;
+    vc::Vector alignment = averageVelocity - m_velocity;
+    return alignment * alignmentFactor;
   } else {
     return vc::Vector{0.0, 0.0};
   }
 }
 
 void Boid::borders(int size) {
+  // uses halves because our space is centered in (0,0)
   double halfWidth = size / 2;
   double halfHeight = size / 2;
   if (m_position.getX() > halfWidth) {
