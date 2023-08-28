@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -Wextra -O3 -DNDEBUG   CMakeFiles/boids.t.dir/boids.test.cpp.o CMakeFiles/boids.t.dir/boids.cpp.o CMakeFiles/boids.t.dir/vector.cpp.o  -o boids.t 
