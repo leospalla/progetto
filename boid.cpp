@@ -3,20 +3,49 @@
 namespace bd
 {
 
-  // generate a random number between -7. and 7.
+  // generate a random number between -7. and 7. to not exceed maxSpeed
   double randomVelocity()
   {
-    return -7.0 + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 14.0));
+    return -7.0 +
+           static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 14.0));
   }
 
-  // between -50 and 50
+  // between -30 and 30 (used for testing)
   double randomPosition()
   {
-    return -50.0 + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 100.));
+    return -30.0 +
+           static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 60.));
+  }
+
+  // overloaded because its used for input
+  double randomPosition(int x)
+  {
+    return -x +
+           static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / x / 2));
   }
 
   // constructors
-  Boid::Boid() : m_position{randomPosition(), randomPosition()}, m_velocity{randomVelocity(), randomVelocity()}
+  Boid::Boid()
+      : m_position{randomPosition(), randomPosition()},
+        m_velocity{randomVelocity(), randomVelocity()}
+  {
+    int maxAttempts = 100;
+    int attempts = 0;
+    while (getSpeed() == 0 && attempts < maxAttempts)
+    {
+      m_velocity.set(randomVelocity(), randomVelocity());
+      ++attempts;
+    }
+    if (getSpeed() == 0)
+    {
+      throw std::runtime_error(
+          "Unable to generate non-zero velocity after 100 attempts.");
+    }
+  }
+
+  Boid::Boid(int x)
+      : m_position{randomPosition(x), randomPosition(x)},
+        m_velocity{randomVelocity(), randomVelocity()}
   {
     int maxAttempts = 100;
     int attempts = 0;
@@ -67,8 +96,12 @@ namespace bd
   }
 
   Boid::Boid(vc::Vector position, vc::Vector velocity)
-      : m_position{position}, m_velocity{velocity} {}
+      : m_position{position}, m_velocity{velocity}
+  {
+    m_velocity.limit(m_maxSpeed);
+  }
 
+  // set functions
   void Boid::setPosition(double x, double y) { m_position.set(x, y); }
 
   void Boid::setVelocity(double vx, double vy)
@@ -76,27 +109,14 @@ namespace bd
     m_velocity.set(vx, vy);
     m_velocity.limit(m_maxSpeed);
   }
-  void Boid::setPerceptionRadius(double x)
-  {
-    perceptionRadius = x;
-  }
-  void Boid::setSeparationDistance(double x)
-  {
-    separationDistance = x;
-  }
-  void Boid::setSeparationFactor(double x)
-  {
-    separationFactor = x;
-  }
-  void Boid::setCohesionFactor(double x)
-  {
-    cohesionFactor = x;
-  }
-  void Boid::setAlignmentFactor(double x)
-  {
-    alignmentFactor = x;
-  }
 
+  void Boid::setPerceptionRadius(double x) { perceptionRadius = x; }
+  void Boid::setSeparationDistance(double x) { separationDistance = x; }
+  void Boid::setSeparationFactor(double x) { separationFactor = x; }
+  void Boid::setCohesionFactor(double x) { cohesionFactor = x; }
+  void Boid::setAlignmentFactor(double x) { alignmentFactor = x; }
+
+  // operator overloading
   Boid &Boid::operator=(const Boid &other)
   {
     if (this == &other)
@@ -113,53 +133,53 @@ namespace bd
     return m_position == other.m_position && m_velocity == other.m_velocity;
   }
 
-  double Boid::getSpeed() const { return m_velocity.Magnitude(); }
-
   vc::Vector Boid::centerOfMass(std::vector<Boid> boids) const
   {
     if (boids.empty())
     {
-      return vc::Vector(0.0, 0.0);
+      return vc::Vector{0.0, 0.0};
     }
-    int neighborCount = 0; // only close boids count in the formula not all.
-    vc::Vector vSum(0.0, 0.0);
-    for (const Boid &other : boids)
+    auto calculateCenter = [&](const std::pair<vc::Vector, int> &vSum, const Boid &other)
     {
       double distance = m_position.distance(other.getPosition());
       if (distance > 0 && distance < perceptionRadius)
       {
-        vSum = vSum + other.getPosition();
-        ++neighborCount;
+        return std::make_pair(vSum.first + other.getPosition(), vSum.second + 1);
       }
-    }
-    if (neighborCount > 0)
+      return vSum;
+    };
+    std::pair<vc::Vector, int> initial = std::make_pair(vc::Vector{0.0, 0.0}, 0);
+    std::pair<vc::Vector, int> center = std::accumulate(boids.begin(), boids.end(), initial, calculateCenter);
+    if (center.second > 0)
     {
-      vSum = vSum / neighborCount;
+      center.first = center.first / static_cast<double>(center.second);
     }
     else
     {
-      return m_position; // so in cohere desired is 0 with no neighbors
+      return m_position;
     }
-    return vSum;
+    return center.first;
   }
 
+  // flight rules
   vc::Vector Boid::separate(std::vector<Boid> boids) const
   {
     if (boids.empty())
     {
-      return vc::Vector(0.0, 0.0);
+      return vc::Vector{0.0, 0.0};
     }
-    vc::Vector vSum(0.0, 0.0);
-    for (const Boid &other : boids)
+    auto difference = [&](const vc::Vector &vSum, const Boid &other)
     {
       double distance = m_position.distance(other.getPosition());
       if (distance > 0 && distance < separationDistance)
       {
         vc::Vector direction = other.getPosition() - m_position;
-        vSum += direction;
+        return vSum + direction;
       }
-    }
-    vc::Vector separation = vSum * -separationFactor;
+      return vSum;
+    };
+    vc::Vector separation = std::accumulate(boids.begin(), boids.end(), vc::Vector{0.0, 0.0}, difference);
+    separation = separation * -separationFactor;
     separation.limit(m_maxSpeed);
     return separation;
   }
@@ -171,47 +191,44 @@ namespace bd
       return vc::Vector(0.0, 0.0);
     }
     vc::Vector center = centerOfMass(boids);
-    vc::Vector desired = center - m_position;
-    return desired * cohesionFactor;
+    vc::Vector cohesion = center - m_position;
+    return cohesion * cohesionFactor;
   }
 
   vc::Vector Boid::align(std::vector<Boid> boids) const
   {
     if (boids.empty())
     {
-      return vc::Vector(0.0, 0.0);
+      return vc::Vector{0.0, 0.0};
     }
-
-    vc::Vector currentPosition = m_position;
-    vc::Vector averageVelocity(0.0, 0.0);
-    int neighborCount = 0;
-
-    for (const Boid &otherBoid : boids)
+    auto velocitySums = [&](const std::pair<vc::Vector, int> &vSum, const Boid &other)
     {
-      double distance = currentPosition.distance(otherBoid.getPosition());
+      double distance = m_position.distance(other.getPosition());
       if (distance > 0 && distance < perceptionRadius)
       {
-        averageVelocity += otherBoid.getVelocity();
-        ++neighborCount;
+        return std::make_pair(vSum.first + other.getVelocity(), vSum.second + 1);
       }
-    }
-    if (neighborCount > 0)
+      return vSum;
+    };
+    std::pair<vc::Vector, int> initial = std::make_pair(vc::Vector{0.0, 0.0}, 0);
+    std::pair<vc::Vector, int> averageVelocity = std::accumulate(boids.begin(), boids.end(), initial, velocitySums);
+    if (averageVelocity.second > 0)
     {
-      averageVelocity = averageVelocity / static_cast<double>(neighborCount);
-      vc::Vector alignment = (averageVelocity - m_velocity) * alignmentFactor;
+      averageVelocity.first = averageVelocity.first / static_cast<double>(averageVelocity.second);
+      vc::Vector alignment = (averageVelocity.first - m_velocity) * alignmentFactor;
       alignment.limit(m_maxSpeed);
       return alignment;
     }
     else
     {
-      return vc::Vector(0.0, 0.0);
+      return vc::Vector{0.0, 0.0};
     }
   }
 
-  void Boid::borders(unsigned int window_width, unsigned int window_height)
+  void Boid::borders(int size)
   {
-    double halfWidth = window_width / 2;
-    double halfHeight = window_height / 2;
+    double halfWidth = size / 2;
+    double halfHeight = size / 2;
     if (m_position.getX() > halfWidth)
     {
       setPosition(-halfWidth, m_position.getY());
