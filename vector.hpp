@@ -28,9 +28,9 @@ class Vector {
   bool operator==(const Vector&) const;
 
   // vector functions
-  double getX() const { return m_x; }
+  inline double getX() const { return m_x; }
 
-  double getY() const { return m_y; }
+  inline double getY() const { return m_y; }
 
   double Magnitude() const;
 

@@ -25,8 +25,8 @@ class Boid {
   Boid();                        // default constructor
   Boid(int);                     // random position constructor for main
   Boid(double, double);          // constructor with position coordinates
-  Boid(vc::Vector);              // constructor with position vector
-  Boid(vc::Vector, vc::Vector);  // constructor with both vectors
+  Boid(const vc::Vector&);              // constructor with position vector
+  Boid(const vc::Vector&, const vc::Vector&);  // constructor with both vectors
 
   Boid& operator=(const Boid&);
   bool operator==(const Boid&) const;
@@ -41,17 +41,17 @@ class Boid {
   void setVelocity(double, double);
 
   // get functions
-  vc::Vector getPosition() const { return m_position; }
-  vc::Vector getVelocity() const { return m_velocity; }
-  double getMaxSpeed() const { return m_maxSpeed; }
-  double getSpeed() const { return m_velocity.Magnitude(); }
+  inline vc::Vector getPosition() const { return m_position; }
+  inline vc::Vector getVelocity() const { return m_velocity; }
+  inline double getMaxSpeed() const { return m_maxSpeed; }
+  inline double getSpeed() const { return m_velocity.Magnitude(); }
 
-  vc::Vector centerOfMass(std::vector<Boid>) const;
+  vc::Vector centerOfMass(const std::vector<Boid>&) const;
 
   // flight rules
-  vc::Vector separate(std::vector<Boid>) const;
-  vc::Vector cohere(std::vector<Boid>) const;
-  vc::Vector align(std::vector<Boid>) const;
+  vc::Vector separate(const std::vector<Boid>&) const;
+  vc::Vector cohere(const std::vector<Boid>&) const;
+  vc::Vector align(const std::vector<Boid>&) const;
 
   void borders(int);
 };

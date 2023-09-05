@@ -65,7 +65,7 @@ Boid::Boid(double x, double y)
   }
 }
 
-Boid::Boid(vc::Vector position)
+Boid::Boid(const vc::Vector& position)
     : m_position{position}, m_velocity{randomVelocity(), randomVelocity()} {
   int maxAttempts = 10;
   int attempts = 0;
@@ -79,7 +79,7 @@ Boid::Boid(vc::Vector position)
   }
 }
 
-Boid::Boid(vc::Vector position, vc::Vector velocity)
+Boid::Boid(const vc::Vector& position, const vc::Vector& velocity)
     : m_position{position}, m_velocity{velocity} {
   m_velocity.limit(m_maxSpeed);
 }
@@ -112,7 +112,7 @@ bool Boid::operator==(const Boid& other) const {
   return m_position == other.m_position && m_velocity == other.m_velocity;
 }
 
-vc::Vector Boid::centerOfMass(std::vector<Boid> boids) const {
+vc::Vector Boid::centerOfMass(const std::vector<Boid>& boids) const {
   if (boids.empty()) {
     return vc::Vector{0.0, 0.0};
   }
@@ -134,7 +134,7 @@ vc::Vector Boid::centerOfMass(std::vector<Boid> boids) const {
 }
 
 // flight rules
-vc::Vector Boid::separate(std::vector<Boid> boids) const {
+vc::Vector Boid::separate(const std::vector<Boid>& boids) const {
   if (boids.empty()) {
     return vc::Vector{0.0, 0.0};
   }
@@ -150,7 +150,7 @@ vc::Vector Boid::separate(std::vector<Boid> boids) const {
   return separation;
 }
 
-vc::Vector Boid::cohere(std::vector<Boid> boids) const {
+vc::Vector Boid::cohere(const std::vector<Boid>& boids) const {
   if (boids.empty()) {
     return vc::Vector(0.0, 0.0);
   }
@@ -159,7 +159,7 @@ vc::Vector Boid::cohere(std::vector<Boid> boids) const {
   return cohesion * cohesionFactor;
 }
 
-vc::Vector Boid::align(std::vector<Boid> boids) const {
+vc::Vector Boid::align(const std::vector<Boid>& boids) const {
   if (boids.empty()) {
     return vc::Vector{0.0, 0.0};
   }

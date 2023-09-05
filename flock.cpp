@@ -92,6 +92,8 @@ double Flock::averageSpeed() const {
     vSpeed += b.getSpeed();
   }
   return vSpeed / m_boids.size();
+  // double totSpeed = std::accumulate(m_boids.begin(), m_boids.end(), 0);
+  // return totSpeed / m_boids.size();
 }
 
 double Flock::standardDeviationDistance() const {

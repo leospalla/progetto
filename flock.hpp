@@ -14,8 +14,8 @@ class Flock {
   Flock();  // constructor
 
   // get functions
-  const std::vector<bd::Boid> &getBoids() const { return m_boids; }
-  double getDeltaTime() const { return m_delta_time; }
+  inline const std::vector<bd::Boid>& getBoids() const { return m_boids; }
+  inline double getDeltaTime() const { return m_delta_time; }
 
   void addBoid(const bd::Boid &boid);
   void removeBoid(const bd::Boid &boid);
