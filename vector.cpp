@@ -1,4 +1,6 @@
 #include "vector.hpp"
+
+#include <cmath>
 namespace vc {
 // Operator overloading
 Vector& Vector::operator=(const Vector& v) {

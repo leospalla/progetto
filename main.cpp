@@ -1,4 +1,5 @@
 #include <chrono>  //libraries used to have a better control over the input/output
+#include <iostream>
 #include <thread>
 
 #include "flock.hpp"

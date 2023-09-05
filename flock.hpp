@@ -1,8 +1,5 @@
 #ifndef FLOCK_HPP
 #define FLOCK_HPP
-#include <algorithm>
-#include <stack>
-
 #include "boid.hpp"
 namespace fk {
 class Flock {
@@ -14,7 +11,7 @@ class Flock {
   Flock();  // constructor
 
   // get functions
-  inline const std::vector<bd::Boid>& getBoids() const { return m_boids; }
+  inline const std::vector<bd::Boid> &getBoids() const { return m_boids; }
   inline double getDeltaTime() const { return m_delta_time; }
 
   void addBoid(const bd::Boid &boid);

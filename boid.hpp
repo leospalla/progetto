@@ -1,12 +1,8 @@
 #ifndef BOID_HPP
 #define BOID_HPP
-#include <iostream>
-#include <random>
-#include <stdexcept>
 #include <vector>
 
 #include "vector.hpp"
-
 namespace bd {
 class Boid {
  private:
@@ -22,10 +18,10 @@ class Boid {
   double cohesionFactor{.8};
   double alignmentFactor{0.5};
 
-  Boid();                        // default constructor
-  Boid(int);                     // random position constructor for main
-  Boid(double, double);          // constructor with position coordinates
-  Boid(const vc::Vector&);              // constructor with position vector
+  Boid();                   // default constructor
+  Boid(int);                // random position constructor for main
+  Boid(double, double);     // constructor with position coordinates
+  Boid(const vc::Vector&);  // constructor with position vector
   Boid(const vc::Vector&, const vc::Vector&);  // constructor with both vectors
 
   Boid& operator=(const Boid&);

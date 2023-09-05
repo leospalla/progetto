@@ -1,4 +1,9 @@
 #include "flock.hpp"
+
+#include <algorithm>
+#include <cmath>
+#include <iostream>
+#include <stack>
 namespace fk {
 // constructor, empty container of Boids
 Flock::Flock() : m_boids{std::vector<bd::Boid>()} {}
@@ -164,10 +169,10 @@ void Flock::simulate(int numSteps, int size, double perceptionRadius) {
   for (int step = 0; step <= numSteps; ++step) {
     double time = step * m_delta_time;
     std::cout << "Time: " << time << std::endl;
-    std::cout << "Average distance: " << averageDistance() << " +/- "
-              << standardDeviationDistance() << std::endl;
-    std::cout << "Average speed: " << averageSpeed() << " +/- "
-              << standardDeviationSpeed() << std::endl;
+    std::cout << "Average distance: " << averageDistance() << std::endl;
+    std::cout << "Standard deviation of the distance: " << standardDeviationDistance() << std::endl;
+    std::cout << "Average speed: " << averageSpeed() << std::endl;
+    std::cout << "Standatd deviation of the speed: " << standardDeviationSpeed() << std::endl;
     std::vector<int> flockCounts = countBoidsInFlock(perceptionRadius);
     std::cout << "Number of flocks: " << flockCounts.size() << std::endl;
     for (size_t i = 0; i < flockCounts.size(); ++i) {

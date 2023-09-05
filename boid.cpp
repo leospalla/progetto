@@ -1,5 +1,9 @@
 #include "boid.hpp"
 
+#include <iostream>
+#include <random>
+#include <stdexcept>
+
 namespace bd {
 
 // generate a random number between -7. and 7. to not exceed maxSpeed

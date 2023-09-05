@@ -1,6 +1,6 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
-#include <cmath>
+
 namespace vc {
 class Vector {
   double m_x{0.};
