@@ -15,7 +15,7 @@ class Boid {
   double perceptionRadius{15.};
   double separationDistance{2.};
   double separationFactor{1.2};
-  double cohesionFactor{.8};
+  double cohesionFactor{0.8};
   double alignmentFactor{0.5};
 
   Boid();                   // default constructor

@@ -6,23 +6,17 @@
 
 namespace bd {
 
+std::default_random_engine engine(std::random_device{}());
+std::uniform_real_distribution<double> distribution(-1, 1);
+
 // generate a random number between -7. and 7. to not exceed maxSpeed
-double randomVelocity() {
-  return -7.0 +
-         static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 14.0));
-}
+double randomVelocity() { return distribution(engine) * 7; }
 
 // between -30 and 30 (used for testing)
-double randomPosition() {
-  return -30.0 +
-         static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / 60.));
-}
+double randomPosition() { return distribution(engine) * 30; }
 
 // overloaded because its used for input
-double randomPosition(int x) {
-  return -x +
-         static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / x / 2));
-}
+double randomPosition(int x) { return distribution(engine) * x; }
 
 // constructors
 Boid::Boid()

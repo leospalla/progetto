@@ -170,9 +170,11 @@ void Flock::simulate(int numSteps, int size, double perceptionRadius) {
     double time = step * m_delta_time;
     std::cout << "Time: " << time << std::endl;
     std::cout << "Average distance: " << averageDistance() << std::endl;
-    std::cout << "Standard deviation of the distance: " << standardDeviationDistance() << std::endl;
+    std::cout << "Standard deviation of the distance: "
+              << standardDeviationDistance() << std::endl;
     std::cout << "Average speed: " << averageSpeed() << std::endl;
-    std::cout << "Standatd deviation of the speed: " << standardDeviationSpeed() << std::endl;
+    std::cout << "Standatd deviation of the speed: " << standardDeviationSpeed()
+              << std::endl;
     std::vector<int> flockCounts = countBoidsInFlock(perceptionRadius);
     std::cout << "Number of flocks: " << flockCounts.size() << std::endl;
     for (size_t i = 0; i < flockCounts.size(); ++i) {

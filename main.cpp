@@ -5,18 +5,19 @@
 #include "flock.hpp"
 
 int main() {
-  fk::Flock flock;
-  int numBoids;
-  double time;
-  int simulationSteps;
-  int size;
+  fk::Flock flock{};
+  int numBoids{};
+  double time{};
+  int simulationSteps{};
+  int size{};
 
-  double perceptionRadius;
-  double separationDistance;
-  double separationFactor;
-  double cohesionFactor;
-  double alignmentFactor;
+  double perceptionRadius{};
+  double separationDistance{};
+  double separationFactor{};
+  double cohesionFactor{};
+  double alignmentFactor{};
 
+  constexpr long int maxStringSize{std::numeric_limits<std::streamsize>::max()};
   const int maxNumBoids{100};
   const double maxSimTime{30.};
   const int maxDimension{100};
@@ -43,10 +44,10 @@ int main() {
               << maxNumBoids << std::endl;
     std::cin.clear();
     // if there are some wrong characters it ignores them for the next input
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.ignore(maxStringSize, '\n');
   }
   // this ignores another time after the cycle ends to ignore letters or symbols
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::cin.ignore(maxStringSize, '\n');
 
   std::cout << "Insert the time of simulation (seconds): " << std::endl;
   while (!(std::cin >> time) || time <= flock.getDeltaTime() ||
@@ -54,9 +55,9 @@ int main() {
     std::cout << "Invalid input. Please enter a positive double bigger than "
               << flock.getDeltaTime() << " up to: " << maxSimTime << std::endl;
     std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.ignore(maxStringSize, '\n');
   }
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::cin.ignore(maxStringSize, '\n');
 
   std::cout << "Insert the size of the space of simulation: " << std::endl;
   std::cout << "Note: If you enter a decimal value, only the integer part will "
@@ -67,9 +68,9 @@ int main() {
                  "up to: "
               << maxDimension << std::endl;
     std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.ignore(maxStringSize, '\n');
   }
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::cin.ignore(maxStringSize, '\n');
 
   // for loop that generates boids in random points of the space
   for (int i = 0; i < numBoids; ++i) {
@@ -84,9 +85,9 @@ int main() {
                  "the space size."
               << std::endl;
     std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.ignore(maxStringSize, '\n');
   }
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::cin.ignore(maxStringSize, '\n');
 
   std::cout << "Insert the separation distance of the separation rule: "
             << std::endl;
@@ -96,35 +97,35 @@ int main() {
                  "the perception radius."
               << std::endl;
     std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.ignore(maxStringSize, '\n');
   }
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::cin.ignore(maxStringSize, '\n');
 
   std::cout << "Insert the separation factor of the separation rule: "
             << std::endl;
   while (!(std::cin >> separationFactor) || separationFactor <= 0) {
     std::cout << "Invalid input. Please enter a positive double." << std::endl;
     std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.ignore(maxStringSize, '\n');
   }
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::cin.ignore(maxStringSize, '\n');
 
   std::cout << "Insert the cohesion factor of the cohesion rule: " << std::endl;
   while (!(std::cin >> cohesionFactor) || cohesionFactor <= 0) {
     std::cout << "Invalid input. Please enter a positive double." << std::endl;
     std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.ignore(maxStringSize, '\n');
   }
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::cin.ignore(maxStringSize, '\n');
 
   std::cout << "Insert the alignment factor of the alignment rule: "
             << std::endl;
   while (!(std::cin >> alignmentFactor) || alignmentFactor <= 0) {
     std::cout << "Invalid input. Please enter a positive double." << std::endl;
     std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.ignore(maxStringSize, '\n');
   }
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::cin.ignore(maxStringSize, '\n');
 
   flock.updateBoidParameters(perceptionRadius, separationDistance,
                              separationFactor, cohesionFactor, alignmentFactor);
