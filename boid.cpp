@@ -6,7 +6,9 @@
 
 namespace bd {
 
-std::default_random_engine engine(std::random_device{}());
+// build a random number generator
+std::random_device r{};
+std::default_random_engine engine(r());
 std::uniform_real_distribution<double> distribution(-1, 1);
 
 // generate a random number between -7. and 7. to not exceed maxSpeed

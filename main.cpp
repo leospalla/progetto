@@ -18,9 +18,9 @@ int main() {
   double alignmentFactor{};
 
   constexpr long int maxStringSize{std::numeric_limits<std::streamsize>::max()};
-  const int maxNumBoids{100};
-  const double maxSimTime{30.};
-  const int maxDimension{100};
+  constexpr int maxNumBoids{100};
+  constexpr double maxSimTime{30.};
+  constexpr int maxDimension{100};
   std::cout << "Simulating the behaviour of boids inside flocks..." << std::endl
             << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));

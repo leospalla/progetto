@@ -4,7 +4,7 @@
 namespace fk {
 class Flock {
  private:
-  std::vector<bd::Boid> m_boids;
+  std::vector<bd::Boid> m_boids{};
   double const m_delta_time{.1};
 
  public:
@@ -15,7 +15,7 @@ class Flock {
   inline double getDeltaTime() const { return m_delta_time; }
 
   void addBoid(const bd::Boid &boid);
-  void removeBoid(const bd::Boid &boid);
+  bool removeBoid(const bd::Boid &boid);
 
   // update functions
   void updateVelocity();

@@ -10,11 +10,13 @@ Flock::Flock() : m_boids{std::vector<bd::Boid>()} {}
 
 void Flock::addBoid(const bd::Boid &boid) { m_boids.push_back(boid); }
 
-void Flock::removeBoid(const bd::Boid &boid) {
-  auto it = std::find(m_boids.begin(), m_boids.end(), boid);
+bool Flock::removeBoid(const bd::Boid &boid) {
+  auto const it = std::find(m_boids.begin(), m_boids.end(), boid);
   if (it != m_boids.end()) {
     m_boids.erase(it);
+    return true;
   }
+  return false;
 }
 
 void Flock::updateVelocity() {

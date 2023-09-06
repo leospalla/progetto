@@ -1,10 +1,10 @@
-Start testing: Sep 06 03:31 CEST
+Start testing: Sep 06 09:04 CEST
 ----------------------------------------------------------
 1/3 Testing: vector.t
 1/3 Test: vector.t
 Command: "/home/leospallacci/boids/progetto/build/vector.t"
 Directory: /home/leospallacci/boids/progetto/build
-"vector.t" start time: Sep 06 03:31 CEST
+"vector.t" start time: Sep 06 09:04 CEST
 Output:
 ----------------------------------------------------------
 [doctest] doctest version is "2.4.11"
@@ -17,7 +17,7 @@ Output:
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"vector.t" end time: Sep 06 03:31 CEST
+"vector.t" end time: Sep 06 09:04 CEST
 "vector.t" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -25,7 +25,7 @@ Test Passed.
 2/3 Test: boid.t
 Command: "/home/leospallacci/boids/progetto/build/boid.t"
 Directory: /home/leospallacci/boids/progetto/build
-"boid.t" start time: Sep 06 03:31 CEST
+"boid.t" start time: Sep 06 09:04 CEST
 Output:
 ----------------------------------------------------------
 [doctest] doctest version is "2.4.11"
@@ -35,10 +35,10 @@ Output:
 [doctest] assertions: 155 | 155 passed | 0 failed |
 [doctest] Status: SUCCESS!
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"boid.t" end time: Sep 06 03:31 CEST
+"boid.t" end time: Sep 06 09:04 CEST
 "boid.t" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -46,7 +46,7 @@ Test Passed.
 3/3 Test: flock.t
 Command: "/home/leospallacci/boids/progetto/build/flock.t"
 Directory: /home/leospallacci/boids/progetto/build
-"flock.t" start time: Sep 06 03:31 CEST
+"flock.t" start time: Sep 06 09:04 CEST
 Output:
 ----------------------------------------------------------
 [doctest] doctest version is "2.4.11"
@@ -56,11 +56,11 @@ Output:
 [doctest] assertions: 104 | 104 passed | 0 failed |
 [doctest] Status: SUCCESS!
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"flock.t" end time: Sep 06 03:31 CEST
+"flock.t" end time: Sep 06 09:04 CEST
 "flock.t" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Sep 06 03:31 CEST
+End testing: Sep 06 09:04 CEST
